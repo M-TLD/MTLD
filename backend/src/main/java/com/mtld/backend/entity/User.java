@@ -1,5 +1,6 @@
 package com.mtld.backend.entity;
 
+import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class User extends BaseEntity {
 
     private String nickname;
 
+    @Convert(converter = BooleanToYNConverter.class)
     private boolean isDeleted;
 
 }
