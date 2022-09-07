@@ -3,6 +3,7 @@ package com.mtld.backend.entity;
 import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.entity.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,15 @@ public class User extends BaseEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean isDeleted;
 
+    public void withdraw() {
+        this.isDeleted = true;
+    }
+
+    @Builder
+    public User(String oauthId, String platform, String name, String nickname) {
+        this.oauthId = oauthId;
+        this.platform = platform;
+        this.name = name;
+        this.nickname = nickname;
+    }
 }
