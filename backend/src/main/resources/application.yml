@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
+    username: mtld
+    password: mtld106@#
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true;
+        use_sql_comments: true
+
+logging.level:
+  org.hibernate.SQL: debug
+
+server.error.include-message: always
