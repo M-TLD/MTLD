@@ -18,6 +18,10 @@ public class Vaccination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "dog_id")
+    private Dog dog;
+
     @Enumerated(EnumType.STRING)
     private Vaccine vaccine;
 

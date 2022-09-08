@@ -48,8 +48,7 @@ public class Dog extends BaseEntity {
     @OneToMany(mappedBy = "dog")
     private List<TakingMedicine> takingMedicines = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name="vaccination_id")
+    @OneToMany(mappedBy = "dog")
     private List<Vaccination> vaccinations = new ArrayList<>();
 
     @ManyToOne
