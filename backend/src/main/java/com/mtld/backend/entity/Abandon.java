@@ -24,7 +24,8 @@ public class Abandon extends BaseEntity {
 
     private LocalDateTime birthdate;
 
-    // 성별
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     private Double weight;
 
