@@ -18,8 +18,7 @@ public class Vaccination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vaccine_id")
+    @Enumerated(EnumType.STRING)
     private Vaccine vaccine;
 
     @Column

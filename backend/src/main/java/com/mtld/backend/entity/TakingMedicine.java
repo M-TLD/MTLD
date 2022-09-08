@@ -1,5 +1,6 @@
 package com.mtld.backend.entity;
 
+import com.nimbusds.openid.connect.sdk.claims.Gender;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,7 @@ public class TakingMedicine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medicine_id")
+    @Enumerated(EnumType.STRING)
     private Medicine medicine;
 
     @Column
