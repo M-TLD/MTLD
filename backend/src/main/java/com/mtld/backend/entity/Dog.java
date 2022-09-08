@@ -45,8 +45,7 @@ public class Dog extends BaseEntity {
     @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    @OneToMany
-    @JoinColumn(name="tackingMedicine_id")
+    @OneToMany(mappedBy = "dog")
     private List<TakingMedicine> takingMedicines = new ArrayList<>();
 
     @OneToMany

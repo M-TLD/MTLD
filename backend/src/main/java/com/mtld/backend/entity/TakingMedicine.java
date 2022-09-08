@@ -19,6 +19,10 @@ public class TakingMedicine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "dog_id")
+    private Dog dog;
+
     @Enumerated(EnumType.STRING)
     private Medicine medicine;
 
