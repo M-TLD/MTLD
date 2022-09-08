@@ -1,4 +1,4 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.vaccine;
 
 /**
  * created by myeongseok on 2022/09/08

@@ -1,5 +1,6 @@
 package com.mtld.backend.entity;
 
+import com.mtld.backend.entity.diary.Record;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

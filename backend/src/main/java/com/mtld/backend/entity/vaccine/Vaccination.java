@@ -1,5 +1,6 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.vaccine;
 
+import com.mtld.backend.entity.dog.Dog;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,9 +26,7 @@ public class Vaccination {
     @Enumerated(EnumType.STRING)
     private Vaccine vaccine;
 
-    @Column
     private LocalDate pastDate;
 
-    @Column
     private LocalDate expectDate;
 }

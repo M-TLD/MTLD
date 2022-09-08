@@ -1,7 +1,9 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.dog;
 
 import com.mtld.backend.converter.BooleanToYNConverter;
-import com.mtld.backend.entity.BaseEntity;
+import com.mtld.backend.entity.*;
+import com.mtld.backend.entity.medicine.TakingMedicine;
+import com.mtld.backend.entity.vaccine.Vaccination;
 import com.nimbusds.openid.connect.sdk.claims.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,8 +14,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
 
 /**
  * created by myeongseok on 2022/09/08

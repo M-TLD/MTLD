@@ -1,5 +1,8 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.diary;
 
+import com.mtld.backend.entity.UploadFile;
+import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.diary.Diary;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

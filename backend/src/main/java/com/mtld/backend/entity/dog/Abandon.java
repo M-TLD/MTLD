@@ -1,6 +1,7 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.dog;
 
 import com.mtld.backend.converter.BooleanToYNConverter;
+import com.mtld.backend.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

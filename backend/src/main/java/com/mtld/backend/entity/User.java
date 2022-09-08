@@ -1,7 +1,8 @@
 package com.mtld.backend.entity;
 
 import com.mtld.backend.converter.BooleanToYNConverter;
-import com.mtld.backend.entity.BaseEntity;
+import com.mtld.backend.entity.diary.Diary;
+import com.mtld.backend.entity.dog.Dog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,5 +1,7 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.diary;
 
+import com.mtld.backend.entity.BaseEntity;
+import com.mtld.backend.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

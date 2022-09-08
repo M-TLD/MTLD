@@ -1,4 +1,4 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.dog;
 
 import com.mtld.backend.entity.BaseEntity;
 import com.nimbusds.openid.connect.sdk.claims.Gender;
@@ -20,7 +20,7 @@ public class Breed extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
 
     public Breed(String name) {

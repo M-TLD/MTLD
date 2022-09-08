@@ -1,6 +1,6 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.medicine;
 
-import com.nimbusds.openid.connect.sdk.claims.Gender;
+import com.mtld.backend.entity.dog.Dog;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +26,7 @@ public class TakingMedicine {
     @Enumerated(EnumType.STRING)
     private Medicine medicine;
 
-    @Column
     private LocalDate pastDate;
 
-    @Column
     private LocalDate expectDate;
 }
