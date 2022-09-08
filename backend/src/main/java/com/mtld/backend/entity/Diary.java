@@ -31,4 +31,14 @@ public abstract class Diary extends BaseEntity {
         this.diaryDate = diaryDate;
         this.user = user;
     }
+    /**
+     * 연관관계 편의 메소드 필요한가??
+     */
+//    public void setUser(User user) {
+//        if (this.user != null) {
+//            this.user.getDiaries().remove(this);
+//        }
+//        this.user = user;
+//        user.getDiaries().add(this);
+//    }
 }
