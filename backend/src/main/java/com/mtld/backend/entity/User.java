@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * created by seongmin on 2022/09/07
@@ -32,6 +34,9 @@ public class User extends BaseEntity {
 
     @Convert(converter = BooleanToYNConverter.class)
     private boolean isDeleted;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Diary> diaries = new ArrayList<>();
 
     public void withdraw() {
         this.isDeleted = true;
