@@ -20,8 +20,7 @@ public class Breed extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
+    
     private String name;
 
     public Breed(String name) {
