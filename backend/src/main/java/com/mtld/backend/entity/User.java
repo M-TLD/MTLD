@@ -33,9 +33,8 @@ public class User extends BaseEntity {
 
     private String nickname;
 
-    @OneToMany
-    @JoinColumn(name = "dog_id")
-    private ArrayList<Dog> dogs = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Dog> dogs = new ArrayList<>();
 
     @Convert(converter = BooleanToYNConverter.class)
     private boolean isDeleted;
