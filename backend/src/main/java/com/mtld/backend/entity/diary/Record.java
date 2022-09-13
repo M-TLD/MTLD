@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * created by seongmin on 2022/09/08
+ * updated by seongmin on 2022/09/13
  */
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,8 +32,9 @@ public class Record extends Diary {
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @Builder
-    public Record(LocalDateTime diaryDate, User user, String mainText) {
+    public Record(LocalDateTime diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
         super(diaryDate, user);
         this.mainText = mainText;
+        this.uploadFiles = uploadFiles;
     }
 }
