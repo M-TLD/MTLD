@@ -4,7 +4,6 @@ import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.entity.*;
 import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.entity.vaccine.Vaccination;
-import com.nimbusds.openid.connect.sdk.claims.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
