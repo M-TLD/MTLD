@@ -34,11 +34,12 @@ public class Dog extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private float weight;
+    private Double weight;
 
     @Convert(converter = BooleanToYNConverter.class)
     private boolean neuter;
 
+    @Column(columnDefinition = "TEXT")
     private String disease;
 
     @ManyToOne
@@ -60,7 +61,7 @@ public class Dog extends BaseEntity {
     }
 
     @Builder
-    public Dog(String name, LocalDateTime birthdate, Gender gender, float weight) {
+    public Dog(String name, LocalDateTime birthdate, Gender gender, Double weight) {
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
