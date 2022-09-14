@@ -1,9 +1,7 @@
+import React from 'react';
+
 function InfoModal() {
-  return (
-  <div>
-    InfoModal
-  </div>
-  )
+  return <div>InfoModal</div>;
 }
 
-export default AdoptionQuestion;
+export default InfoModal;
