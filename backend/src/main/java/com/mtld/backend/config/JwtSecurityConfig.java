@@ -1,7 +1,7 @@
 package com.mtld.backend.config;
 
-import com.mtld.backend.token.AuthTokenFilter;
-import com.mtld.backend.token.JwtTokenProvider;
+import com.mtld.backend.jwt.AuthTokenFilter;
+import com.mtld.backend.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

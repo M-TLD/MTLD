@@ -1,7 +1,7 @@
 package com.mtld.backend.config;
 
-import com.mtld.backend.token.AuthAccessDeniedHandler;
-import com.mtld.backend.token.JwtTokenProvider;
+import com.mtld.backend.jwt.AuthAccessDeniedHandler;
+import com.mtld.backend.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
