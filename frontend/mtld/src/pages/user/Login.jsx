@@ -11,17 +11,17 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  margin-top: -20%;
+  margin-top: -25%;
 `;
 
 const Logo = styled.img`
   width: 80vw;
-  margint-top: 20%;
-  margin-bottom: 5%;
+  margint-top: 15%;
+  margin-bottom: 10%;
 `;
 
 const Wrap = styled.div`
-
+  position: relative;
 `;
 
 const Note = styled.img`
@@ -31,7 +31,7 @@ const Note = styled.img`
 
 const NoteText = styled.div`
   position: absolute;
-  top: 55%;
+  top: 47%;
   left: 50%;
   width: 100%;
   transform: translate( -50%, -50%);
@@ -59,7 +59,7 @@ const KakaoBtn = styled.img`
 `;
 
 const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isDesktop = useMediaQuery({ minWidth: 831 });
   return isDesktop ? children : null;
 };
 
@@ -70,16 +70,17 @@ const DesktopWrap = styled.div`
 `;
 
 const DesktopLogo = styled.img`
-  width: 50vw;
+  width: 40vw;
   margin-bottom: 5%;
+  margin-top: 3%;
 `;
 
 const DesktopKakaoBtn = styled.img`
-  width: 50vw;
+  width: 40vw;
 `;
 
 const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: 830 });
   return isMobile ? children : null;
 };
 
@@ -89,7 +90,9 @@ function Login() {
       <Desktop>
         <DesktopWrap>
           <DesktopLogo src={mtldLogo} />
-          <DesktopKakaoBtn src={kakaoLogin} />
+          <a href="http://localhost:8000/oauth2/authorization/kakao">
+            <DesktopKakaoBtn src={kakaoLogin} />
+          </a>
         </DesktopWrap>
       </Desktop>
       <Mobile>
