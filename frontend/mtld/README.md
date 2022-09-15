@@ -1,3 +1,28 @@
+# 🐾 멍더랜드
+
+## colors
+
+![image-20220914140813312](C:\Users\SSAFY\Desktop\S07P22A106\frontend\mtld\README.assets\image-20220914140813312.png)
+
+- Title Active: `#FFEEB1`
+- Body: `#5C5C5C`
+- Label: `#888888`
+- Placeholder: `#888888`
+- Line: `#F4C7AB`
+- Background: `#FCFFFC`
+- Off-white: `#F6F6F6`
+- Point: `#81E3D7`
+- Primary: `#EAFED1`
+- Error, Cancel: `#EAFED1`
+
+## Link
+
+- Figma Prototype
+
+  https://www.figma.com/file/bB6OcIAQ0FvFCdPSFEOKWE/MTLD?node-id=69%3A201
+
+---
+
 # Getting Started with Create React App and Redux
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
