@@ -28,6 +28,7 @@ public class DogServiceImpl implements DogService {
 
 
     @Override
+    @Transactional
     public void registerDog(Long uid, Long breedId, DogRequestDto dogRequestDto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Breed breed = breedRepository.findById(breedId).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
