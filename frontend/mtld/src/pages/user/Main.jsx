@@ -10,6 +10,7 @@ import PetFriendly from 'assets/location_main.png';
 import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
+import InfoModal from 'components/common/InfoModal';
 
 const Container = styled.div`
   display: flex;
@@ -85,6 +86,7 @@ const BabyName = styled.span`
     color: #81E3D7;
     font-weight: 600;
 `;
+
 const Alarm = styled.div`
   width: 330px;
   height: 90px;
@@ -98,6 +100,7 @@ const Alarm = styled.div`
   font-size: 18px;
   // line-height : 50px;
 `;
+
 function Main() {
   return (
     <div>
@@ -136,6 +139,7 @@ function Main() {
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
       </StyledSwiper>
+      <InfoModal />
       <Container>
         <MenuGroup>
           <MenuItem>
