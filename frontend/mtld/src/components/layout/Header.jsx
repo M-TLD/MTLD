@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from 'assets/mung.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const StyledHeader = styled.header`
   .Header {
@@ -25,7 +25,11 @@ const StyledHeader = styled.header`
 const LogoImage = styled.img`
   height: 4vh;
 `;
+
 function Header() {
+  const locationNow = useLocation();
+
+  if (locationNow.pathname === '/login') return null;
   return (
     <StyledHeader>
       <div className="Header">
