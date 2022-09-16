@@ -11,6 +11,7 @@ import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
 import InfoModal from 'components/common/InfoModal';
+import NoticeModal from 'components/common/NoticeModal';
 
 const Container = styled.div`
   display: flex;
@@ -139,7 +140,7 @@ function Main() {
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
       </StyledSwiper>
-      <InfoModal />
+      <NoticeModal />
       <Container>
         <MenuGroup>
           <MenuItem>
