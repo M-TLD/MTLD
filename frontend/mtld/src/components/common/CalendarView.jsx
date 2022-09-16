@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import Calender from 'react-calendar';
 import styled from 'styled-components';
 import WalkLogCreate from 'components/walklog/WalkLogCreate';
+import WalkLogResult from 'components/walklog/WalkLogResult';
 
 const StyledCalender = styled.div`
+  .div {
+  }
+
   .react-calendar {
     width: 350px;
     max-width: 100%;
@@ -13,6 +17,7 @@ const StyledCalender = styled.div`
     font-family: GmarketSansMedium;
     line-height: 1.125em;
     margin-bottom: 2vh;
+    margin-right: 0;
   }
   .react-calendar--doubleView {
     width: 700px;
@@ -137,7 +142,7 @@ function CalenderView() {
 
   return (
     <StyledCalender>
-      <div>
+      <div className="div">
         <Calender
           onChange={onChange}
           value={value}
@@ -145,6 +150,7 @@ function CalenderView() {
           locale="eng-US"
         />
         <WalkLogCreate value={value} />
+        <WalkLogResult value={value} />
       </div>
     </StyledCalender>
   );
