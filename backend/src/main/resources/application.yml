@@ -19,8 +19,39 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 500MB
+  security:
+    oauth2:
+      client:
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            userInfo-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+        registration:
+          kakao:
+            client-id: b16fa4858c60ea9d4f042ea3b51165db
+            client-secret: evXGUWIVYQfidcszzUZOTiDovjQxGBeD
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:3000/login/oauth2/kakao
+            scope:
+              - profile_nickname
+              - account_email
+              - gender
+              - age_range
+            client-name: Kakao
+  redis:
+    host: localhost
+    port: 6379
+
 
 logging.level:
   org.hibernate.SQL: debug
+  org.apache.http: DEBUG
+  httpclient.wire: debug
+
 
 server.error.include-message: always
+jwt:
+  secret: clsdfSDFKSJ3oLXSDFKJEsdkfjsekfESDfksef3eZS10ZWNoLXNwcmsf3Dkdfsdfssa3sdfMNCdvbncrt5sdfq3sdfsf
