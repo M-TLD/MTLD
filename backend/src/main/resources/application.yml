@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://3.38.193.232:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
     username: mtld
     password: mtld106@#
   mvc:
@@ -34,7 +34,7 @@ spring:
             client-secret: evXGUWIVYQfidcszzUZOTiDovjQxGBeD
             client-authentication-method: POST
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/kakao
+            redirect-uri: http://localhost:3000/login/oauth2/kakao
             scope:
               - profile_nickname
               - account_email

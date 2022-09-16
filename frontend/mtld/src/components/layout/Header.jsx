@@ -25,10 +25,8 @@ const StyledHeader = styled.header`
 const LogoImage = styled.img`
   height: 4vh;
 `;
-
 function Header() {
   const locationNow = useLocation();
-
   if (locationNow.pathname === '/login') return null;
   return (
     <StyledHeader>
