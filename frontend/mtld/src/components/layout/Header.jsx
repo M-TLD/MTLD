@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     background-color: #ffeeb1;
+    z-index: 100;
   }
 
   .Contents {
