@@ -12,11 +12,6 @@ import com.mtld.backend.entity.User;
  * updated by myeongseok on 2022/09/15
  */
 public interface UserService {
-    public User getUserById(long id) throws Exception;
-
-    public User getUserByNickname(String nickname) throws Exception;
-
-    public User getUserByEmail(String email) throws Exception;
 
     KakaoTokenDto getKakaoAccessToken(String code);
 
