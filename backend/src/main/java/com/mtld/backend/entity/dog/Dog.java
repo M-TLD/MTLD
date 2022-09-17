@@ -39,7 +39,7 @@ public class Dog extends BaseEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean neuter;
 
-    @Column(columnDefinition = "TEXT")
+
     private String disease;
 
     @ManyToOne

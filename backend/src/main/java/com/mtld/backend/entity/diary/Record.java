@@ -25,7 +25,6 @@ import java.util.List;
 @Getter
 public class Record extends Diary {
 
-    @Column(columnDefinition = "TEXT")
     private String mainText;
 
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY)
