@@ -42,7 +42,7 @@ spring:
               - age_range
             client-name: Kakao
   redis:
-    host: localhost
+    host: 3.38.193.232
     port: 6379
 
 
