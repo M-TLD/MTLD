@@ -5,7 +5,6 @@ import mtldLogo from 'assets/logo.png';
 import pawStamp from 'assets/paw.png';
 import welcomeNote from 'assets/welcome-note.png';
 import { useMediaQuery } from 'react-responsive';
-import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
