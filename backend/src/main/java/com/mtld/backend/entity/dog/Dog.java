@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Dog extends BaseEntity {
 
     private String name;
 
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -55,18 +56,20 @@ public class Dog extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-    public void withdrawNeuter() {
-        this.neuter = true;
-    }
-
     @Builder
-    public Dog(String name, LocalDateTime birthdate, Gender gender, Double weight) {
+    public Dog(String name, LocalDate birthdate, Gender gender, Double weight, boolean neuter,Breed breed,User user) {
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
         this.weight = weight;
+        this.neuter = neuter;
+        this.breed = breed;
+        this.user = user;
     }
 
+    public void withdrawNeuter() {
+        this.neuter = true;
+    }
     public void writeDisease(String disease) {
         this.disease = disease;
     }
