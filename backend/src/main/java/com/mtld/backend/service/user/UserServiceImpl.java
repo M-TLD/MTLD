@@ -56,16 +56,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MSG));
     }
 
-    @Override
-    public User getUserByNickname(String nickname) {
-        return userRepository.findByNickname(nickname).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MSG));
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MSG));
-    }
-
     public KakaoTokenDto getKakaoAccessToken(String code) {
         log.info("getKakaoAccessToken = {}", code);
         RestTemplate rt = new RestTemplate();

@@ -7,11 +7,15 @@ import com.mtld.backend.dto.user.LoginResponseDto;
 import com.mtld.backend.dto.user.UserInfoDto;
 import com.mtld.backend.entity.User;
 
+import static com.mtld.backend.exception.ExceptionMsg.USER_NOT_FOUND_MSG;
+
 /**
  * created by seongmin on 2022/09/15
  * updated by myeongseok on 2022/09/15
  */
 public interface UserService {
+
+    public User getUserById(long id);
 
     KakaoTokenDto getKakaoAccessToken(String code);
 
