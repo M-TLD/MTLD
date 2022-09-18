@@ -85,12 +85,16 @@ const Mobile = ({ children }) => {
 };
 
 function Login() {
+  const KAKAO_CLIENT_ID = 'b16fa4858c60ea9d4f042ea3b51165db';
+  const REDIRECT_URI = 'http://localhost:3000/login/oauth2/kakao';
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   return (
     <div className="login">
       <Desktop>
         <DesktopWrap>
           <DesktopLogo src={mtldLogo} />
-          <a href="http://localhost:8000/oauth2/authorization/kakao">
+          <a href="http://localhost:3000/">
             <DesktopKakaoBtn src={kakaoLogin} />
           </a>
         </DesktopWrap>
@@ -111,7 +115,7 @@ function Login() {
             </NoteText>
             <Paw src={pawStamp} />
           </Wrap>
-          <a href="http://localhost:8000/oauth2/authorization/kakao">
+          <a href={KAKAO_AUTH_URI}>
             <KakaoBtn src={kakaoLogin} />
           </a>
         </Container>

@@ -14,6 +14,7 @@ const StyledFooter = styled.footer`
     align-items: center;
     justify-content: center;
     background-color: #ffeeb1;
+    z-index: 100;
   }
 
   .Contents {

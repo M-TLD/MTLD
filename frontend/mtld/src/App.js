@@ -25,6 +25,7 @@ import MyPage from './pages/user/MyPage';
 import PetInfoCreate from './pages/user/PetInfoCreate';
 import PetInfoDetail from './pages/user/PetInfoDetail';
 import PetMedicalCard from './pages/user/PetMedicalCard';
+import Kakao from './pages/user/Kakao';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/login/oauth2/kakao" element={<Kakao />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/pet-info-create" element={<PetInfoCreate />} />
             <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
