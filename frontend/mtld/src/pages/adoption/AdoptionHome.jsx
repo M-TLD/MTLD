@@ -5,47 +5,47 @@ import AbandonedItem from 'components/adoption/AbandonedItem';
 import TopImage from 'assets/dogwithperson.png';
 
 const StyledAdoptionHome = styled.div`
-  .div {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   .titletext {
-    position: absolute;
-    top: 180px;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    margin: 1vh;
+    // position: absolute;
+    // top: 25%;
+    // left: 50%;
+    // transform: translate(-50%);
   }
 
   .line {
-    margin: 0;
+    // margin: 0;
+    // padding-bottom: 5vh;
   }
 
-  .img {
-    position: relative;
-    width: 450px;
-    height: 230px;
+  .topimage {
+    width: 100%;
+    height: 20%;
+    opacity: 0.5;
   }
 
-  .img:after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    content: '';
-    border: 5px solid rgba(0, 0, 0, 0.3);
-    background-color: rgba(0, 0, 0, 0.15);
+  .image {
   }
 
   #family {
     font-weight: bold;
   }
 `;
-const BannerImage = styled.img`
-  width: 450px;
-  height: 230px;
-  opacity: 0.5;
+
+const StyledItems = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1vh;
+  @media screen and (min-width: 1356px) {
+    flex-wrap: nowrap;
+    gap: 30px;
+  }
 `;
 
 function AdoptionHome() {
@@ -62,22 +62,23 @@ function AdoptionHome() {
 
   return (
     <StyledAdoptionHome>
-      <div className="div">
-        <div className="img">
-          <BannerImage src={TopImage} />
-        </div>
-
-        <div className="titletext">
-          <p className="line">소중한 아이들의</p>
-          <span className="line" id="family">
-            가족
-          </span>
-          <span>이 되어주세요!</span>
-        </div>
-        {abandonedList.map((abandoned) => (
-          <AbandonedItem key={abandoned.num} item={abandoned} />
-        ))}
+      <div className="image">
+        <img className="topimage" src={TopImage} alt="banner" />
       </div>
+
+      <div className="titletext">
+        <span className="line">소중한 아이들의 </span>
+        <span className="line" id="family">
+          가족
+        </span>
+        <span>이 되어주세요!</span>
+      </div>
+
+      <StyledItems>
+        {abandonedList.map((abandoned) => (
+          <AbandonedItem key={abandoned.id} item={abandoned} />
+        ))}
+      </StyledItems>
     </StyledAdoptionHome>
   );
 }
