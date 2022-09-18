@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/layout/Layout';
+import AbandonedDetail from './components/adoption/AbandonedDetail';
 import AdoptionHome from './pages/adoption/AdoptionHome';
 import AdoptionResult from './pages/adoption/AdoptionResult';
 import AdoptionSurvey from './pages/adoption/AdoptionSurvey';
@@ -41,6 +42,7 @@ function App() {
             <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
             <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} />
             <Route path="/adoption-home" element={<AdoptionHome />} />
+            <Route path="/puppy-detail/:id" element={<AbandonedDetail />} />
             <Route path="/adoption-result" element={<AdoptionResult />} />
             <Route path="/adoption-survey" element={<AdoptionSurvey />} />
             <Route path="/diary-create" element={<DiaryCreate />} />
