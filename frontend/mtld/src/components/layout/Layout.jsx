@@ -4,8 +4,8 @@ import Footer from './Footer';
 import Header from './Header';
 
 const StyledMain = styled.main`
-  padding-top: 9vh;
-  padding-bottom: 9vh;
+  padding-top: 8vh;
+  padding-bottom: 8vh;
 `;
 
 function Layout(props) {
