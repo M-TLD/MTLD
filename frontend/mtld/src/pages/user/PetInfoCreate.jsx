@@ -8,6 +8,13 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+import puppyface from 'assets/puppyface.png';
 
 const Wrap = styled.div`
   display: flex;
@@ -16,25 +23,27 @@ const Wrap = styled.div`
   align-items: center;
 `;
 
+const RadioWrap = styled.div`
+  margin: 1vh 0;
+`;
+
 const Title = styled.div`
   display: flex;
-  color: #5C5C5C;
+  color: #5c5c5c;
 
   h1 {
     margin-bottom: 5%;
   }
-  `;
+`;
 
 const PetImage = styled.div`
-
   .buttonWrap {
     position: relative;
   }
 
   .uploadedImage {
     border: 8px solid;
-    border-color: #FFEEB1;
-    z-index: -1;
+    border-color: #ffeeb1;
   }
 
   .upload-btn {
@@ -48,7 +57,7 @@ const PetImage = styled.div`
     height: 25%;
     width: 25%;
     border: none;
-    background-color: #FFEEB1;
+    background-color: #ffeeb1;
     border-radius: 50%;
     color: white;
   }
@@ -58,9 +67,9 @@ const PetInfoInput = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  color: #5C5C5C;
+  color: #5c5c5c;
 
-  .input{
+  .input {
     margin-bottom: 2%;
   }
 `;
@@ -69,20 +78,26 @@ const RegisterButton = styled.button`
   width: 70vw;
   height: 5vh;
   border: none;
-  background-color: #FFEEB1;
-  box-shadow: 0px 2px 5px 0.1px #5C5C5C;
+  background-color: #ffeeb1;
+  box-shadow: 0px 2px 5px 0.1px #5c5c5c;
   font-family: GmarketSansMedium;
   border-radius: 10px;
 `;
 
 function PetInfoCreate() {
-  const [Image, setImage] = useState('');
+  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+
+  const [Image, setImage] = useState(puppyface);
   const fileInput = useRef(null);
   const onLoadFile = (event) => {
     if (event.target.files[0]) {
       setImage(event.target.files[0]);
     } else {
-      setImage('');
+      setImage(puppyface);
     }
 
     const reader = new FileReader();
@@ -105,11 +120,14 @@ function PetInfoCreate() {
       <PetImage>
         <div className="buttonWrap">
           <Avatar
+            alt="puppyface"
             className="uploadedImage"
             src={Image}
             round
             sx={{ width: '180px', height: '180px' }}
-            onClick={() => { fileInput.current.click(); }}
+            onClick={() => {
+              fileInput.current.click();
+            }}
           />
           <input
             ref={fileInput}
@@ -132,22 +150,6 @@ function PetInfoCreate() {
         </div>
       </PetImage>
       <PetInfoInput>
-        <TextField
-          id="standard-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="standard"
-        />
-
-        <TextField
-          id="standard-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="standard"
-        />
-
         <Box
           component="form"
           sx={{
@@ -156,19 +158,37 @@ function PetInfoCreate() {
           noValidate
           autoComplete="off"
         >
-          <TextField id="standard-basic" label="견종" variant="standard" />
+          <TextField id="standard-basic" label="이름" variant="standard" />
         </Box>
 
-        <Box
-          component="form"
-          sx={{
-            '& > :not(style)': { m: 1, width: '25ch' },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField id="standard-basic" label="견종" variant="standard" />
-        </Box>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="생년월일/입양일"
+            inputFormat="YYYY/MM/DD"
+            value={value}
+            onChange={handleChange}
+            renderInput={({ inputRef, inputProps, InputProps }) => (
+              <Box
+                component="form"
+                sx={{
+                  '& > :not(style)': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  ref={inputRef}
+                  {...inputProps}
+                  id="date"
+                  label="생년월일/입양일"
+                  variant="standard"
+                  InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                  InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                />
+              </Box>
+            )}
+          />
+        </LocalizationProvider>
 
         <Box
           component="form"
@@ -178,7 +198,15 @@ function PetInfoCreate() {
           noValidate
           autoComplete="off"
         >
-          <TextField id="standard-basic" label="견종" variant="standard" />
+          <TextField
+            id="standard-basic"
+            label="몸무게"
+            variant="standard"
+            type="number"
+            InputProps={{
+              endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+            }}
+          />
         </Box>
 
         <Box
@@ -192,59 +220,71 @@ function PetInfoCreate() {
           <TextField id="standard-basic" label="병력" variant="standard" />
         </Box>
 
-        <TextField
-          id="date"
-          label="생년월일(입양일)"
-          type="date"
-          defaultValue="2017-05-24"
-          sx={{ width: 220 }}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        <RadioWrap>
+          <Box
+            component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <FormLabel
+              id="demo-row-radio-buttons-group-label"
+              sx={{
+                textalign: 'start',
+              }}
+            >
+              성별
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="여아"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value="male"
+                control={<Radio />}
+                label="남아"
+                labelPlacement="start"
+              />
+            </RadioGroup>
+          </Box>
+        </RadioWrap>
 
-        <TextField
-          id="outlined-number"
-          label="몸무게"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="demo-row-radio-buttons-group-label"
-          name="row-radio-buttons-group"
-        >
-          <FormControlLabel value="female" control={<Radio />} label="여아" />
-          <FormControlLabel value="male" control={<Radio />} label="남아" />
-        </RadioGroup>
-
-        <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="demo-row-radio-buttons-group-label"
-          name="row-radio-buttons-group"
-        >
-          <FormControlLabel value="female" control={<Radio />} label="O" />
-          <FormControlLabel value="male" control={<Radio />} label="X" />
-        </RadioGroup>
-
-        <div className="input">
-          <label htmlFor="birthdate">생년월일</label>
-          <input id="birthdate" type="text" />
-        </div>
-
-        <div className="input">
-          <label htmlFor="weight">몸무게</label>
-          <input id="weight" type="number" />
-        </div>
-
+        <RadioWrap>
+          <Box
+            component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel value="Y" control={<Radio />} label="예" labelPlacement="start" />
+              <FormControlLabel
+                value="N"
+                control={<Radio />}
+                label="아니오"
+                labelPlacement="start"
+              />
+            </RadioGroup>
+          </Box>
+        </RadioWrap>
       </PetInfoInput>
-      <RegisterButton>
-        등록하기
-      </RegisterButton>
+      <RegisterButton>등록하기</RegisterButton>
     </Wrap>
   );
 }

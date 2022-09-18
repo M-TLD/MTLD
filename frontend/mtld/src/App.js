@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 import Layout from './components/layout/Layout';
 import AdoptionHome from './pages/adoption/AdoptionHome';
@@ -26,36 +27,44 @@ import PetInfoCreate from './pages/user/PetInfoCreate';
 import PetInfoDetail from './pages/user/PetInfoDetail';
 import PetMedicalCard from './pages/user/PetMedicalCard';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'GmarketSansMedium',
+  },
+});
+
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/pet-info-create" element={<PetInfoCreate />} />
-            <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
-            <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} />
-            <Route path="/adoption-home" element={<AdoptionHome />} />
-            <Route path="/adoption-result" element={<AdoptionResult />} />
-            <Route path="/adoption-survey" element={<AdoptionSurvey />} />
-            <Route path="/diary-create" element={<DiaryCreate />} />
-            <Route path="/diary/:diaryId" element={<DiaryDetail />} />
-            <Route path="/diary-home" element={<DiaryHome />} />
-            <Route path="/*" element={<NotFound />} />
-            <Route path="/info-board" element={<InfoBoard />} />
-            <Route path="/accomodation" element={<Accommodation />} />
-            <Route path="/cafe" element={<Cafe />} />
-            <Route path="/hospital" element={<Hospital />} />
-            <Route path="/location-main" element={<LocationMain />} />
-            <Route path="/restaurant" element={<Restaurant />} />
-            <Route path="/survey-question" element={<SurveyQuestion />} />
-            <Route path="/survey-result" element={<SurveyResult />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/pet-info-create" element={<PetInfoCreate />} />
+              <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
+              <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} />
+              <Route path="/adoption-home" element={<AdoptionHome />} />
+              <Route path="/adoption-result" element={<AdoptionResult />} />
+              <Route path="/adoption-survey" element={<AdoptionSurvey />} />
+              <Route path="/diary-create" element={<DiaryCreate />} />
+              <Route path="/diary/:diaryId" element={<DiaryDetail />} />
+              <Route path="/diary-home" element={<DiaryHome />} />
+              <Route path="/*" element={<NotFound />} />
+              <Route path="/info-board" element={<InfoBoard />} />
+              <Route path="/accomodation" element={<Accommodation />} />
+              <Route path="/cafe" element={<Cafe />} />
+              <Route path="/hospital" element={<Hospital />} />
+              <Route path="/location-main" element={<LocationMain />} />
+              <Route path="/restaurant" element={<Restaurant />} />
+              <Route path="/survey-question" element={<SurveyQuestion />} />
+              <Route path="/survey-result" element={<SurveyResult />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }
