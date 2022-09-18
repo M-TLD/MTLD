@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Modal, { ModalProvider, BaseModalBackground } from 'styled-react-modal';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 
 const StyledModal = Modal.styled`
   width: 300px;
-  height: 550px;
+  height: 250px;
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
@@ -33,7 +34,7 @@ const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
   color: #F38181;
 `;
 
-const VaccinationInfo = styled.div`
+const NoticeInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,24 +43,20 @@ const VaccinationInfo = styled.div`
   font-size: 10px;
 `;
 
-const InfoTitle = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  margin:10px 0 20px 0;
+const StyledNotificationsRoundedIcon = styled(NotificationsRoundedIcon)` 
+  color: #81E3D7;
+  margin-bottom: 10px;
 `;
 
 const Title = styled.span`
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 const ContentDiv = styled.div`
   font-size: 12px;
-  margin-bottom: 20px;
-`;
-
-const BtnDiv = styled.div`
-  margin-top: 5px;
+  font-weight: 500;
+  margin-bottom: 15px;
 `;
 
 const HospitalBtn = styled.button`
@@ -117,58 +114,33 @@ function FancyModalButton() {
         opacity={opacity}
         backgroundProps={{ opacity }}
       >
-
         <StyledCloseRoundedIcon onClick={toggleModal} fontSize="medium" />
-
-        <VaccinationInfo>
-          <InfoTitle>예방접종 정보</InfoTitle>
-          <Title>혼합예방주사 (DHPPL)</Title>
+        <StyledNotificationsRoundedIcon fontSize="medium" />
+        <NoticeInfo>
+          <Title>오늘 보비 주사 맞는 날이예요!</Title>
           <ContentDiv>
             <span>
-              기초접종: 생후 6~8주에 1차 접종
-              <br />
-              추가접종: 1차 접종 후 2~4주 간격으로 2~4회
-              <br />
-              보강접종: 추가접종 후 매년 1회 주사
+              혼합예방주사(DHPPL)
             </span>
-          </ContentDiv>
-          <Title>코로나바이러스성 장염(Coronavirus)</Title>
-          <ContentDiv>
+            <br />
             <span>
-              기초접종: 생후 6~8주에 1차 접종
-              <br />
-              추가접종: 1차 접종 후 2~4주 간격으로 1~2회
-              <br />
-              보강접종: 추가접종 후 매년 1회 주사
+              코로나바이러스성 장염
             </span>
-          </ContentDiv>
-          <Title>기관ㆍ기관지염 (Kennel Cough)</Title>
-          <ContentDiv>
+            <br />
             <span>
-              기초접종: 생후 6~8주에 1차 접종
-              <br />
-              추가접종: 1차 접종 후 2~4주 간격으로 1~2회
-              <br />
-              보강접종: 추가접종 후 매년 1회 주사
+              기관ㆍ기관지염
             </span>
-          </ContentDiv>
-          <Title>광견병</Title>
-          <ContentDiv>
+            <br />
             <span>
-              기초접종 : 생후 3개월 이상 1회 접종
-              <br />
-              보강접종 : 6개월 간격으로 주사
+              광견병
             </span>
           </ContentDiv>
-          <BtnDiv>
-            <span>출처: 농림축산검역본부 동물보호관리시스템</span>
-            <HospitalBtn>
-              <StyledLink to="/hospital">
-                가까운 동물병원 찾기
-              </StyledLink>
-            </HospitalBtn>
-          </BtnDiv>
-        </VaccinationInfo>
+          <HospitalBtn>
+            <StyledLink to="/hospital">
+              가까운 동물병원 찾기
+            </StyledLink>
+          </HospitalBtn>
+        </NoticeInfo>
       </StyledModal>
     </div>
   );
@@ -178,9 +150,9 @@ const FadingBackground = styled(BaseModalBackground)`
   transition: all 0.3s ease-in-out;
 `;
 
-function InfoModal() {
+function NoticeModal() {
   return (
-    <div className="InfoModal">
+    <div className="NoticeModal">
       <ModalProvider backgroundComponent={FadingBackground}>
         <FancyModalButton />
       </ModalProvider>
@@ -188,4 +160,4 @@ function InfoModal() {
   );
 }
 
-export default InfoModal;
+export default NoticeModal;
