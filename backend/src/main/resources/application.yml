@@ -42,7 +42,7 @@ spring:
               - age_range
             client-name: Kakao
   redis:
-    host: 3.38.193.232
+    host: localhost
     port: 6379
 
 
@@ -55,3 +55,15 @@ logging.level:
 server.error.include-message: always
 jwt:
   secret: clsdfSDFKSJ3oLXSDFKJEsdkfjsekfESDfksef3eZS10ZWNoLXNwcmsf3Dkdfsdfssa3sdfMNCdvbncrt5sdfq3sdfsf
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAZNX4V6HMO2OO6ZF5
+      secretKey: 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
+    stack:
+      auto: false
+    s3.bucket: a106mtld
+#    s3.bucket.url:
+    region:
+      static: ap-northeast-2
