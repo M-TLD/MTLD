@@ -3,20 +3,14 @@ import styled from 'styled-components';
 import Logo from 'assets/mung.png';
 import Paw from 'assets/paw_yellow.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import Avatar from '@mui/material/Avatar';
 
 const StyledHeader = styled.header`
-  .Header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 8vh;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    background-color: #ffeeb1;
-    z-index: 100;
-  }
-
   .Contents {
     display: flex;
     width: 100%;
@@ -34,17 +28,58 @@ const StyledHeader = styled.header`
     font-family: 'UhBeeStrawberry';
     font-size: 19px;
     font-weight: bold;
-    margin-right: 2vh;
+    padding-right: 4vh;
     margin-left: 0.5vh;
   }
 
   .paw {
-    width: 20px;
+    height: 30px;
+  }
+
+  .navBar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .gapDiv {
+    display: flex;
+    gap: 10px;
+  }
+
+  .menuDiv {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .userDiv {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+  }
+
+  .userInfoDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    text-decoration: none;
+    color: #5c5c5c;
+    font-family: 'UhBeeStrawberry';
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  .name {
+    font-size: 20px;
   }
 `;
 
 const LogoImage = styled.img`
   height: 4vh;
+  z-index: 100;
 `;
 
 function Header() {
@@ -53,23 +88,34 @@ function Header() {
   if (locationNow.pathname === '/login') return null;
   return (
     <StyledHeader>
-      <div className="Header">
-        <div className="Contents">
-          <Link className="Link" to="/">
-            <LogoImage src={Logo} />
-          </Link>
-          <div
-            className="right"
-            role="button"
-            onClick={() => navigate(-1)}
-            onKeyDown={console.log('back!')}
-            tabIndex={0}
-          >
-            <img className="paw" src={Paw} alt="paw" />
-            <div className="goback">뒤로가기</div>
+      <Accordion sx={{ bgcolor: '#ffeeb1', width: '100vw', zIndex: '80', position: 'fixed' }}>
+        <AccordionSummary expandIcon={<MenuIcon />} aria-controls="panel1a-content" id="panel1a-header">
+          <div className="navBar">
+            <Link className="Link" to="/">
+              <LogoImage src={Logo} />
+            </Link>
+            <div className="wrapDiv" />
           </div>
-        </div>
-      </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            <div className="menuDiv">
+              <div className="userDiv">
+                <Avatar sx={{ height: '7vh', width: '7vh' }} />
+                <p className="name">보비</p>
+              </div>
+              <div className="userInfoDiv">
+                <a href="/mypage">마이페이지</a>
+                <a href="/logout">로그아웃</a>
+                <div className="right" role="button" onClick={() => navigate(-1)} onKeyDown={console.log('back!')} tabIndex={0}>
+                  <img className="paw" src={Paw} alt="paw" />
+                  <div className="goback">뒤로가기</div>
+                </div>
+              </div>
+            </div>
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
     </StyledHeader>
   );
 }

@@ -135,15 +135,7 @@ function PetInfoCreate() {
               fileInput.current.click();
             }}
           />
-          <input
-            ref={fileInput}
-            className="upload-btn"
-            type="file"
-            name="profile-image"
-            id="profile"
-            accept="image/*"
-            onChange={onLoadFile}
-          />
+          <input ref={fileInput} className="upload-btn" type="file" name="profile-image" id="profile" accept="image/*" onChange={onLoadFile} />
           <button
             className="btn-shown"
             type="button"
@@ -182,15 +174,7 @@ function PetInfoCreate() {
                 noValidate
                 autoComplete="off"
               >
-                <TextField
-                  ref={inputRef}
-                  {...inputProps}
-                  id="date"
-                  label="생년월일/입양일"
-                  variant="standard"
-                  InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
-                  InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
-                />
+                <TextField ref={inputRef} {...inputProps} id="date" label="생년월일/입양일" variant="standard" InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }} InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }} />
               </Box>
             )}
           />
@@ -244,24 +228,9 @@ function PetInfoCreate() {
               성별
             </FormLabel>
             <div className="radioDiv">
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                sx={{ gap: '15vw' }}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="여아"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="남아"
-                  labelPlacement="end"
-                />
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }}>
+                <FormControlLabel value="female" control={<Radio />} label="여아" labelPlacement="end" />
+                <FormControlLabel value="male" control={<Radio />} label="남아" labelPlacement="end" />
               </RadioGroup>
             </div>
           </Box>
@@ -278,19 +247,9 @@ function PetInfoCreate() {
           >
             <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
             <div className="radioDiv">
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                sx={{ gap: '15vw' }}
-              >
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }}>
                 <FormControlLabel value="Y" control={<Radio />} label="예" labelPlacement="end" />
-                <FormControlLabel
-                  value="N"
-                  control={<Radio />}
-                  label="아니오"
-                  labelPlacement="end"
-                />
+                <FormControlLabel value="N" control={<Radio />} label="아니오" labelPlacement="end" />
               </RadioGroup>
             </div>
           </Box>
