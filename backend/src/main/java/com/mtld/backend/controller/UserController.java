@@ -1,6 +1,6 @@
 package com.mtld.backend.controller;
 
-import com.mtld.backend.service.UserServiceImpl;
+import com.mtld.backend.service.user.UserServiceImpl;
 import com.mtld.backend.dto.token.ReissueDto;
 import com.mtld.backend.dto.token.TokenDto;
 import lombok.RequiredArgsConstructor;

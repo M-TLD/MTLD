@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 import Layout from './components/layout/Layout';
+import AbandonedDetail from './components/adoption/AbandonedDetail';
 import AdoptionHome from './pages/adoption/AdoptionHome';
 import AdoptionResult from './pages/adoption/AdoptionResult';
 import AdoptionSurvey from './pages/adoption/AdoptionSurvey';
@@ -26,6 +27,7 @@ import MyPage from './pages/user/MyPage';
 import PetInfoCreate from './pages/user/PetInfoCreate';
 import PetInfoDetail from './pages/user/PetInfoDetail';
 import PetMedicalCard from './pages/user/PetMedicalCard';
+import Kakao from './pages/user/Kakao';
 
 const theme = createTheme({
   typography: {

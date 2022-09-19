@@ -1,4 +1,4 @@
-package com.mtld.backend.service;
+package com.mtld.backend.service.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,8 +12,8 @@ import com.mtld.backend.dto.user.UserInfoDto;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.exception.BadRequestException;
+import com.mtld.backend.jwt.JwtTokenProvider;
 import com.mtld.backend.repository.user.UserRepository;
-import com.mtld.backend.jwt.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,15 +32,12 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/**
- * created by seongmin on 2022/09/14
- * updated by seongmin on 2022/09/15
- */
+import static com.mtld.backend.exception.ExceptionMsg.*;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
@@ -53,6 +50,11 @@ public class UserServiceImpl implements UserService {
     String GRANT_TYPE;
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     String CLIENT_SECRET;
+
+    @Override
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MSG));
+    }
 
     public KakaoTokenDto getKakaoAccessToken(String code) {
         log.info("getKakaoAccessToken = {}", code);
