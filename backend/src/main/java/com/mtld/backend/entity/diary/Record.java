@@ -7,12 +7,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +24,14 @@ import java.util.List;
 @Getter
 public class Record extends Diary {
 
+    @Column(length = 4000)
     private String mainText;
 
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @Builder
-    public Record(LocalDateTime diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
+    public Record(LocalDate diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
         super(diaryDate, user);
         this.mainText = mainText;
         this.uploadFiles = uploadFiles;
