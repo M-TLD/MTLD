@@ -49,6 +49,7 @@ function App() {
               <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
               <Route path="/pet-medical-card/" element={<PetMedicalCard />} />
               <Route path="/adoption-home" element={<AdoptionHome />} />
+              <Route path="/puppy-detail/:id" element={<AbandonedDetail />} />
               <Route path="/adoption-result" element={<AdoptionResult />} />
               <Route path="/adoption-survey" element={<AdoptionSurvey />} />
               <Route path="/diary-create" element={<DiaryCreate />} />
