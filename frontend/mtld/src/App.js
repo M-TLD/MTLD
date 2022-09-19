@@ -3,8 +3,10 @@ import './App.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoutes from './components/auth/PrivateRoutes';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 import Layout from './components/layout/Layout';
+import AbandonedDetail from './components/adoption/AbandonedDetail';
 import AdoptionHome from './pages/adoption/AdoptionHome';
 import AdoptionResult from './pages/adoption/AdoptionResult';
 import AdoptionSurvey from './pages/adoption/AdoptionSurvey';
@@ -28,39 +30,47 @@ import PetInfoDetail from './pages/user/PetInfoDetail';
 import PetMedicalCard from './pages/user/PetMedicalCard';
 import Kakao from './pages/user/Kakao';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'GmarketSansMedium',
+  },
+});
+
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/*" element={<NotFound />} exact />
-            <Route path="/login/oauth2/kakao" element={<Kakao />} exact />
-            <Route element={<PrivateRoutes />}>
-              <Route path="/" element={<Main />} exact />
-              <Route path="/mypage" element={<MyPage />} exact />
-              <Route path="/pet-info-create" element={<PetInfoCreate />} exact />
-              <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} exact />
-              <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} exact />
-              <Route path="/adoption-home" element={<AdoptionHome />} exact />
-              <Route path="/adoption-result" element={<AdoptionResult />} exact />
-              <Route path="/adoption-survey" element={<AdoptionSurvey />} exact />
-              <Route path="/diary-create" element={<DiaryCreate />} exact />
-              <Route path="/diary/:diaryId" element={<DiaryDetail />} exact />
-              <Route path="/diary-home" element={<DiaryHome />} exact />
-              <Route path="/info-board" element={<InfoBoard />} exact />
-              <Route path="/accomodation" element={<Accommodation />} exact />
-              <Route path="/cafe" element={<Cafe />} exact />
-              <Route path="/hospital" element={<Hospital />} exact />
-              <Route path="/location-main" element={<LocationMain />} exact />
-              <Route path="/restaurant" element={<Restaurant />} exact />
-              <Route path="/survey-question" element={<SurveyQuestion />} exact />
-              <Route path="/survey-result" element={<SurveyResult />} exact />
-            </Route>
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/*" element={<NotFound />} exact />
+              <Route path="/login/oauth2/kakao" element={<Kakao />} exact />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/" element={<Main />} exact />
+                <Route path="/mypage" element={<MyPage />} exact />
+                <Route path="/pet-info-create" element={<PetInfoCreate />} exact />
+                <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} exact />
+                <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} exact />
+                <Route path="/adoption-home" element={<AdoptionHome />} exact />
+                <Route path="/adoption-result" element={<AdoptionResult />} exact />
+                <Route path="/adoption-survey" element={<AdoptionSurvey />} exact />
+                <Route path="/diary-create" element={<DiaryCreate />} exact />
+                <Route path="/diary/:diaryId" element={<DiaryDetail />} exact />
+                <Route path="/diary-home" element={<DiaryHome />} exact />
+                <Route path="/info-board" element={<InfoBoard />} exact />
+                <Route path="/accomodation" element={<Accommodation />} exact />
+                <Route path="/cafe" element={<Cafe />} exact />
+                <Route path="/hospital" element={<Hospital />} exact />
+                <Route path="/location-main" element={<LocationMain />} exact />
+                <Route path="/restaurant" element={<Restaurant />} exact />
+                <Route path="/survey-question" element={<SurveyQuestion />} exact />
+                <Route path="/survey-result" element={<SurveyResult />} exact />
+              </Route>
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }

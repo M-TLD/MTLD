@@ -16,6 +16,7 @@
   "rules": {
     "no-console": "off",
     "import/no-unresolved": "off",
+    "no-console": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
@@ -32,6 +33,16 @@
     "react/jsx-props-no-spreading": "off",
     "react/destructuring-assignment": [0, "always"],
     "object-curly-newline": "off",
-    "react/function-component-definition":[2, {"namedComponents": ["function-declaration", "function-expression", "arrow-function"]}]
+    "react/function-component-definition":[2, {"namedComponents": ["function-declaration", "function-expression", "arrow-function"]}],
+    "jsx-a11y/label-has-associated-control": ["error", {
+      "required": {
+        "some": ["nesting", "id"]
+      }
+    }],
+    "jsx-a11y/label-has-for": ["error", {
+      "required": {
+        "some": ["nesting", "id"]
+      }
+    }]
   }
 }
