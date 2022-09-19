@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -31,7 +32,7 @@ public class Walking extends Diary {
     private Dog dog;
 
     @Builder
-    public Walking(LocalDateTime diaryDate, User user, Double walkingTime, Double distance, Dog dog) {
+    public Walking(LocalDate diaryDate, User user, Double walkingTime, Double distance, Dog dog) {
         super(diaryDate, user);
         this.walkingTime = walkingTime;
         this.distance = distance;

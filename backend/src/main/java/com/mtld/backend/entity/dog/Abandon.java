@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,7 +24,7 @@ public class Abandon extends BaseEntity {
 
     private String name;
 
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -35,7 +36,7 @@ public class Abandon extends BaseEntity {
 
     private String characteristic;
 
-    public Abandon(String name, LocalDateTime birthdate, Double weight, boolean neuter, String characteristic) {
+    public Abandon(String name, LocalDate birthdate, Double weight, boolean neuter, String characteristic) {
         this.name = name;
         this.birthdate = birthdate;
         this.weight = weight;

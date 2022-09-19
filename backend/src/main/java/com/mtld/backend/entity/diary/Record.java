@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Record extends Diary {
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @Builder
-    public Record(LocalDateTime diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
+    public Record(LocalDate diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
         super(diaryDate, user);
         this.mainText = mainText;
         this.uploadFiles = uploadFiles;
