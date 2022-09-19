@@ -34,16 +34,14 @@ const NoteText = styled.div`
   top: 47%;
   left: 50%;
   width: 100%;
-  transform: translate( -50%, -50%);
+  transform: translate(-50%, -50%);
   line-height: 0.5rem;
   font-size: 2rem;
   font-family: 'UhBeemunseulye';
   text-align: center;
 `;
 
-const NoteImage = styled.div`
-
-`;
+const NoteImage = styled.div``;
 
 const Paw = styled.img`
   position: absolute;
