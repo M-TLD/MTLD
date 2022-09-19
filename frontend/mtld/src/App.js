@@ -47,7 +47,7 @@ function App() {
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/pet-info-create" element={<PetInfoCreate />} />
               <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
-              <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} />
+              <Route path="/pet-medical-card/" element={<PetMedicalCard />} />
               <Route path="/adoption-home" element={<AdoptionHome />} />
               <Route path="/adoption-result" element={<AdoptionResult />} />
               <Route path="/adoption-survey" element={<AdoptionSurvey />} />
