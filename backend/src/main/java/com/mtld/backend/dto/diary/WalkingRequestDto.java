@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class WalkingRequestDto {
 
     @NotNull(message = "산책한 날짜는 필수 입력값입니다.")
-    private LocalDateTime diaryDate;
+    private LocalDate diaryDate;
 
     @NotNull(message = "산책한 시간은 필수 입력값입니다.")
     private Double walkingTime;
