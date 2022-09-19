@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class RecordRequestDto {
 
     @NotNull(message = "일지 기록 날짜는 필수 입력값입니다.")
-    private LocalDateTime diaryDate;
+    private LocalDate diaryDate;
 
     @NotBlank(message = "내용은 필수 입력값입니다.")
     private String mainText;
