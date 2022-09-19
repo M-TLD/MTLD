@@ -6,7 +6,7 @@ import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.repository.BreedRepository;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

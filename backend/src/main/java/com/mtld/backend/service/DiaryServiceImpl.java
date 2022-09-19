@@ -8,7 +8,7 @@ import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.BadRequestException;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
 import com.mtld.backend.repository.diary.WalkingRepository;
