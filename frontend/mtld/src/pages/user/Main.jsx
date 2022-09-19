@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const MenuGroup = styled.div`
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   @media screen and (min-width: 1356px) {
@@ -43,12 +43,16 @@ const MenuImage = styled.img`
 `;
 
 const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
     text-decoration: none;
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    color: #5C5C5C;
+    color: #5c5c5c;
     font-size: 13px;
-    }
+  }
 `;
 
 const StyledSwiper = styled(Swiper)`
@@ -64,9 +68,9 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 
 const OurBabyDiv = styled.div`
   width: 150px;
-  height: 150px; 
+  height: 150px;
   border-radius: 70%;
-  border: 10px solid #FFEEB1;
+  border: 10px solid #ffeeb1;
   overflow: hidden;
   margin-bottom: 20px;
 `;
@@ -79,26 +83,26 @@ const OurBaby = styled.img`
 
 const Welcome = styled.div`
   display: flex;
-  color: #5C5C5C;
+  color: #5c5c5c;
   font-size: 28px;
   margin-bottom: 12px;
 `;
 
 const BabyName = styled.span`
-    color: #81E3D7;
-    font-weight: 600;
+  color: #81e3d7;
+  font-weight: 600;
 `;
 
 const Alarm = styled.div`
   width: 330px;
   height: 90px;
-  background-color: #EAFED1;
+  background-color: #eafed1;
   border-radius: 15px;
   // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #5C5C5C;
+  color: #5c5c5c;
   font-size: 18px;
   // line-height : 50px;
 `;

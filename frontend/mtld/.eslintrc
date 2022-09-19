@@ -14,17 +14,14 @@
   },
   "plugins": ["react"],
   "rules": {
+    "no-param-reassign": 0,
     "no-console": "off",
     "no-alert": "off",
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "no-unused-vars": [
-      "off",
-      "error",
-      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-    ],
+    "no-unused-vars": ["off", "error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "linebreak-style": 0,
     "react/jsx-no-bind": 0,
     "operator-linebreak": "off",
@@ -33,10 +30,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/destructuring-assignment": [0, "always"],
     "object-curly-newline": "off",
-    "react/function-component-definition": [
-      2,
-      { "namedComponents": ["function-declaration", "function-expression", "arrow-function"] }
-    ],
+    "react/function-component-definition": [2, { "namedComponents": ["function-declaration", "function-expression", "arrow-function"] }],
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
