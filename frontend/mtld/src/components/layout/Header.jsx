@@ -30,6 +30,7 @@ const StyledHeader = styled.header`
   }
 
   .goback {
+    cursor: pointer;
     color: #5c5c5c;
     font-family: 'UhBeeStrawberry';
     font-size: 19px;
@@ -39,6 +40,7 @@ const StyledHeader = styled.header`
   }
 
   .paw {
+    cursor: pointer;
     width: 20px;
   }
 `;
@@ -58,13 +60,7 @@ function Header() {
           <Link className="Link" to="/">
             <LogoImage src={Logo} />
           </Link>
-          <div
-            className="right"
-            role="button"
-            onClick={() => navigate(-1)}
-            onKeyDown={console.log('back!')}
-            tabIndex={0}
-          >
+          <div className="right" role="button" onClick={() => navigate(-1)} onKeyDown={console.log()} tabIndex={0}>
             <img className="paw" src={Paw} alt="paw" />
             <div className="goback">뒤로가기</div>
           </div>
