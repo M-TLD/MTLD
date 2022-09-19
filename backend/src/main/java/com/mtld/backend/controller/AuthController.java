@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/login/oauth2")
-public class UserController {
+public class AuthController {
     private final UserServiceImpl userServiceImpl;
 
     @GetMapping("/kakao")
