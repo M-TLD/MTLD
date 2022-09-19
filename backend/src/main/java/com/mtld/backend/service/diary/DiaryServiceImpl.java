@@ -1,18 +1,23 @@
-package com.mtld.backend.service;
+package com.mtld.backend.service.diary;
 
 import com.mtld.backend.dto.diary.RecordRequestDto;
+import com.mtld.backend.dto.diary.WalkingDetailRequestDto;
+import com.mtld.backend.dto.diary.WalkingDetailResponseDto;
 import com.mtld.backend.dto.diary.WalkingRequestDto;
 import com.mtld.backend.entity.UploadFile;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;
+import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
+import com.mtld.backend.exception.NoContentException;
 import com.mtld.backend.repository.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
 import com.mtld.backend.repository.diary.WalkingRepository;
 import com.mtld.backend.repository.user.UserRepository;
+import com.mtld.backend.service.diary.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -66,5 +71,13 @@ public class DiaryServiceImpl implements DiaryService {
                 .uploadFiles(uploadFiles)
                 .build();
         recordRepository.save(record);
+    }
+
+    @Override
+    public WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
+        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(dto.getDiaryDate(), dto.getDiaryDate(), dog).orElseThrow(() -> new NoContentException("산책일지가 없습니다."));
+        return WalkingDetailResponseDto.of(result);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,13 +24,13 @@ public abstract class Diary extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime diaryDate;
+    private LocalDate diaryDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Diary(LocalDateTime diaryDate, User user) {
+    public Diary(LocalDate diaryDate, User user) {
         this.diaryDate = diaryDate;
         this.user = user;
     }

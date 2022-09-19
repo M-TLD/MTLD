@@ -40,6 +40,7 @@ public class Dog extends BaseEntity {
     private boolean neuter;
 
 
+//    @Column(columnDefinition = "TEXT")
     private String disease;
 
     @ManyToOne
