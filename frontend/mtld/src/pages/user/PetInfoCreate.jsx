@@ -25,6 +25,12 @@ const Wrap = styled.div`
 
 const RadioWrap = styled.div`
   margin: 1vh 0;
+  text-align: start;
+
+  .radioDiv {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const Title = styled.div`
@@ -237,24 +243,27 @@ function PetInfoCreate() {
             >
               성별
             </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="여아"
-                labelPlacement="start"
-              />
-              <FormControlLabel
-                value="male"
-                control={<Radio />}
-                label="남아"
-                labelPlacement="start"
-              />
-            </RadioGroup>
+            <div className="radioDiv">
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                sx={{ gap: '15vw' }}
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="여아"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="남아"
+                  labelPlacement="end"
+                />
+              </RadioGroup>
+            </div>
           </Box>
         </RadioWrap>
 
@@ -268,19 +277,22 @@ function PetInfoCreate() {
             autoComplete="off"
           >
             <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel value="Y" control={<Radio />} label="예" labelPlacement="start" />
-              <FormControlLabel
-                value="N"
-                control={<Radio />}
-                label="아니오"
-                labelPlacement="start"
-              />
-            </RadioGroup>
+            <div className="radioDiv">
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                sx={{ gap: '15vw' }}
+              >
+                <FormControlLabel value="Y" control={<Radio />} label="예" labelPlacement="end" />
+                <FormControlLabel
+                  value="N"
+                  control={<Radio />}
+                  label="아니오"
+                  labelPlacement="end"
+                />
+              </RadioGroup>
+            </div>
           </Box>
         </RadioWrap>
       </PetInfoInput>
