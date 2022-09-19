@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PrivateRoutes from './components/auth/PrivateRoutes';
 import { createTheme, ThemeProvider } from '@mui/material';
+import PrivateRoutes from './components/auth/PrivateRoutes';
 
 import Layout from './components/layout/Layout';
 import AbandonedDetail from './components/adoption/AbandonedDetail';
