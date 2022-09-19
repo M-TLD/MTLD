@@ -26,6 +26,7 @@ const StyledHeader = styled.header`
   }
 
   .goback {
+    cursor: pointer;
     color: #5c5c5c;
     font-family: 'UhBeeStrawberry';
     font-size: 19px;
