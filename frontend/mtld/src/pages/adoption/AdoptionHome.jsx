@@ -11,25 +11,27 @@ const StyledAdoptionHome = styled.div`
   align-items: center;
 
   .titletext {
+    width: 180px;
     margin: 1vh;
-    // position: absolute;
-    // top: 25%;
-    // left: 50%;
-    // transform: translate(-50%);
+    color: #5c5c5c;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 25%;
+    left: 49%;
+    transform: translate(-50%);
   }
 
   .line {
-    // margin: 0;
-    // padding-bottom: 5vh;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
   }
 
   .topimage {
-    width: 100%;
-    height: 20%;
+    border: 6px solid #ad8158;
+    width: 400px;
+    height: 180px;
     opacity: 0.5;
-  }
-
-  .image {
   }
 
   #family {
@@ -58,16 +60,14 @@ function AdoptionHome() {
         setAbandonedList(data);
       });
   }, []);
-  console.log(abandonedList);
+  // console.log(abandonedList);
 
   return (
     <StyledAdoptionHome>
-      <div className="image">
-        <img className="topimage" src={TopImage} alt="banner" />
-      </div>
+      <img className="topimage" src={TopImage} alt="banner" />
 
       <div className="titletext">
-        <span className="line">소중한 아이들의 </span>
+        <p className="line">소중한 아이들의 </p>
         <span className="line" id="family">
           가족
         </span>
