@@ -4,10 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.mtld.backend.dto.diary.RecordRequestDto;
-import com.mtld.backend.dto.diary.WalkingDetailRequestDto;
-import com.mtld.backend.dto.diary.WalkingDetailResponseDto;
-import com.mtld.backend.dto.diary.WalkingRequestDto;
+import com.mtld.backend.dto.diary.*;
 import com.mtld.backend.entity.UploadFile;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.diary.Record;
@@ -21,6 +18,7 @@ import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
 import com.mtld.backend.repository.diary.WalkingRepository;
 import com.mtld.backend.repository.user.UserRepository;
+import com.mtld.backend.util.ConvertDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -68,7 +66,10 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public Long writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        LocalDate diaryDate = LocalDate.parse(recordDto.getDiaryDate(), DateTimeFormatter.ISO_DATE);
+        LocalDate diaryDate = ConvertDate.stringToDate(recordDto.getDiaryDate());
+        if (recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).isPresent()) {
+            throw new BadRequestException("이미 있습니다.");
+        }
 
         List<String> filePathList = new ArrayList<>();
         List<String> originFileName = new ArrayList<>();
@@ -116,6 +117,25 @@ public class DiaryServiceImpl implements DiaryService {
         return record.getId();
     }
 
+    @Override
+    public RecordDetailResponseDto getRecordDetailByDate(Long uid, String date) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        LocalDate diaryDate = ConvertDate.stringToDate(date);
+        Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new NoContentException("다이어리가 없습니다."));
+
+        return RecordDetailResponseDto.of(record);
+    }
+
+    @Override
+    public RecordDetailResponseDto getRecordDetailById(Long uid, Long id) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Record record = recordRepository.findById(id).orElseThrow(() -> new NoContentException("다이어리(일지)가 없습니다."));
+        if (!record.getUser().equals(user)) {
+            throw new AuthException("권한이 없습니다.");
+        }
+        return RecordDetailResponseDto.of(record);
+    }
+
     // 유니크한 파일 이름 생성
     private String createFileName(String originalFileName) {
         return UUID.randomUUID().toString().concat(getFileExtension(originalFileName));
@@ -132,8 +152,11 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+
+        LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
+
         Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
-        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(dto.getDiaryDate(), dto.getDiaryDate(), dog).orElseThrow(() -> new NoContentException("산책일지가 없습니다."));
+        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new NoContentException("산책일지가 없습니다."));
         return WalkingDetailResponseDto.of(result);
     }
 }

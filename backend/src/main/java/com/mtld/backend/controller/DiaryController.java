@@ -1,5 +1,6 @@
 package com.mtld.backend.controller;
 
+import com.mtld.backend.dto.diary.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.RecordRequestDto;
 import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.service.diary.DiaryService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,7 +36,20 @@ public class DiaryController {
     public ResponseEntity<?> writeRecord(@RequestPart(value = "record") @Valid RecordRequestDto requestDto,
                                          @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) {
 
-        diaryService.writeRecord(userService.getMyInfoSecret().getId(), requestDto, multipartFiles);
-        return ResponseEntity.status(CREATED).build();
+        Long diaryId = diaryService.writeRecord(userService.getMyInfoSecret().getId(), requestDto, multipartFiles);
+        return ResponseEntity.status(CREATED).body(diaryId);
     }
+
+    @GetMapping("/record/{id}")
+    public ResponseEntity<?> recordDetailById(@PathVariable(value = "id") Long id) {
+        RecordDetailResponseDto result = diaryService.getRecordDetailById(userService.getMyInfoSecret().getId(), id);
+        return ResponseEntity.status(OK).body(result);
+    }
+
+    @GetMapping("/record/date/{date}")
+    public ResponseEntity<?> recordDetailByDate(@PathVariable(value = "date") @NotBlank String date) {
+        RecordDetailResponseDto result = diaryService.getRecordDetailByDate(userService.getMyInfoSecret().getId(), date);
+        return ResponseEntity.status(OK).body(result);
+    }
+
 }
