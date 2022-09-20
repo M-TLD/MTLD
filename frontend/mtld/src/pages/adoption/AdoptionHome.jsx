@@ -51,6 +51,7 @@ const StyledItems = styled.div`
 `;
 
 function AdoptionHome() {
+  // 전체 리스트 불러오기
   const [abandonedList, setAbandonedList] = useState([]);
   useEffect(() => {
     axios
@@ -61,6 +62,43 @@ function AdoptionHome() {
       });
   }, []);
   // console.log(abandonedList);
+
+  // 검색 기능
+  const [sex, setSex] = useState();
+  const [breed, setBreed] = useState();
+
+  const sexChange = (event) => {
+    const sexValue = event.target.value || undefined;
+  };
+
+  const breedChange = (event) => {
+    const breedValue = event.target.value || undefined;
+    setBreed(breedValue);
+  };
+  // console.log(input);
+
+  const [filtered, setFiltered] = useState(abandonedList);
+
+  useEffect(() => {
+    if (
+      // 입력값이 없으면 초기데이터 계속 출력
+      breed === undefined
+    ) {
+      setFiltered(abandonedList);
+    } else {
+      const filteredList = abandonedList.reduce((acc, cur) => {
+        const breedCondition = breed && breed.length > 0 ? cur.breed.includes(breed) : true;
+        if (breedCondition) {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
+      setFiltered(filteredList);
+    }
+  }, [breed]); // input이 변화될때만 재렌더링 (useEffect 미사용시 무한 렌더링 - 과부하 우려)
+
+  console.log(breed);
+  console.log(filtered);
 
   return (
     <StyledAdoptionHome>
@@ -73,12 +111,25 @@ function AdoptionHome() {
         </span>
         <span>이 되어주세요!</span>
       </div>
-
-      <StyledItems>
-        {abandonedList.map((abandoned) => (
-          <AbandonedItem key={abandoned.id} item={abandoned} />
-        ))}
-      </StyledItems>
+      <div>
+        <input type="text" placeholder="견종" onChange={breedChange} />
+      </div>
+      <div>
+        <input type="text" placeholder="성별" onChange={sexChange} />
+      </div>
+      {filtered.length > 0 ? (
+        <StyledItems>
+          {filtered.map((f) => (
+            <AbandonedItem key={f.id} item={f} />
+          ))}
+        </StyledItems>
+      ) : (
+        <StyledItems>
+          {abandonedList.map((abandoned) => (
+            <AbandonedItem key={abandoned.id} item={abandoned} />
+          ))}
+        </StyledItems>
+      )}
     </StyledAdoptionHome>
   );
 }
