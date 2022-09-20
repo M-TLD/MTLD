@@ -1,4 +1,4 @@
-package com.mtld.backend.repository;
+package com.mtld.backend.repository.dog;
 
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.dog.Dog;

@@ -18,10 +18,11 @@ const StyledModal = Modal.styled`
 
 const Atag = styled.a`
   display: block;
-  color: black;
-  text-align: center;
-  padding: 0.875rem 1rem;
-  text-decoration: none;
+  color: #5c5c5c;
+  text-align: start;
+  font-size: 0.8em;
+  // padding: 0.875rem 1rem;
+  text-decoration: underline;
   &:hover,
   &:active {
     cursor: pointer;
@@ -29,23 +30,23 @@ const Atag = styled.a`
 `;
 
 const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
-  margin: 5px 5px 0px 270px;  
-  color: #F38181;
+  margin: 5px 5px 0px 270px;
+  color: #f38181;
 `;
 
 const VaccinationInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:center;  
-  color: #5C5C5C;
+  align-items: center;
+  color: #5c5c5c;
   font-size: 10px;
 `;
 
 const InfoTitle = styled.p`
   font-size: 20px;
   font-weight: 600;
-  margin:10px 0 20px 0;
+  margin: 10px 0 20px 0;
 `;
 
 const Title = styled.span`
@@ -67,20 +68,24 @@ const HospitalBtn = styled.button`
   height: 40px;
   border-radius: 10px;
   border: none;
-  background-color: #FFEEB1;
+  background-color: #ffeeb1;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
   margin-top: 5px;
 `;
 
 const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
     text-decoration: none;
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    color: #5C5C5C;
+    color: #5c5c5c;
     font-size: 14px;
     font-weight: 600;
     font-family: 'GmarketSansMedium';
-    }
+  }
 `;
 
 function FancyModalButton() {
@@ -107,7 +112,7 @@ function FancyModalButton() {
 
   return (
     <div>
-      <Atag onClick={toggleModal}>상세정보보기</Atag>
+      <Atag onClick={toggleModal}>권장 예방접종 시기 알아보기</Atag>
       <StyledModal
         isOpen={isOpen}
         afterOpen={afterOpen}
@@ -117,7 +122,6 @@ function FancyModalButton() {
         opacity={opacity}
         backgroundProps={{ opacity }}
       >
-
         <StyledCloseRoundedIcon onClick={toggleModal} fontSize="medium" />
 
         <VaccinationInfo>
@@ -163,9 +167,7 @@ function FancyModalButton() {
           <BtnDiv>
             <span>출처: 농림축산검역본부 동물보호관리시스템</span>
             <HospitalBtn>
-              <StyledLink to="/hospital">
-                가까운 동물병원 찾기
-              </StyledLink>
+              <StyledLink to="/hospital">가까운 동물병원 찾기</StyledLink>
             </HospitalBtn>
           </BtnDiv>
         </VaccinationInfo>
