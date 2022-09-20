@@ -1,10 +1,12 @@
 /* global kakao */
 import React, { useRef, useEffect, useState } from 'react';
 
-function KakaoMap() {
+function KakaoMap({ searchPlace }) {
   const [map, setMap] = useState(null);
+
   let lat;
   let long;
+
   useEffect(() => {
     // geoloaction으로 사용할 수 있다면
     if (navigator.geolocation) {
@@ -24,6 +26,27 @@ function KakaoMap() {
           const container = document.getElementById('map');
           const kakaoMap = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴 얘 뭔데
           setMap(kakaoMap);
+          const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
+          ps.keywordSearch(searchPlace, placeSearchCB);
+          function placeSearchCB(data, status, _pagination) {
+            if (status === kakao.maps.services.Status.OK) {
+              const bounds = new kakao.maps.LatLngBounds();
+
+              for (let i = 0; i < data.length; i += 1) {
+                displayMarker(data[i]);
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                // LatLngBounds 객체에 좌표를 추가
+                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+              }
+              map.setBounds(bounds); // 검색된 장소 위치를 기준으로 지도 범위를 재설정
+            }
+          }
+          function displayMarker(place) {
+            const marker = new kakao.maps.Marker({
+              map,
+              position: new kakao.maps.LatLng(place.y, place.x),
+            });
+          }
         },
         // (error) => {
         //   lat = false;
@@ -39,7 +62,7 @@ function KakaoMap() {
     }
 
     return () => {};
-  }, []);
+  }, [searchPlace]);
 
   return (
     <div
