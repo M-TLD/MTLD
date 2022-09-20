@@ -1,10 +1,6 @@
 package com.mtld.backend.service.diary;
 
-import com.mtld.backend.dto.diary.RecordRequestDto;
-import com.mtld.backend.dto.diary.WalkingDetailRequestDto;
-import com.mtld.backend.dto.diary.WalkingDetailResponseDto;
-import com.mtld.backend.dto.diary.WalkingRequestDto;
-import com.mtld.backend.entity.diary.Diary;
+import com.mtld.backend.dto.diary.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -16,8 +12,8 @@ import java.util.List;
 public interface DiaryService {
 
     void writeWalking(Long uid, WalkingRequestDto walkingDto);
-
-    void writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images);
-
     WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto);
+    Long writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images);
+    RecordDetailResponseDto getRecordDetailByDate(Long uid, String date);
+    RecordDetailResponseDto getRecordDetailById(Long uid, Long id);
 }
