@@ -16,8 +16,8 @@ function KakaoMap({ searchPlace, flag }) {
           lat = position.coords.latitude; // 위도
           long = position.coords.longitude; // 경도
           console.log(lat, long);
-          // 검색하지 않았거나 flag가 true === 현재위치설정 버튼을 눌렀다면
-          if (searchPlace === '' || flag === true) {
+          // 검색하지 않았을 때
+          if (searchPlace === '') {
             const options = {
             // 지도를 생성할 때 필요한 기본 옵션
               center: new window.kakao.maps.LatLng(lat, long),
@@ -27,7 +27,10 @@ function KakaoMap({ searchPlace, flag }) {
             const container = document.getElementById('map');
             const kakaoMap = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴 얘 뭔데
             setMap(kakaoMap);
+          } else if (flag === true) {
+            console.log('버튼 눌렀을 때');
           } else {
+            const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch(searchPlace, placeSearchCB);
             function placeSearchCB(data, status, _pagination) {
@@ -46,6 +49,12 @@ function KakaoMap({ searchPlace, flag }) {
               const marker = new kakao.maps.Marker({
                 map,
                 position: new kakao.maps.LatLng(place.y, place.x),
+              });
+              // 마커에 클릭이벤트를 등록
+              kakao.maps.event.addListener(marker, 'click', () => {
+                // 마커를 클릭하면 장소명이 인포윈도우에 표출됨
+                infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
+                infowindow.open(map, marker);
               });
             }
           }
