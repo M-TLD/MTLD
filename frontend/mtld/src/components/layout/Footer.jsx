@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Paw from 'assets/paw.png';
 
 const StyledFooter = styled.footer`
@@ -18,6 +18,11 @@ const StyledFooter = styled.footer`
   }
 
   .Contents {
+    display: flex;
+    width: 100%;
+    margin-left: 10px;
+    gap: 28%;
+    align-items: center;
   }
 
   .material-icons {
@@ -33,6 +38,23 @@ const StyledFooter = styled.footer`
     padding: 0;
     text-decoration: none;
   }
+
+  .right {
+    display: flex;
+  }
+
+  .goback {
+    cursor: pointer;
+    color: #5c5c5c;
+    font-family: 'UhBeeStrawberry';
+    font-size: 19px;
+    font-weight: bold;
+    margin-left: 0.5vh;
+  }
+
+  .paw {
+    height: 30px;
+  }
 `;
 
 const PawImage = styled.img`
@@ -40,10 +62,15 @@ const PawImage = styled.img`
 `;
 
 function Footer() {
+  const navigate = useNavigate();
   return (
     <StyledFooter>
       <div className="Footer">
         <div className="Contents">
+          <div className="right" role="button" onClick={() => navigate(-1)} onKeyDown={console.log('back!')} tabIndex={0}>
+            {/* <img className="paw" src={Paw} alt="paw" /> */}
+            <div className="goback">뒤로가기</div>
+          </div>
           <Link className="Link" to="/">
             <PawImage src={Paw} />
           </Link>

@@ -54,6 +54,7 @@ function App() {
                 <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} exact />
                 <Route path="/adoption-home" element={<AdoptionHome />} exact />
                 <Route path="/adoption-result" element={<AdoptionResult />} exact />
+                <Route path="/abandoned-detail/:id" element={<AbandonedDetail />} exact />
                 <Route path="/adoption-survey" element={<AdoptionSurvey />} exact />
                 <Route path="/diary-create" element={<DiaryCreate />} exact />
                 <Route path="/diary/:diaryId" element={<DiaryDetail />} exact />
