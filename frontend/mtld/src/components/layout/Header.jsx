@@ -20,23 +20,6 @@ const StyledHeader = styled.header`
     margin-left: 2vh;
   }
 
-  // .right {
-  //   display: flex;
-  // }
-
-  // .goback {
-  //   cursor: pointer;
-  //   color: #5c5c5c;
-  //   font-family: 'UhBeeStrawberry';
-  //   font-size: 19px;
-  //   font-weight: bold;
-  //   margin-left: 0.5vh;
-  // }
-
-  // .paw {
-  //   height: 30px;
-  // }
-
   .navBar {
     display: flex;
     width: 100%;
@@ -94,13 +77,19 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const locationNow = useLocation();
+
+  const [expand, setExpand] = React.useState(false);
+  const toggleAccordion = () => {
+    setExpand((prev) => !prev);
+  };
+
   if (locationNow.pathname === '/login') return null;
   return (
     <StyledHeader>
-      <Accordion sx={{ bgcolor: '#ffeeb1', width: '100vw', zIndex: '80', position: 'fixed' }}>
-        <AccordionSummary expandIcon={<MenuIcon />} aria-controls="panel1a-content" id="panel1a-header">
+      <Accordion expanded={expand} sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}>
+        <AccordionSummary expandIcon={<MenuIcon onClick={toggleAccordion} />} aria-controls="panel1a-content" id="panel1a-header">
           <div className="navBar">
-            <Link className="Link" to="/">
+            <Link className="Link" to="/" style={{ zIndex: '100' }}>
               <LogoImage src={Logo} />
             </Link>
           </div>
