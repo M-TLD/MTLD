@@ -1,12 +1,14 @@
-package com.mtld.backend.service;
+package com.mtld.backend.service.dog;
 
 import com.mtld.backend.dto.dog.DogRequestDto;
+import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
+import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
-import com.mtld.backend.repository.BreedRepository;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.BreedRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,9 @@ public class DogServiceImpl implements DogService {
 
     @Override
     @Transactional
-    public void registerDog(Long uid, Long breedId, DogRequestDto dogRequestDto) {
+    public void registerDog(Long uid, DogRequestDto dogRequestDto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Breed breed = breedRepository.findById(breedId).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
+        Breed breed = breedRepository.findById(dogRequestDto.getBreedId()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
         Dog dog = Dog.builder()
                 .name(dogRequestDto.getName())
                 .birthdate(dogRequestDto.getBirthdate())
@@ -39,9 +41,22 @@ public class DogServiceImpl implements DogService {
                 .weight(dogRequestDto.getWeight())
                 .neuter(dogRequestDto.isNeuter())
                 .breed(breed)
-                .user(user).build();
+                .user(user).
+                build();
         dog.writeDisease(dogRequestDto.getDisease());
 
         dogRepository.save(dog);
     }
+
+    @Override
+    public DogResponseDetailDto getDogById(Long uid, Long id) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Dog dog = dogRepository.findById(id).orElseThrow(() -> new BadRequestException("해당 강아지가 없습니다."));
+        if (!dog.getUser().equals(user)) {
+            throw new AuthException("권한이 없습니다.");
+        }
+        return DogResponseDetailDto.of(dog);
+    }
+
+
 }
