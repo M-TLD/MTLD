@@ -1,7 +1,6 @@
 package com.mtld.backend.entity;
 
 import com.mtld.backend.entity.diary.Record;
-import com.mtld.backend.entity.dog.Dog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 
 /**
  * created by seongmin on 2022/09/08
- * updated by myeongseok on 2022/09/19
+ * updated by seongmin on 2022/09/20
  */
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,8 +25,7 @@ public class UploadFile extends BaseEntity {
 
     private String url;
 
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "record_id")
     private Record record;
 
@@ -35,5 +33,15 @@ public class UploadFile extends BaseEntity {
     public UploadFile(String name, String url) {
         this.name = name;
         this.url = url;
+    }
+
+    public void setRecord(Record record) {
+        if (this.record != null) {
+            this.record.getUploadFiles().remove(this);
+        }
+        this.record = record;
+        if (!record.getUploadFiles().contains(this)) {
+            record.addUploadFile(this);
+        }
     }
 }
