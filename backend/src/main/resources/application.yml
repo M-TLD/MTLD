@@ -48,8 +48,8 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-  org.apache.http: DEBUG
-  httpclient.wire: debug
+#  org.apache.http: DEBUG
+#  httpclient.wire: debug
 
 
 server.error.include-message: always
