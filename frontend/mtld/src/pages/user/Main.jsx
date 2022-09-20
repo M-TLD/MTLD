@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Bobi from 'assets/bobi.png';
@@ -10,8 +10,6 @@ import PetFriendly from 'assets/location_main.png';
 import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
-import InfoModal from 'components/common/InfoModal';
-import NoticeModal from 'components/common/NoticeModal';
 import YNModal from 'components/common/YNModal';
 
 const Container = styled.div`
@@ -117,17 +115,21 @@ function Main() {
         onSwiper={(swiper) => console.log(swiper)}
       >
         <StyledSwiperSlide>
-          <OurBabyDiv>
-            <OurBaby src={Bobi} />
-          </OurBabyDiv>
+          <StyledLink to="/mypage">
+            <OurBabyDiv>
+              <OurBaby src={Bobi} />
+            </OurBabyDiv>
+          </StyledLink>
           <Welcome>
             <BabyName>&nbsp;보비야</BabyName>
             <span>&nbsp;반가워!</span>
           </Welcome>
-          <Alarm>
-            <span>예방접종까지 10일 남았어요!</span>
-            <span>심장사상충약 잊지 말아주세요!</span>
-          </Alarm>
+          <StyledLink to="/pet-medical-card">
+            <Alarm>
+              <span>예방접종까지 10일 남았어요!</span>
+              <span>심장사상충약 잊지 말아주세요!</span>
+            </Alarm>
+          </StyledLink>
         </StyledSwiperSlide>
         <StyledSwiperSlide>
           <OurBabyDiv>
@@ -137,10 +139,16 @@ function Main() {
             <BabyName>&nbsp;바비야</BabyName>
             <span>&nbsp;반가워!</span>
           </Welcome>
-          <Alarm>
-            <span>예방접종까지 10일 남았어요!</span>
-            <span>심장사상충약 잊지 말아주세요!</span>
-          </Alarm>
+          <StyledLink to="/pet-medical-card">
+            <Alarm>
+              <NavLink to="/pet-medical-card">
+                <div>
+                  <span>예방접종까지 10일 남았어요!</span>
+                  <span>심장사상충약 잊지 말아주세요!</span>
+                </div>
+              </NavLink>
+            </Alarm>
+          </StyledLink>
         </StyledSwiperSlide>
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
