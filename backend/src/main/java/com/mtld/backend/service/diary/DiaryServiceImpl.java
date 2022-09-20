@@ -12,7 +12,7 @@ import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.exception.NoContentException;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
 import com.mtld.backend.repository.diary.WalkingRepository;
@@ -47,13 +47,7 @@ public class DiaryServiceImpl implements DiaryService {
     public void writeWalking(Long uid, WalkingRequestDto walkingDto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(walkingDto.getDogId()).orElseThrow(() -> new BadRequestException("유효하지 않은 반려견입니다."));
-        Walking walking = Walking.builder()
-                .walkingTime(walkingDto.getWalkingTime())
-                .diaryDate(walkingDto.getDiaryDate())
-                .distance(walkingDto.getDistance())
-                .dog(dog)
-                .user(user)
-                .build();
+        Walking walking = Walking.builder().walkingTime(walkingDto.getWalkingTime()).diaryDate(walkingDto.getDiaryDate()).distance(walkingDto.getDistance()).dog(dog).user(user).build();
         walkingRepository.save(walking);
     }
 
@@ -64,12 +58,7 @@ public class DiaryServiceImpl implements DiaryService {
         List<UploadFile> uploadFiles = new ArrayList<>();
 //        uploadFileRepository.saveAll(uploadFiles);
         // s3 에 images 저장 만들기
-        Record record = Record.builder()
-                .user(user)
-                .diaryDate(recordDto.getDiaryDate())
-                .mainText(recordDto.getMainText())
-                .uploadFiles(uploadFiles)
-                .build();
+        Record record = Record.builder().user(user).diaryDate(recordDto.getDiaryDate()).mainText(recordDto.getMainText()).uploadFiles(uploadFiles).build();
         recordRepository.save(record);
     }
 
