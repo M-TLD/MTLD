@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/08
+ * updated by myeongseok on 2022/09/19
  */
 
 @Entity
@@ -39,8 +39,6 @@ public class Dog extends BaseEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean neuter;
 
-
-//    @Column(columnDefinition = "TEXT")
     private String disease;
 
     @ManyToOne
@@ -54,11 +52,13 @@ public class Dog extends BaseEntity {
     private List<Vaccination> vaccinations = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
+    private String fileURL;
+
     @Builder
-    public Dog(String name, LocalDate birthdate, Gender gender, Double weight, boolean neuter,Breed breed,User user) {
+    public Dog(String name, LocalDate birthdate, Gender gender, Double weight, boolean neuter, Breed breed, User user) {
         this.name = name;
         this.birthdate = birthdate;
         this.gender = gender;
@@ -71,7 +71,12 @@ public class Dog extends BaseEntity {
     public void withdrawNeuter() {
         this.neuter = true;
     }
+
     public void writeDisease(String disease) {
         this.disease = disease;
+    }
+
+    public void uploadFile(String fileURL) {
+        this.fileURL = fileURL;
     }
 }

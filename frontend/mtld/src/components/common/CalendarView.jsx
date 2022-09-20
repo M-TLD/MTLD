@@ -81,9 +81,10 @@ const StyledCalender = styled.div`
     font-weight: bold;
   }
   .react-calendar__month-view__days__day--weekend {
-    // 주말 (빨간색)
-    color: #d10000;
+    // 주말
+    color: black;
   }
+
   .react-calendar__month-view__days__day--neighboringMonth {
     // 이전, 이후 날짜 (색 더 연하게)
     color: #bfbdbd;
@@ -146,7 +147,7 @@ function CalenderView() {
         <Calender
           onChange={onChange}
           value={value}
-          formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })}
+          formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })} // 날짜에서 '일' 글자 제외
           locale="eng-US"
         />
         <WalkLogCreate value={value} />

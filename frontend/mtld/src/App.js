@@ -3,6 +3,7 @@ import './App.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
+import PrivateRoutes from './components/auth/PrivateRoutes';
 
 import Layout from './components/layout/Layout';
 import AbandonedDetail from './components/adoption/AbandonedDetail';
@@ -42,27 +43,31 @@ function App() {
         <BrowserRouter>
           <Layout>
             <Routes>
-              <Route path="/" element={<Main />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/pet-info-create" element={<PetInfoCreate />} />
-              <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} />
-              <Route path="/pet-medical-card/" element={<PetMedicalCard />} />
-              <Route path="/adoption-home" element={<AdoptionHome />} />
-              <Route path="/adoption-result" element={<AdoptionResult />} />
-              <Route path="/adoption-survey" element={<AdoptionSurvey />} />
-              <Route path="/diary-create" element={<DiaryCreate />} />
-              <Route path="/diary/:diaryId" element={<DiaryDetail />} />
-              <Route path="/diary-home" element={<DiaryHome />} />
-              <Route path="/*" element={<NotFound />} />
-              <Route path="/info-board" element={<InfoBoard />} />
-              <Route path="/accomodation" element={<Accommodation />} />
-              <Route path="/cafe" element={<Cafe />} />
-              <Route path="/hospital" element={<Hospital />} />
-              <Route path="/location-main" element={<LocationMain />} />
-              <Route path="/restaurant" element={<Restaurant />} />
-              <Route path="/survey-question" element={<SurveyQuestion />} />
-              <Route path="/survey-result" element={<SurveyResult />} />
+              <Route path="/*" element={<NotFound />} exact />
+              <Route path="/login/oauth2/kakao" element={<Kakao />} exact />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/" element={<Main />} exact />
+                <Route path="/mypage" element={<MyPage />} exact />
+                <Route path="/pet-info-create" element={<PetInfoCreate />} exact />
+                <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} exact />
+                <Route path="/pet-medical-card/:petId" element={<PetMedicalCard />} exact />
+                <Route path="/adoption-home" element={<AdoptionHome />} exact />
+                <Route path="/adoption-result" element={<AdoptionResult />} exact />
+                <Route path="/abandoned-detail/:id" element={<AbandonedDetail />} exact />
+                <Route path="/adoption-survey" element={<AdoptionSurvey />} exact />
+                <Route path="/diary-create" element={<DiaryCreate />} exact />
+                <Route path="/diary/:diaryId" element={<DiaryDetail />} exact />
+                <Route path="/diary-home" element={<DiaryHome />} exact />
+                <Route path="/info-board" element={<InfoBoard />} exact />
+                <Route path="/accomodation" element={<Accommodation />} exact />
+                <Route path="/cafe" element={<Cafe />} exact />
+                <Route path="/hospital" element={<Hospital />} exact />
+                <Route path="/location-main" element={<LocationMain />} exact />
+                <Route path="/restaurant" element={<Restaurant />} exact />
+                <Route path="/survey-question" element={<SurveyQuestion />} exact />
+                <Route path="/survey-result" element={<SurveyResult />} exact />
+              </Route>
             </Routes>
           </Layout>
         </BrowserRouter>

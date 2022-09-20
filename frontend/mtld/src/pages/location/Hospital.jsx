@@ -1,7 +1,10 @@
 import React from 'react';
+import KakaoMap from 'components/common/KakaoMap';
 
 function Hospital() {
-  return <div>Hospital</div>;
+  return (
+    <KakaoMap />
+  );
 }
 
 export default Hospital;

@@ -10,19 +10,17 @@ import com.mtld.backend.dto.diary.WalkingDetailResponseDto;
 import com.mtld.backend.dto.diary.WalkingRequestDto;
 import com.mtld.backend.entity.UploadFile;
 import com.mtld.backend.entity.User;
-import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.exception.NoContentException;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
 import com.mtld.backend.repository.diary.WalkingRepository;
 import com.mtld.backend.repository.user.UserRepository;
-import com.mtld.backend.service.diary.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,13 +60,7 @@ public class DiaryServiceImpl implements DiaryService {
     public void writeWalking(Long uid, WalkingRequestDto walkingDto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(walkingDto.getDogId()).orElseThrow(() -> new BadRequestException("유효하지 않은 반려견입니다."));
-        Walking walking = Walking.builder()
-                .walkingTime(walkingDto.getWalkingTime())
-                .diaryDate(walkingDto.getDiaryDate())
-                .distance(walkingDto.getDistance())
-                .dog(dog)
-                .user(user)
-                .build();
+        Walking walking = Walking.builder().walkingTime(walkingDto.getWalkingTime()).diaryDate(walkingDto.getDiaryDate()).distance(walkingDto.getDistance()).dog(dog).user(user).build();
         walkingRepository.save(walking);
     }
 

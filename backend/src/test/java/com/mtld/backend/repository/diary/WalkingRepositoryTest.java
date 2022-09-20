@@ -3,12 +3,10 @@ package com.mtld.backend.repository.diary;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.diary.Walking;
-import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.entity.dog.Gender;
-import com.mtld.backend.repository.DogRepository;
+import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

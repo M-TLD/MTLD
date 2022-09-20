@@ -41,7 +41,7 @@ const StyledLocationOnOutlinedIcon = styled(LocationOnOutlinedIcon)`
 
 function AbandonedItem({ item }) {
   return (
-    <NavLink to={`/puppy-detail/${item.id}`}>
+    <NavLink to={`/puppy-detail/${item.id}`} style={{ textDecoration: 'none' }}>
       <StyledItem>
         <div className="img">
           <img

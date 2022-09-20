@@ -30,10 +30,9 @@ public class UploadFile extends BaseEntity {
     private Record record;
 
     @Builder
-    public UploadFile(String name, String url, Record record) {
+    public UploadFile(String name, String url) {
         this.name = name;
         this.url = url;
-        this.record = record;
     }
 
     public void setRecord(Record record) {
