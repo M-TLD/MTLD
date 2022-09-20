@@ -118,9 +118,9 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public RecordDetailResponseDto getRecordDetailByDate(Long uid, RecordDetailRequestDto dto) {
+    public RecordDetailResponseDto getRecordDetailByDate(Long uid, String date) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
+        LocalDate diaryDate = ConvertDate.stringToDate(date);
         Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new NoContentException("다이어리가 없습니다."));
 
         return RecordDetailResponseDto.of(record);

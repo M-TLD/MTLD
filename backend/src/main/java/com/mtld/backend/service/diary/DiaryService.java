@@ -14,6 +14,6 @@ public interface DiaryService {
     void writeWalking(Long uid, WalkingRequestDto walkingDto);
     WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto);
     Long writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images);
-    RecordDetailResponseDto getRecordDetailByDate(Long uid, RecordDetailRequestDto dto);
+    RecordDetailResponseDto getRecordDetailByDate(Long uid, String date);
     RecordDetailResponseDto getRecordDetailById(Long uid, Long id);
 }

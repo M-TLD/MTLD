@@ -68,7 +68,7 @@ class DiaryServiceImplTest {
         diaryService.writeRecord(user.getId(),
                 new RecordRequestDto("2020-09-18", "오늘 날씨 좋아3"), null);
 
-        RecordDetailResponseDto recordDetailByDate = diaryService.getRecordDetailByDate(user.getId(), new RecordDetailRequestDto("2020-09-19"));
+        RecordDetailResponseDto recordDetailByDate = diaryService.getRecordDetailByDate(user.getId(),"2020-09-19");
         assertThat(recordDetailByDate.getImageCount()).isEqualTo(0);
         assertThat(recordDetailByDate.getMainText()).isEqualTo("오늘 날씨 좋아2");
     }
