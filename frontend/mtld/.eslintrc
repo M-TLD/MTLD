@@ -17,6 +17,7 @@
     "no-console": "off",
     "no-shadow": "off",
     "no-use-before-define": "off",
+    "no-inner-declarations": "off",
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
