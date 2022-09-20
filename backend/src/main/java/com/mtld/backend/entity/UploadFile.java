@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 /**
  * created by seongmin on 2022/09/08
+ * updated by seongmin on 2022/09/20
  */
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +25,7 @@ public class UploadFile extends BaseEntity {
 
     private String url;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "record_id")
     private Record record;
 
@@ -33,5 +34,15 @@ public class UploadFile extends BaseEntity {
         this.name = name;
         this.url = url;
         this.record = record;
+    }
+
+    public void setRecord(Record record) {
+        if (this.record != null) {
+            this.record.getUploadFiles().remove(this);
+        }
+        this.record = record;
+        if (!record.getUploadFiles().contains(this)) {
+            record.addUploadFile(this);
+        }
     }
 }
