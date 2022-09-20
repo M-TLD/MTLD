@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import { logout } from 'app/user';
@@ -21,23 +20,22 @@ const StyledHeader = styled.header`
     margin-left: 2vh;
   }
 
-  .right {
-    display: flex;
-  }
+  // .right {
+  //   display: flex;
+  // }
 
-  .goback {
-    cursor: pointer;
-    color: #5c5c5c;
-    font-family: 'UhBeeStrawberry';
-    font-size: 19px;
-    font-weight: bold;
-    padding-right: 4vh;
-    margin-left: 0.5vh;
-  }
+  // .goback {
+  //   cursor: pointer;
+  //   color: #5c5c5c;
+  //   font-family: 'UhBeeStrawberry';
+  //   font-size: 19px;
+  //   font-weight: bold;
+  //   margin-left: 0.5vh;
+  // }
 
-  .paw {
-    height: 30px;
-  }
+  // .paw {
+  //   height: 30px;
+  // }
 
   .navBar {
     display: flex;
@@ -105,7 +103,6 @@ function Header() {
             <Link className="Link" to="/">
               <LogoImage src={Logo} />
             </Link>
-            <div className="wrapDiv" />
           </div>
         </AccordionSummary>
         <AccordionDetails>
@@ -130,10 +127,6 @@ function Header() {
                 tabIndex={0}
               >
                 로그아웃
-              </div>
-              <div className="right" role="button" onClick={() => navigate(-1)} onKeyDown={console.log('back!')} tabIndex={0}>
-                <img className="paw" src={Paw} alt="paw" />
-                <div className="goback">뒤로가기</div>
               </div>
             </div>
           </div>
