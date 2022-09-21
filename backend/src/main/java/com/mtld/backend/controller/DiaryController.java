@@ -2,6 +2,7 @@ package com.mtld.backend.controller;
 
 import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.record.RecordRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingRequestDto;
 import com.mtld.backend.service.diary.DiaryService;
 import com.mtld.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,12 @@ public class DiaryController {
     public ResponseEntity<?> deleteRecord(@PathVariable(value = "id") Long id) {
         diaryService.deleteRecord(userService.getMyInfoSecret().getId(), id);
         return ResponseEntity.status(OK).build();
+    }
+
+    @PostMapping("/walking")
+    public ResponseEntity<?> writeWalking(@RequestBody @Valid WalkingRequestDto requestDto) {
+        Long diaryId = diaryService.writeWalking(userService.getMyInfoSecret().getId(), requestDto);
+        return ResponseEntity.status(OK).body(diaryId);
     }
 
 }
