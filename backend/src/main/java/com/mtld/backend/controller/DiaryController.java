@@ -2,6 +2,8 @@ package com.mtld.backend.controller;
 
 import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.record.RecordRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailResponseDto;
 import com.mtld.backend.dto.diary.walking.WalkingRequestDto;
 import com.mtld.backend.service.diary.DiaryService;
 import com.mtld.backend.service.user.UserService;
@@ -59,6 +61,18 @@ public class DiaryController {
     public ResponseEntity<?> writeWalking(@RequestBody @Valid WalkingRequestDto requestDto) {
         Long diaryId = diaryService.writeWalking(userService.getMyInfoSecret().getId(), requestDto);
         return ResponseEntity.status(OK).body(diaryId);
+    }
+
+    @GetMapping("/walking/{id}")
+    public ResponseEntity<?> walkingDetailById(@PathVariable(value = "id") Long id) {
+        WalkingDetailResponseDto result = diaryService.getWalkingDetailById(userService.getMyInfoSecret().getId(), id);
+        return ResponseEntity.status(OK).body(result);
+    }
+
+    @GetMapping("/walking/date/{date}")
+    public ResponseEntity<?> walkingDetail(@PathVariable(value = "date") @Valid WalkingDetailRequestDto requestDto) {
+        WalkingDetailResponseDto result = diaryService.getWalkingDetail(userService.getMyInfoSecret().getId(), requestDto);
+        return ResponseEntity.status(OK).body(result);
     }
 
 }
