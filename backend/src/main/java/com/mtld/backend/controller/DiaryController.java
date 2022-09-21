@@ -75,4 +75,10 @@ public class DiaryController {
         return ResponseEntity.status(OK).body(result);
     }
 
+    @DeleteMapping("/walking/{id}")
+    public ResponseEntity<?> deleteWalking(@PathVariable(value = "id") Long id) {
+        diaryService.deleteWalking(userService.getMyInfoSecret().getId(), id);
+        return ResponseEntity.status(OK).build();
+    }
+
 }
