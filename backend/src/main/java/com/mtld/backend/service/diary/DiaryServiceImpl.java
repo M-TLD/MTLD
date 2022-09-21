@@ -16,6 +16,7 @@ import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
+import com.mtld.backend.exception.NoContentException;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
@@ -80,14 +81,14 @@ public class DiaryServiceImpl implements DiaryService {
         LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
 
         Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
-        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new BadRequestException("유효하지 않은 산책일지입니다."));
+        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new NoContentException("유효하지 않은 산책일지입니다."));
         return WalkingDetailResponseDto.of(result);
     }
 
     @Override
     public WalkingDetailResponseDto getWalkingDetailById(Long uid, Long id) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Walking walking = walkingRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 산책일지입니다."));
+        Walking walking = walkingRepository.findById(id).orElseThrow(() -> new NoContentException("유효하지 않은 산책일지입니다."));
         if (!walking.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
@@ -166,7 +167,7 @@ public class DiaryServiceImpl implements DiaryService {
     public RecordDetailResponseDto getRecordDetailByDate(Long uid, String date) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         LocalDate diaryDate = ConvertDate.stringToDate(date);
-        Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new BadRequestException("유효하지 않은 다이어리(일지)입니다."));
+        Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new NoContentException("유효하지 않은 다이어리(일지)입니다."));
 
         return RecordDetailResponseDto.of(record);
     }
@@ -174,7 +175,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public RecordDetailResponseDto getRecordDetailById(Long uid, Long id) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Record record = recordRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 다이어리(일지)입니다."));
+        Record record = recordRepository.findById(id).orElseThrow(() -> new NoContentException("유효하지 않은 다이어리(일지)입니다."));
         if (!record.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
