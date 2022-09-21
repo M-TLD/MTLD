@@ -5,6 +5,7 @@ import o from 'assets/o.png';
 import x from 'assets/x.png';
 import paws from 'assets/paws.png';
 import { Link } from 'react-router-dom';
+import Dday from 'components/common/Dday';
 
 const Wrap = styled.div`
 margin: 0;
@@ -84,8 +85,9 @@ color: #5c5c5c;
 p {
   margin: 1.5vh 2vw ;
   text-align: left;
-  font-size: 130%;
+  font-size: 120%;
 }
+
 .subtitle {
   color: #5c5c5c;
   font-weight: 900;
@@ -94,6 +96,12 @@ p {
   border-radius: 4px;
   width: 30vw;
   height: 1.5 rem;
+}
+
+.birthDday {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .record {
@@ -137,7 +145,10 @@ function PetInfoDetail() {
       <PuppyInfo>
         <div className="subdiv">
           <div className="subtitle">태어난 날은 ?</div>
-          <p>2008년 12월 4일</p>
+          <div className="birthDday">
+            <p>2008년 12월 4일</p>
+            <Dday />
+          </div>
         </div>
         <div className="subdiv">
           <div className="subtitle">우리 아이는 ?</div>
