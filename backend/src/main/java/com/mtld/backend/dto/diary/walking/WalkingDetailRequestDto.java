@@ -1,4 +1,4 @@
-package com.mtld.backend.dto.diary;
+package com.mtld.backend.dto.diary.walking;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
