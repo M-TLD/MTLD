@@ -2,12 +2,24 @@ package com.mtld.backend.service.dog;
 
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
+import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
+import com.mtld.backend.repository.dog.DogRepository;
 
+
+/**
+ * created by myeongseok on 2022/09/16
+ * updated by myeongseok on 2022/09/20
+ */
 public interface DogService {
-    void registerDog(Long uid, DogRequestDto dogRequestDto);
 
+    Dog getDog(Long dogId);
     DogResponseDetailDto getDogById(Long uid, Long id);
 
+    void registerDog(Long userId, DogRequestDto dogRequestDto);
+
+    void updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto);
+
+    void deleteDog(Long userId, Long dogId);
 }
