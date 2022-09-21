@@ -35,7 +35,7 @@ const CardDecoLine = styled.div`
 
 const VaccineForm = styled.div`
   margin-left: 5vw;
-  margin-top: 1.5vh;
+  margin-top: 5vh;
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -60,7 +60,7 @@ const VaccineForm = styled.div`
     flex-direction: column;
     align-items: start;
     width: 100%;
-    margin: 0.2vh 0;
+    margin: 0.3vh 0;
   }
 
   .datePicker {
@@ -94,9 +94,10 @@ const VaccineForm = styled.div`
     font-size: 90%;
   }
 `;
+
 const MedicineForm = styled.div`
   margin-left: 5vw;
-  margin-top: 0.5vh;
+  margin-top: 3vh;
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -126,7 +127,7 @@ const MedicineForm = styled.div`
     flex-direction: column;
     align-items: start;
     width: 100%;
-    margin: 0.1vh 0;
+    margin: 0.3vh 0;
   }
 
   .datePicker {
@@ -184,41 +185,6 @@ function PetMedicalCardDetail() {
                   <Grid container spacing={0.5}>
                     <Grid item xs={10}>
                       <div className="dateDiv1">
-                        <div className="dateTitle">접종일지</div>
-                        <div>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label="예방접종일자"
-                              value={value}
-                              onChange={(newValue) => {
-                                setValue(newValue);
-                              }}
-                              renderInput={({ inputRef, inputProps, InputProps }) => (
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
-                                  {InputProps?.endAdornment}
-                                </Box>
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </div>
-              <div className="datePicker">
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={0.5}>
-                    <Grid item xs={10}>
-                      <div className="dateDiv1">
                         <div className="dateTitle">다음접종</div>
                         <div>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -252,41 +218,7 @@ function PetMedicalCardDetail() {
             </div>
             <div className="dateFormVacc">
               <h4>코로나</h4>
-              <div className="datePicker">
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={0.5}>
-                    <Grid item xs={10}>
-                      <div className="dateDiv1">
-                        <div className="dateTitle">접종일지</div>
-                        <div>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label="예방접종일자"
-                              value={value}
-                              onChange={(newValue) => {
-                                setValue(newValue);
-                              }}
-                              renderInput={({ inputRef, inputProps, InputProps }) => (
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
-                                  {InputProps?.endAdornment}
-                                </Box>
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </div>
+
               <div className="datePicker">
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={0.5}>
@@ -330,41 +262,6 @@ function PetMedicalCardDetail() {
                   <Grid container spacing={0.5}>
                     <Grid item xs={10}>
                       <div className="dateDiv1">
-                        <div className="dateTitle">접종일지</div>
-                        <div>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label="예방접종일자"
-                              value={value}
-                              onChange={(newValue) => {
-                                setValue(newValue);
-                              }}
-                              renderInput={({ inputRef, inputProps, InputProps }) => (
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
-                                  {InputProps?.endAdornment}
-                                </Box>
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </div>
-              <div className="datePicker">
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={0.5}>
-                    <Grid item xs={10}>
-                      <div className="dateDiv1">
                         <div className="dateTitle">다음접종</div>
                         <div>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -398,41 +295,6 @@ function PetMedicalCardDetail() {
             </div>
             <div className="dateFormVacc">
               <h4>광견병</h4>
-              <div className="datePicker">
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={0.5}>
-                    <Grid item xs={10}>
-                      <div className="dateDiv1">
-                        <div className="dateTitle">접종일지</div>
-                        <div>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                              label="예방접종일자"
-                              value={value}
-                              onChange={(newValue) => {
-                                setValue(newValue);
-                              }}
-                              renderInput={({ inputRef, inputProps, InputProps }) => (
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
-                                  {InputProps?.endAdornment}
-                                </Box>
-                              )}
-                            />
-                          </LocalizationProvider>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </div>
               <div className="datePicker">
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={0.5}>
