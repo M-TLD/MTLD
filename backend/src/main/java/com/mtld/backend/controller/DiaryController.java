@@ -1,5 +1,6 @@
 package com.mtld.backend.controller;
 
+import com.mtld.backend.dto.diary.DiaryResponseDto;
 import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.record.RecordRequestDto;
 import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
@@ -21,7 +22,7 @@ import static org.springframework.http.HttpStatus.*;
 
 /**
  * created by seongmin on 2022/09/19
- * updated by seongmin on 2022/09/20
+ * updated by seongmin on 2022/09/21
  */
 @RestController
 @Slf4j
@@ -79,6 +80,12 @@ public class DiaryController {
     public ResponseEntity<?> deleteWalking(@PathVariable(value = "id") Long id) {
         diaryService.deleteWalking(userService.getMyInfoSecret().getId(), id);
         return ResponseEntity.status(OK).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<?> allDiaryDate() {
+        DiaryResponseDto result = diaryService.getMyDiaryDate(userService.getMyInfoSecret().getId());
+        return ResponseEntity.status(OK).body(result);
     }
 
 }

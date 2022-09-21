@@ -1,5 +1,6 @@
 package com.mtld.backend.service.diary;
 
+import com.mtld.backend.dto.diary.DiaryResponseDto;
 import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.record.RecordRequestDto;
 import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
@@ -23,4 +24,5 @@ public interface DiaryService {
     RecordDetailResponseDto getRecordDetailByDate(Long uid, String date);
     RecordDetailResponseDto getRecordDetailById(Long uid, Long id);
     void deleteRecord(Long uid, Long id);
+    DiaryResponseDto getMyDiaryDate(Long uid);
 }
