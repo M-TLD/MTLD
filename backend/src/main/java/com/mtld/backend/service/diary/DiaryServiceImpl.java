@@ -16,7 +16,6 @@ import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
 import com.mtld.backend.exception.BadRequestException;
-import com.mtld.backend.exception.NoContentException;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.UploadFileRepository;
 import com.mtld.backend.repository.diary.RecordRepository;
@@ -39,7 +38,7 @@ import java.util.UUID;
 
 /**
  * created by seongmin on 2022/09/13
- * updated by seongmin on 2022/09/20
+ * updated by seongmin on 2022/09/21
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -58,11 +57,52 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public void writeWalking(Long uid, WalkingRequestDto walkingDto) {
+    public Long writeWalking(Long uid, WalkingRequestDto walkingDto) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(walkingDto.getDogId()).orElseThrow(() -> new BadRequestException("유효하지 않은 반려견입니다."));
-        Walking walking = Walking.builder().walkingTime(walkingDto.getWalkingTime()).diaryDate(walkingDto.getDiaryDate()).distance(walkingDto.getDistance()).dog(dog).user(user).build();
+        LocalDate diaryDate = ConvertDate.stringToDate(walkingDto.getDiaryDate());
+        validDate(diaryDate);
+        Walking walking = Walking.builder()
+                .walkingTime(walkingDto.getWalkingTime())
+                .diaryDate(diaryDate)
+                .distance(walkingDto.getDistance())
+                .dog(dog)
+                .user(user)
+                .build();
         walkingRepository.save(walking);
+        return walking.getId();
+    }
+
+    @Override
+    public WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+
+        LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
+
+        Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
+        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new BadRequestException("유효하지 않은 산책일지입니다."));
+        return WalkingDetailResponseDto.of(result);
+    }
+
+    @Override
+    public WalkingDetailResponseDto getWalkingDetailById(Long uid, Long id) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Walking walking = walkingRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 산책일지입니다."));
+        if (!walking.getUser().equals(user)) {
+            throw new AuthException("권한이 없습니다.");
+        }
+        return WalkingDetailResponseDto.of(walking);
+    }
+
+    @Transactional
+    @Override
+    public void deleteWalking(Long uid, Long id) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Walking walking = walkingRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 산책일지입니다."));
+        if (!walking.getUser().equals(user)) {
+            throw new AuthException("접근 권한이 없습니다.");
+        }
+        walkingRepository.deleteById(id);
     }
 
     @Override
@@ -70,18 +110,20 @@ public class DiaryServiceImpl implements DiaryService {
     public Long writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         LocalDate diaryDate = ConvertDate.stringToDate(recordDto.getDiaryDate());
+        validDate(diaryDate);
         if (recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).isPresent()) {
             throw new BadRequestException("이미 있습니다.");
         }
 
         List<String> filePathList = new ArrayList<>();
-        List<String> originFileName = new ArrayList<>();
+        List<String> fileNameList = new ArrayList<>();
 
         try {
             images.forEach(image -> {
                 String originName = image.getOriginalFilename();
-                originFileName.add(originName);
                 String fileName = createFileName(originName);
+                fileNameList.add(fileName);
+
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentType(image.getContentType());
                 objectMetadata.setContentLength(image.getSize());
@@ -103,9 +145,9 @@ public class DiaryServiceImpl implements DiaryService {
         }
 
         List<UploadFile> uploadFiles = new ArrayList<>();
-        for (int i = 0; i < originFileName.size(); i++) {
+        for (int i = 0; i < fileNameList.size(); i++) {
             uploadFiles.add(UploadFile.builder()
-                    .name(originFileName.get(i))
+                    .name(fileNameList.get(i))
                     .url(filePathList.get(i))
                     .build());
         }
@@ -124,7 +166,7 @@ public class DiaryServiceImpl implements DiaryService {
     public RecordDetailResponseDto getRecordDetailByDate(Long uid, String date) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         LocalDate diaryDate = ConvertDate.stringToDate(date);
-        Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new NoContentException("다이어리가 없습니다."));
+        Record record = recordRepository.findByDiaryDateBetweenAndUser(diaryDate, diaryDate, user).orElseThrow(() -> new BadRequestException("유효하지 않은 다이어리(일지)입니다."));
 
         return RecordDetailResponseDto.of(record);
     }
@@ -132,11 +174,26 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public RecordDetailResponseDto getRecordDetailById(Long uid, Long id) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Record record = recordRepository.findById(id).orElseThrow(() -> new NoContentException("다이어리(일지)가 없습니다."));
+        Record record = recordRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 다이어리(일지)입니다."));
         if (!record.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
         return RecordDetailResponseDto.of(record);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRecord(Long uid, Long id) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        Record record = recordRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 다이어리(일지)입니다."));
+        if (!record.getUser().equals(user)) {
+            throw new AuthException("권한이 없습니다.");
+        }
+        for (UploadFile uploadFile : record.getUploadFiles()) {
+            amazonS3Client.deleteObject(bucket, uploadFile.getName());
+        }
+//        uploadFileRepository.deleteAllByRecordId(record);
+        recordRepository.delete(record);
     }
 
     // 유니크한 파일 이름 생성
@@ -152,14 +209,9 @@ public class DiaryServiceImpl implements DiaryService {
         }
     }
 
-    @Override
-    public WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto) {
-        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-
-        LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
-
-        Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
-        Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new NoContentException("산책일지가 없습니다."));
-        return WalkingDetailResponseDto.of(result);
+    private void validDate(LocalDate date) {
+        if (date.isAfter(LocalDate.now())) {
+            throw new BadRequestException("오늘 이전 날짜에만 작성 가능합니다.");
+        }
     }
 }

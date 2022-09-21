@@ -26,7 +26,7 @@ public class Record extends Diary {
 //    @Column(length = 40000)
     private String mainText;
 
-    @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @Builder
