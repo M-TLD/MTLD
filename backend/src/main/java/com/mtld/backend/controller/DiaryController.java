@@ -48,4 +48,10 @@ public class DiaryController {
         return ResponseEntity.status(OK).body(result);
     }
 
+    @DeleteMapping("/record/{id}")
+    public ResponseEntity<?> deleteRecord(@PathVariable(value = "id") Long id) {
+        diaryService.deleteRecord(userService.getMyInfoSecret().getId(), id);
+        return ResponseEntity.status(OK).build();
+    }
+
 }
