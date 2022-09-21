@@ -64,6 +64,10 @@ public class DiaryServiceImpl implements DiaryService {
         Dog dog = dogRepository.findById(walkingDto.getDogId()).orElseThrow(() -> new BadRequestException("유효하지 않은 반려견입니다."));
         LocalDate diaryDate = ConvertDate.stringToDate(walkingDto.getDiaryDate());
         validDate(diaryDate);
+        if (walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).isPresent()) {
+            throw new BadRequestException("이미 있습니다.");
+        }
+
         Walking walking = Walking.builder()
                 .walkingTime(walkingDto.getWalkingTime())
                 .diaryDate(diaryDate)
