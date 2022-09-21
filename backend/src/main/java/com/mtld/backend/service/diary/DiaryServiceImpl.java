@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.mtld.backend.dto.diary.DiaryResponseDto;
 import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
 import com.mtld.backend.dto.diary.record.RecordRequestDto;
 import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
@@ -195,6 +196,14 @@ public class DiaryServiceImpl implements DiaryService {
         }
 //        uploadFileRepository.deleteAllByRecordId(record);
         recordRepository.delete(record);
+    }
+
+    @Override
+    public DiaryResponseDto getMyDiaryDate(Long uid) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        List<Walking> walkings = walkingRepository.findByUser(user);
+        List<Record> records = recordRepository.findByUser(user);
+        return DiaryResponseDto.of(records, walkings);
     }
 
     // 유니크한 파일 이름 생성
