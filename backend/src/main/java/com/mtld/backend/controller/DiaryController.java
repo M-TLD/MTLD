@@ -1,21 +1,17 @@
 package com.mtld.backend.controller;
 
-import com.mtld.backend.dto.diary.RecordDetailResponseDto;
-import com.mtld.backend.dto.diary.RecordRequestDto;
-import com.mtld.backend.entity.diary.Record;
+import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
+import com.mtld.backend.dto.diary.record.RecordRequestDto;
 import com.mtld.backend.service.diary.DiaryService;
 import com.mtld.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;

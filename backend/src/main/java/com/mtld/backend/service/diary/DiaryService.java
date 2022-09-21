@@ -1,6 +1,10 @@
 package com.mtld.backend.service.diary;
 
-import com.mtld.backend.dto.diary.*;
+import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
+import com.mtld.backend.dto.diary.record.RecordRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailResponseDto;
+import com.mtld.backend.dto.diary.walking.WalkingRequestDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

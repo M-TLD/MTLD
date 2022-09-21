@@ -4,7 +4,11 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.mtld.backend.dto.diary.*;
+import com.mtld.backend.dto.diary.record.RecordDetailResponseDto;
+import com.mtld.backend.dto.diary.record.RecordRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
+import com.mtld.backend.dto.diary.walking.WalkingDetailResponseDto;
+import com.mtld.backend.dto.diary.walking.WalkingRequestDto;
 import com.mtld.backend.entity.UploadFile;
 import com.mtld.backend.entity.User;
 import com.mtld.backend.entity.diary.Record;
@@ -31,7 +35,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
