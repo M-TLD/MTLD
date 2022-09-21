@@ -1,6 +1,7 @@
 package com.mtld.backend.entity.dog;
 
 import com.mtld.backend.converter.BooleanToYNConverter;
+import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.*;
 import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.entity.vaccine.Vaccination;
@@ -16,7 +17,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/08
- * updated by myeongseok on 2022/09/19
+ * updated by myeongseok on 2022/09/20
  */
 
 @Entity
@@ -79,4 +80,13 @@ public class Dog extends BaseEntity {
     public void uploadFile(String fileURL) {
         this.fileURL = fileURL;
     }
+
+    public void update(DogUpdateRequestDto dogUpdateRequestDto) {
+        this.weight = dogUpdateRequestDto.getWeight();
+        if (!this.neuter && dogUpdateRequestDto.isNeuter()) withdrawNeuter();
+        writeDisease(dogUpdateRequestDto.getDisease());
+        if(this.fileURL != dogUpdateRequestDto.getFileURL())
+            uploadFile(dogUpdateRequestDto.getFileURL());
+    }
 }
+
