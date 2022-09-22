@@ -53,52 +53,61 @@ const StyledItems = styled.div`
 function AdoptionHome() {
   // 전체 리스트 불러오기
   const [abandonedList, setAbandonedList] = useState([]);
+
   useEffect(() => {
     axios
-      .get('https://mtld-2d290-default-rtdb.firebaseio.com/abandoned.json')
+      .get(
+        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=10&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+      )
       .then((res) => res.data)
       .then((data) => {
-        setAbandonedList(data);
+        setAbandonedList(data.response.body.items.item);
       });
   }, []);
-  // console.log(abandonedList);
+
+  console.log(abandonedList);
 
   // 검색 기능
   const [sex, setSex] = useState();
   const [breed, setBreed] = useState();
 
-  const sexChange = (event) => {
-    const sexValue = event.target.value || undefined;
-  };
-
   const breedChange = (event) => {
     const breedValue = event.target.value || undefined;
     setBreed(breedValue);
   };
-  // console.log(input);
+
+  const sexChange = (event) => {
+    const sexValue = event.target.value || undefined;
+    setSex(sexValue);
+  };
 
   const [filtered, setFiltered] = useState(abandonedList);
 
-  useEffect(() => {
+  const filterData = () => {
     if (
       // 입력값이 없으면 초기데이터 계속 출력
-      breed === undefined
+      breed === undefined &&
+      sex === undefined
     ) {
       setFiltered(abandonedList);
     } else {
       const filteredList = abandonedList.reduce((acc, cur) => {
-        const breedCondition = breed && breed.length > 0 ? cur.breed.includes(breed) : true;
-        if (breedCondition) {
+        const sexCondition = sex && sex.length > 0 ? cur.sexCd.includes(sex) : true;
+        const breedCondition = breed && breed.length > 0 ? cur.kindCd.includes(breed) : true;
+        if (sexCondition && breedCondition) {
           acc.push(cur);
         }
         return acc;
       }, []);
+
       setFiltered(filteredList);
     }
-  }, [breed]); // input이 변화될때만 재렌더링 (useEffect 미사용시 무한 렌더링 - 과부하 우려)
+  };
 
-  console.log(breed);
-  console.log(filtered);
+  useEffect(() => {
+    // input이 변화될때만 재렌더링 (useEffect 미사용시 무한 렌더링 - 과부하 우려)
+    filterData();
+  }, [abandonedList, breed, sex]);
 
   return (
     <StyledAdoptionHome>
@@ -126,7 +135,7 @@ function AdoptionHome() {
       ) : (
         <StyledItems>
           {abandonedList.map((abandoned) => (
-            <AbandonedItem key={abandoned.id} item={abandoned} />
+            <AbandonedItem key={abandoned.desertionNo} item={abandoned} />
           ))}
         </StyledItems>
       )}
