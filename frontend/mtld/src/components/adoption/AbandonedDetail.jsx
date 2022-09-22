@@ -70,50 +70,63 @@ function AbandonedDetail() {
   const url = window.location.href;
   const id = url.split('/')[4];
 
-  const [puppy, setPuppy] = useState([]);
+  const [abandonedList, setAbandonedList] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`https://mtld-2d290-default-rtdb.firebaseio.com/abandoned/${id}.json`)
+      .get(
+        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=10&desertionNo=447522202200335&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+      )
       .then((res) => res.data)
       .then((data) => {
-        setPuppy(data);
+        setAbandonedList(data.response.body.items.item);
       });
   }, []);
-  // console.log(puppy);
+
+  console.log(abandonedList);
+
+  const [puppy, setPuppy] = useState([]);
+
+  useEffect(() => {
+    if (abandonedList.length > 0) {
+      const getIt = abandonedList.filter((abandoned) => abandoned.desertionNo === id);
+      console.log('getIt', getIt[0]);
+      setPuppy(getIt[0]);
+    }
+  }, [abandonedList]);
+  console.log('puppy', puppy);
 
   return (
     <StyledItem>
-      <img className="img" src={puppy.img} alt="puppy" width="300px" height="300px" style={{ overflow: 'hidden' }} />
+      <img className="img" src={puppy.filename} alt="puppy" widt h="300px" hei ght="300px" style={{ overflow: 'hidden' }} />
       <div className="div">
         <p className="paragraph">
           <span className="title">공고번호</span>
-          <span className="text">{puppy.num}</span>
+          <span className="text">{puppy.desertionNo}</span>
         </p>
         <p className="paragraph">
           <span className="title">유기날짜</span>
-          <span className="text">{puppy.date}</span>
+          <span className="text">{puppy.happenDt}</span>
         </p>
         <p className="paragraph">
           <span className="title">유기장소</span>
-          <span className="text">{puppy.location}</span>
+          <span className="text">{puppy.happenPlace}</span>
         </p>
         <p className="paragraph">
           <span className="title">동물보호소</span>
-          <span className="text">{puppy.center}</span>
+          <span className="text">{puppy.careNm}</span>
         </p>
         <p className="paragraph">
           <span className="title">견종</span>
-          <span className="text">{puppy.breed}</span>
+          <span className="text">{puppy.kindCd}</span>
         </p>
         <p className="paragraph">
           <span className="title">성별</span>
-          <span className="text">{puppy.sex}</span>
+          <span className="text">{puppy.sexCd}</span>
         </p>
         <p className="paragraph">
           <span className="title">나이</span>
           <span className="text">{puppy.age}</span>
-          <span className="text">년생</span>
         </p>
         <p className="paragraph">
           <span className="title">몸무게</span>
@@ -121,11 +134,11 @@ function AbandonedDetail() {
         </p>
         <p className="paragraph">
           <span className="title">중성화여부</span>
-          <span className="text">{puppy.neutered}</span>
+          <span className="text">{puppy.neuterYn}</span>
         </p>
         <p className="paragraph">
           <span className="title">특징</span>
-          <span className="text">{puppy.feature}</span>
+          <span className="text">{puppy.specialMark}</span>
         </p>
       </div>
       <Button onClick={() => window.open('https://www.animal.go.kr/front/awtis/protection/protectionList.do?menuNo=1000000060', '_blank')}>
