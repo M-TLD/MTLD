@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public TokenDto reissue(ReissueDto reissueDto) {
-        if (jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
+        if (!jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
             throw new BadRequestException("Refresh Token 이 유효하지 않습니다.");
         }
         Authentication authentication = jwtTokenProvider.getAuthentication(reissueDto.getAccessToken());
