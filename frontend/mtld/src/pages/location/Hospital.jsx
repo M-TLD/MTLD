@@ -3,22 +3,38 @@ import styled from 'styled-components';
 import KakaoMap from 'components/common/KakaoMap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
+import HospitalLogo from 'assets/hospital.png';
 
 const Container = styled.div`
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  color: #5C5C5C;
+  line-height: 30px;
+`;
+
+const Highlight = styled.span`
+  color: #81E3D7;
+  font-weight: 600;
+`;
+
+const HospitalImg = styled.img`
+  height: 7vh;
+  
 `;
 
 const SearchDiv = styled.div`
-  margin-top: 20px;
-  // background-color: #FCFCFC;
-  // width: 300px;
-  // height: 40px;
-  // // padding: 5px;
-  // border: 2px solid #EBEBEB;
-  // border-radius: 20px;  
+  margin: 15px 0 5px 0;   
+
 `;
 
 const SearchForm = styled.form`
@@ -27,7 +43,6 @@ const SearchForm = styled.form`
   background-color: #FCFCFC;
   width: 300px;
   height: 40px;
-  // padding: 5px;
   border: 2px solid #EBEBEB;
   border-radius: 20px;
 `;
@@ -63,6 +78,10 @@ const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
 const CurrentPositiondiv = styled.div`
   display: flex;
   gap: 5px;
+  margin: 0 0 5px 180px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledPlaceRoundedIcon = styled(PlaceRoundedIcon)`
@@ -97,6 +116,15 @@ function Hospital() {
   return (
     <div>
       <Container>
+        <TitleDiv>
+          <span>
+            현재 우리 아이
+            <br />
+            주변의
+            <Highlight> 동물병원</Highlight>
+          </span>
+          <HospitalImg src={HospitalLogo} />
+        </TitleDiv>
         <SearchDiv>
           <SearchForm onSubmit={handleSubmit}>
             <SearchInput placeholder="검색어를 입력하세요" onChange={onChange} value={InputText} />

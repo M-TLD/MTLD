@@ -1,13 +1,41 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 const Container = styled.div`
-  &&& {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-  } 
+`;
+
+const ResultList = styled.div`
+  background-color: #F8F7F7;
+  margin-top: 15px;
+  border-radius: 10px;
+`;
+
+const ResultItem = styled.div`
+  padding: 15px;
+`;
+
+const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
+  // color: #646464;
+  vertical-align: middle;
+`;
+
+const PlaceName = styled.span`
+  font-size: 15px;
+`;
+
+const Phone = styled.span`
+  font-size: 10px;
+`;
+
+const Address = styled.span`
+  font-size: 12px;
+`;
+
+const Line = styled.hr`
+  margin: 0;
+  color: #C7C7C7;
 `;
 
 function KakaoMap({ searchPlace, flag }) {
@@ -178,25 +206,30 @@ function KakaoMap({ searchPlace, flag }) {
           id="map"
           style={{ width: '300px', height: '300px' }}
         />
-        <div id="result">
+        <ResultList>
           {places.map((item, i) => (
-            <div key={i} style={{ marginTop: '20px' }}>
-              <div>
-                <p>{item.place_name}</p>
+            <div key={i}>
+              <ResultItem>
+                <div>
+                  <StyledLocalHospitalIcon fontSize="medium" />
+                  <PlaceName>{item.place_name}</PlaceName>
+                </div>
+                <Phone>{item.phone}</Phone>
                 {item.road_address_name ? (
                   <div>
-                    <span>{item.road_address_name}</span>
-                    <span>{item.address_name}</span>
+                    <Address>{item.road_address_name}</Address>
+                    <br />
+                    <Address>{item.address_name}</Address>
                   </div>
                 ) : (
-                  <span>{item.address_name}</span>
+                  <Address>{item.address_name}</Address>
                 )}
-                <span>{item.phone}</span>
-              </div>
+              </ResultItem>
+              <Line />
             </div>
           ))}
-          <div id="pagination" />
-        </div>
+          <div id="pagination" style={{ padding: '10px' }} />
+        </ResultList>
       </Container>
     </div>
 
