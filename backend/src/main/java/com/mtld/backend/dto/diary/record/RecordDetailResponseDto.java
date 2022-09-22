@@ -1,4 +1,4 @@
-package com.mtld.backend.dto.diary;
+package com.mtld.backend.dto.diary.record;
 
 import com.mtld.backend.entity.diary.Record;
 import lombok.AllArgsConstructor;

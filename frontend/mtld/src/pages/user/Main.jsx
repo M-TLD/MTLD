@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Bobi from 'assets/bobi.png';
@@ -141,12 +141,10 @@ function Main() {
           </Welcome>
           <StyledLink to="/pet-medical-card">
             <Alarm>
-              <NavLink to="/pet-medical-card">
-                <div>
-                  <span>예방접종까지 10일 남았어요!</span>
-                  <span>심장사상충약 잊지 말아주세요!</span>
-                </div>
-              </NavLink>
+              <div>
+                <span>예방접종까지 10일 남았어요!</span>
+                <span>심장사상충약 잊지 말아주세요!</span>
+              </div>
             </Alarm>
           </StyledLink>
         </StyledSwiperSlide>
