@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import RegisteredPet from 'components/petinfo/RegisteredPet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import axiosInstance from 'components/auth/axiosConfig';
 
 const Wrap = styled.div`
   margin: 0;
@@ -69,16 +70,18 @@ const PetInfo = styled.div``;
 function MyPage() {
   const user = useSelector((state) => state.user.value);
 
+  useEffect(() => {
+    axiosInstance.get('/user/1');
+  });
+
   return (
     <Wrap>
       <UserInfo>
         <div className="userInfoDiv">
           <h3>이메일</h3>
-          <span>{user.payload}</span>
+          {/* <span>{user.payload.email}</span> */}
           <h3>닉네임</h3>
-          <span>{user.payload}</span>
-          <h3>전화번호</h3>
-          <span>{user.payload}</span>
+          {/* <span>{user.payload.name}</span> */}
         </div>
         <div className="userInfoLink">
           <span className="editUserInfo">수정하기</span>

@@ -40,13 +40,13 @@ function Kakao() {
           window.localStorage.setItem('refreshTokenExp', res.data.tokenDto.refreshTokenExpiresIn);
           navigate('/');
         } else {
-          window.alert('로그인에 실패하였습니다. 로그인화면으로 돌아갑니다.');
+          window.alert('로그인에 실패하였습니다. 로그인 화면으로 돌아갑니다.');
           navigate('/login');
         }
       })
       .catch((error) => {
         console.log('error status code:', error.request.status);
-        window.alert('로그인에 실패하였습니다. 로그인화면으로 돌아갑니다.');
+        window.alert('로그인에 실패하였습니다. 로그인 화면으로 돌아갑니다.');
         navigate('/login');
       });
   }, []);
