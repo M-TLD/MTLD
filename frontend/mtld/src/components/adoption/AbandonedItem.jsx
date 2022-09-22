@@ -41,30 +41,30 @@ const StyledLocationOnOutlinedIcon = styled(LocationOnOutlinedIcon)`
 
 function AbandonedItem({ item }) {
   return (
-    <NavLink to={`/puppy-detail/${item.id}`} style={{ textDecoration: 'none' }}>
+    <NavLink to={`/abandoned-detail/${item.desertionNo}`} style={{ textDecoration: 'none' }}>
       <StyledItem>
         <div className="img">
           <img
             width="150px"
             height="100px"
             style={{ borderRadius: '4px 4px 0 0' }}
-            src={item.img}
+            src={item.filename}
             alt="thumbnailimage"
           />
         </div>
         <p className="text">
-          <span> [보호중] </span>
-          <span>{item.breed}</span>
+          <span>{item.processState}</span>
+          <span>{item.kindCd}</span>
           <span> | </span>
-          <span>{item.sex}</span>
+          <span>{item.sexCd}</span>
           <span> | 중성화 </span>
-          <span>{item.neutered}</span>
+          <span>{item.neuterYn}</span>
         </p>
         <p className="location">
           <span>
             <StyledLocationOnOutlinedIcon fontSize="small" />
           </span>
-          <span>{item.location}</span>
+          <span>{item.careAddr}</span>
         </p>
       </StyledItem>
     </NavLink>

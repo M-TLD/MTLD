@@ -52,13 +52,15 @@ const StyledFooter = styled.footer`
     margin-left: 0.5vh;
   }
 
-  .paw {
-    height: 30px;
+  .home {
+    position: absolute;
+    left: 50%;
   }
-`;
 
-const PawImage = styled.img`
-  height: 6.5vh;
+  .paw {
+    position: absolute;
+    height: 6.5vh;
+  }
 `;
 
 function Footer() {
@@ -67,13 +69,20 @@ function Footer() {
     <StyledFooter>
       <div className="Footer">
         <div className="Contents">
-          <div className="right" role="button" onClick={() => navigate(-1)} onKeyDown={console.log('back!')} tabIndex={0}>
-            {/* <img className="paw" src={Paw} alt="paw" /> */}
+          <div
+            className="right"
+            role="button"
+            onClick={() => navigate(-1)}
+            onKeyDown={console.log()}
+            tabIndex={0}
+          >
             <div className="goback">뒤로가기</div>
           </div>
-          <Link className="Link" to="/">
-            <PawImage src={Paw} />
-          </Link>
+          <div className="home">
+            <Link className="Link" to="/">
+              <img className="paw" src={Paw} alt="paw" />
+            </Link>
+          </div>
         </div>
       </div>
     </StyledFooter>

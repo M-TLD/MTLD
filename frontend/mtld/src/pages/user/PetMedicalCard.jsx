@@ -1,68 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-import cardlogo from 'assets/cardlogo.png';
+import PetMedicalCardCover from 'components/petinfo/PetMedicalCardCover';
+import PetMedicalCardDetail from 'components/petinfo/PetMedicalCardDetail';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-const Wrap = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const DogCard = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #eafed1;
-  margin-top: 10vh;
-  width: 90vw;
-  height: 80vh;
-  border-radius: 10px;
-  box-shadow: 0px 2px 2px 0.1px #5c5c5c;
-`;
-
-const CardDecoLine = styled.div`
-  border: white solid 2px;
-  width: 80vw;
-  height: 75vh;
-  border-radius: 8px;
-
-  .cardText {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  .cardP {
-    margin: 0;
-    padding: 0;
-    color: #5c5c5c;
-    font-size: 13px;
-  }
-
-  .cardH1 {
-    margin: 0px;
-    padding: 0;
-  }
-`;
-
-const CardLogo = styled.img`
-  margin-top: 30%;
-  height: 10%;
+const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
+  position: absolute;
+  margin: 5vh 30vw;
+  color: #f38181;
 `;
 
 function PetMedicalCard() {
+  const [open, setOpen] = React.useState(false);
+  const OpenCard = () => {
+    setOpen((prev) => !prev);
+  };
+
+  if (open === false) {
+    return (
+      <div onClick={OpenCard} onKeyDown={OpenCard} role="button" tabIndex={0}>
+        <PetMedicalCardCover />
+      </div>
+    );
+  }
   return (
-    <Wrap>
-      <DogCard>
-        <CardDecoLine>
-          <CardLogo src={cardlogo} />
-          <div className="cardText">
-            <p className="cardP">건강한 강아지를 위한</p>
-            <h1 className="cardH1">댕댕수첩</h1>
-          </div>
-        </CardDecoLine>
-      </DogCard>
-    </Wrap>
+    <div>
+      <div onClick={OpenCard} onKeyDown={OpenCard} role="button" tabIndex={0}>
+        <StyledCloseRoundedIcon fontSize="medium" />
+      </div>
+      <PetMedicalCardDetail />
+    </div>
   );
 }
 

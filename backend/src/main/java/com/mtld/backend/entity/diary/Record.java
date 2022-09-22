@@ -8,10 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,22 +16,29 @@ import java.util.List;
 
 /**
  * created by seongmin on 2022/09/08
- * updated by seongmin on 2022/09/13
+ * updated by seongmin on 2022/09/20
  */
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Record extends Diary {
 
+//    @Column(length = 40000)
     private String mainText;
 
-    @OneToMany(mappedBy = "record", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @Builder
-    public Record(LocalDate diaryDate, User user, String mainText, List<UploadFile> uploadFiles) {
+    public Record(LocalDate diaryDate, User user, String mainText) {
         super(diaryDate, user);
         this.mainText = mainText;
-        this.uploadFiles = uploadFiles;
+    }
+
+    public void addUploadFile(UploadFile uploadFile) {
+        this.uploadFiles.add(uploadFile);
+        if (uploadFile.getRecord() != this) {
+            uploadFile.setRecord(this);
+        }
     }
 }

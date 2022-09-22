@@ -1,4 +1,4 @@
-package com.mtld.backend.dto.diary;
+package com.mtld.backend.dto.diary.walking;
 
 import com.mtld.backend.entity.diary.Walking;
 import lombok.AllArgsConstructor;
