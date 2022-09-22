@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
-const Container = styled.div`
-`;
-
 const ResultList = styled.div`
   background-color: #F8F7F7;
   margin-top: 15px;
@@ -25,8 +22,14 @@ const PlaceName = styled.span`
   font-size: 15px;
 `;
 
-const Phone = styled.span`
+const Phone = styled.a`
   font-size: 10px;
+  color: black;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const Address = styled.span`
@@ -201,36 +204,34 @@ function KakaoMap({ searchPlace, flag }) {
 
   return (
     <div>
-      <Container>
-        <div
-          id="map"
-          style={{ width: '300px', height: '300px' }}
-        />
-        <ResultList>
-          {places.map((item, i) => (
-            <div key={i}>
-              <ResultItem>
+      <div
+        id="map"
+        style={{ width: '300px', height: '300px' }}
+      />
+      <ResultList>
+        {places.map((item, i) => (
+          <div key={i}>
+            <ResultItem>
+              <div>
+                <StyledLocalHospitalIcon fontSize="medium" />
+                <PlaceName>{item.place_name}</PlaceName>
+              </div>
+              <Phone href="tel:{item.phone}">{item.phone}</Phone>
+              {item.road_address_name ? (
                 <div>
-                  <StyledLocalHospitalIcon fontSize="medium" />
-                  <PlaceName>{item.place_name}</PlaceName>
-                </div>
-                <Phone>{item.phone}</Phone>
-                {item.road_address_name ? (
-                  <div>
-                    <Address>{item.road_address_name}</Address>
-                    <br />
-                    <Address>{item.address_name}</Address>
-                  </div>
-                ) : (
+                  <Address>{item.road_address_name}</Address>
+                  <br />
                   <Address>{item.address_name}</Address>
-                )}
-              </ResultItem>
-              <Line />
-            </div>
-          ))}
-          <div id="pagination" style={{ padding: '10px' }} />
-        </ResultList>
-      </Container>
+                </div>
+              ) : (
+                <Address>{item.address_name}</Address>
+              )}
+            </ResultItem>
+            <Line />
+          </div>
+        ))}
+        <div id="pagination" style={{ margin: '10px' }} />
+      </ResultList>
     </div>
 
   );
