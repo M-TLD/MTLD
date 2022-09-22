@@ -16,6 +16,9 @@
   "rules": {
     "no-param-reassign": 0,
     "no-console": "off",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "no-inner-declarations": "off",
     "no-alert": "off",
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",
