@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import Spinner from 'components/common/Spinner';
 
 const StyledItem = styled.div`
   color: #5c5c5c;
@@ -44,6 +44,7 @@ const StyledItem = styled.div`
 
   .text {
     padding-bottom: 3px;
+    text-align: left;
   }
 `;
 
@@ -71,11 +72,12 @@ function AbandonedDetail() {
   const id = url.split('/')[4];
 
   const [abandonedList, setAbandonedList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(
-        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=10&desertionNo=447522202200335&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=15&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
       )
       .then((res) => res.data)
       .then((data) => {
@@ -83,67 +85,87 @@ function AbandonedDetail() {
       });
   }, []);
 
-  console.log(abandonedList);
+  // console.log(abandonedList);
 
   const [puppy, setPuppy] = useState([]);
 
   useEffect(() => {
     if (abandonedList.length > 0) {
+      console.log(abandonedList);
       const getIt = abandonedList.filter((abandoned) => abandoned.desertionNo === id);
-      console.log('getIt', getIt[0]);
       setPuppy(getIt[0]);
+      setLoading(false);
     }
   }, [abandonedList]);
   console.log('puppy', puppy);
 
+  //  중성화 여부의 Y, N, U를 O, X, 알수없음으로 변경
+  const [neutered, setNeutered] = useState();
+
+  useEffect(() => {
+    if (puppy.neuterYn === 'Y') {
+      setNeutered('O');
+    } else if (puppy.neuterYn === 'N') {
+      setNeutered('X');
+    } else {
+      setNeutered('알수없음');
+    }
+  }, [puppy]);
+
   return (
     <StyledItem>
-      <img className="img" src={puppy.filename} alt="puppy" widt h="300px" hei ght="300px" style={{ overflow: 'hidden' }} />
-      <div className="div">
-        <p className="paragraph">
-          <span className="title">공고번호</span>
-          <span className="text">{puppy.desertionNo}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">유기날짜</span>
-          <span className="text">{puppy.happenDt}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">유기장소</span>
-          <span className="text">{puppy.happenPlace}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">동물보호소</span>
-          <span className="text">{puppy.careNm}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">견종</span>
-          <span className="text">{puppy.kindCd}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">성별</span>
-          <span className="text">{puppy.sexCd}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">나이</span>
-          <span className="text">{puppy.age}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">몸무게</span>
-          <span className="text">{puppy.weight}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">중성화여부</span>
-          <span className="text">{puppy.neuterYn}</span>
-        </p>
-        <p className="paragraph">
-          <span className="title">특징</span>
-          <span className="text">{puppy.specialMark}</span>
-        </p>
-      </div>
-      <Button onClick={() => window.open('https://www.animal.go.kr/front/awtis/protection/protectionList.do?menuNo=1000000060', '_blank')}>
-        <span className="content">평생가족 되어주기</span>
-      </Button>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div>
+          <img className="img" src={puppy.popfile} alt="puppy" style={{ overflow: 'hidden' }} />
+          <div className="div">
+            <p className="paragraph">
+              <span className="title">공고번호</span>
+              <span className="text">{puppy.desertionNo}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">유기날짜</span>
+              <span className="text">{puppy.happenDt}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">유기장소</span>
+              <span className="text">{puppy.happenPlace}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">동물보호소</span>
+              <span className="text">{puppy.careNm}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">견종</span>
+              <span className="text">{puppy.kindCd}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">성별</span>
+              <span className="text">{puppy.sexCd === 'F' ? '여' : '남'}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">나이</span>
+              <span className="text">{puppy.age}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">몸무게</span>
+              <span className="text">{puppy.weight}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">중성화여부</span>
+              <span className="text">{neutered}</span>
+            </p>
+            <p className="paragraph">
+              <span className="title">특징</span>
+              <span className="text">{puppy.specialMark}</span>
+            </p>
+          </div>
+          <Button onClick={() => window.open('https://www.animal.go.kr/front/awtis/protection/protectionList.do?menuNo=1000000060', '_blank')}>
+            <span className="content">평생가족 되어주기</span>
+          </Button>
+        </div>
+      )}
     </StyledItem>
   );
 }
