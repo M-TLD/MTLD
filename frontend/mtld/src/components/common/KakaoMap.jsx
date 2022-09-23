@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-// import Test from 'assets/bobi.png';
 
 const ResultList = styled.div`
   background-color: #F8F7F7;
