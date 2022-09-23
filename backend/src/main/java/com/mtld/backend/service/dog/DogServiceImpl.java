@@ -11,6 +11,7 @@ import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.repository.dog.BreedRepository;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.user.UserRepository;
+import com.mtld.backend.util.ConvertDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,9 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public DogResponseDetailDto getDogById(Long uid, Long id) {
+    public DogResponseDetailDto getDogById(Long uid, Long dogId) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Dog dog = dogRepository.findById(id).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
+        Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
@@ -51,7 +52,7 @@ public class DogServiceImpl implements DogService {
     public void registerDog(Long userId, DogRequestDto dogRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Breed breed = breedRepository.findById(dogRequestDto.getBreedId()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
-        Dog dog = Dog.builder().name(dogRequestDto.getName()).birthdate(dogRequestDto.getBirthdate()).gender(dogRequestDto.getGender()).weight(dogRequestDto.getWeight()).neuter(dogRequestDto.isNeuter()).breed(breed).user(user).build();
+        Dog dog = Dog.builder().name(dogRequestDto.getName()).birthdate(ConvertDate.stringToDate(dogRequestDto.getBirthdate())).gender(dogRequestDto.getGender()).weight(dogRequestDto.getWeight()).neuter(dogRequestDto.isNeuter()).breed(breed).user(user).build();
         dog.writeDisease(dogRequestDto.getDisease());
 
         dogRepository.save(dog);

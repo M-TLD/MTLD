@@ -11,7 +11,6 @@ import com.mtld.backend.entity.dog.Gender;
 import com.mtld.backend.repository.dog.BreedRepository;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.user.UserRepository;
-import com.mtld.backend.service.dog.DogServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +30,6 @@ class DogServiceImplTest {
     DogRepository dogRepository;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     BreedRepository breedRepository;
     @Autowired
@@ -48,8 +45,8 @@ class DogServiceImplTest {
     @DisplayName("반려견 id 조회 & 반려견 등록")
     void registerDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate(LocalDate.now()).gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate(LocalDate.now()).gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
         dogService.registerDog(user.get().getId(), dogRequestDto);
         dogService.registerDog(user.get().getId(), dogRequestDto2);
         List<Dog> result = dogRepository.findAll();
@@ -60,8 +57,8 @@ class DogServiceImplTest {
     @DisplayName("반려견 아이디&유저 아이디로 조회")
     void findDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate(LocalDate.now()).gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate(LocalDate.now()).gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
         dogService.registerDog(user.get().getId(), dogRequestDto);
         dogService.registerDog(user.get().getId(), dogRequestDto2);
 
@@ -76,8 +73,8 @@ class DogServiceImplTest {
     @DisplayName("반려견 정보 수정")
     void updateDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate(LocalDate.now()).gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate(LocalDate.now()).gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
         dogService.registerDog(user.get().getId(), dogRequestDto);
         dogService.registerDog(user.get().getId(), dogRequestDto2);
 
@@ -93,8 +90,8 @@ class DogServiceImplTest {
     @DisplayName("반려견 삭제")
     void deleteDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate(LocalDate.now()).gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate(LocalDate.now()).gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
         dogService.registerDog(user.get().getId(), dogRequestDto);
         dogService.registerDog(user.get().getId(), dogRequestDto2);
 
