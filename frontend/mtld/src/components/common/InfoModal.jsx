@@ -21,7 +21,6 @@ const Atag = styled.a`
   color: #5c5c5c;
   text-align: start;
   font-size: 0.8em;
-  // padding: 0.875rem 1rem;
   text-decoration: underline;
   &:hover,
   &:active {
@@ -61,6 +60,10 @@ const ContentDiv = styled.div`
 
 const BtnDiv = styled.div`
   margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const HospitalBtn = styled.button`
