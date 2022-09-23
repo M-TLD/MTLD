@@ -40,13 +40,10 @@ axiosInstance.interceptors.request.use(
     })
       .then((res) => {
         console.log('successfully fetched data');
-        console.log(res);
-        console.log(res.data.accessToken);
         window.localStorage.setItem('accessToken', res.data.accessToken);
-        console.log('hi');
         window.localStorage.setItem('accessTokenExp', res.data.tokenExpiresIn);
         window.localStorage.setItem('refreshToken', res.data.refreshToken);
-        window.localStorage.setItem('refreshTokenExp', res.data.efreshTokenExpiresIn);
+        window.localStorage.setItem('refreshTokenExp', res.data.refreshTokenExpiresIn);
         // 재발급 받은 accessToken 다시 헤더에 넣음
         config.headers.Authorization = `Bearer ${res.data.accessToken}`;
         return config;
@@ -56,7 +53,7 @@ axiosInstance.interceptors.request.use(
         // 3. refresh token 발급이 거절된 경우(아마 refresh token도 만료되었을 경우)
         console.log('error status code:', err.request.status);
         const RTexpire = window.localStorage.getItem('refreshTokenExp');
-        const parsedRTexpire = RTexpire / 86400000;
+        const parsedRTexpire = Math.ceil(RTexpire / 86400000);
         console.log('refresh token remaining for: ', parsedRTexpire, '일');
         if (parsedRTexpire < 0) {
           Navigate('/login');
