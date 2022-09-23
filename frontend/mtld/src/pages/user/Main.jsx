@@ -10,7 +10,6 @@ import PetFriendly from 'assets/location_main.png';
 import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
-import YNModal from 'components/common/YNModal';
 
 const Container = styled.div`
   display: flex;
@@ -151,7 +150,6 @@ function Main() {
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
       </StyledSwiper>
-      <YNModal />
       <Container>
         <MenuGroup>
           <MenuItem>

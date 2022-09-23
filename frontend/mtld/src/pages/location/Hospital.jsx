@@ -29,7 +29,6 @@ const Highlight = styled.span`
 
 const HospitalImg = styled.img`
   height: 7vh;
-  
 `;
 
 const SearchDiv = styled.div`
