@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+// import Test from 'assets/bobi.png';
 
 const ResultList = styled.div`
   background-color: #F8F7F7;
@@ -117,9 +118,13 @@ function KakaoMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
+              const imageSize = new kakao.maps.Size(30, 32);
+              const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
                 position: new kakao.maps.LatLng(place.y, place.x),
+                image: markerImage,
               });
               // 마커 누르면 인포윈도우에 장소명 나옴
               kakao.maps.event.addListener(marker, 'click', () => {
@@ -174,9 +179,13 @@ function KakaoMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
+              const imageSize = new kakao.maps.Size(30, 32);
+              const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
                 position: new kakao.maps.LatLng(place.y, place.x),
+                image: markerImage,
               });
               // 마커 누르면 인포윈도우에 장소명 나옴
               kakao.maps.event.addListener(marker, 'click', () => {
