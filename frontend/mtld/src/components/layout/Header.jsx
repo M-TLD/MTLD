@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Logo from 'assets/mung.png';
 import Paw from 'assets/paw_yellow.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -86,8 +86,15 @@ function Header() {
   if (locationNow.pathname === '/login') return null;
   return (
     <StyledHeader>
-      <Accordion expanded={expand} sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}>
-        <AccordionSummary expandIcon={<MenuIcon onClick={toggleAccordion} />} aria-controls="panel1a-content" id="panel1a-header">
+      <Accordion
+        expanded={expand}
+        sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}
+      >
+        <AccordionSummary
+          expandIcon={<MenuIcon onClick={toggleAccordion} />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
           <div className="navBar">
             <Link className="Link" to="/" style={{ zIndex: '100' }}>
               <LogoImage src={Logo} />
