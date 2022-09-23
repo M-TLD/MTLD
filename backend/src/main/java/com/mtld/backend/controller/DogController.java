@@ -3,7 +3,6 @@ package com.mtld.backend.controller;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
-import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.service.dog.DogService;
 import com.mtld.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * created by myeongseok on 2022/09/14

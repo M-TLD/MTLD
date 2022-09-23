@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class DogResponseDetailDto {
 
+    private Long id;
     private String name;
     private LocalDate birthdate;
     private Gender gender;
@@ -25,6 +26,7 @@ public class DogResponseDetailDto {
 
     public static DogResponseDetailDto of(Dog dog) {
         return DogResponseDetailDto.builder()
+                .id(dog.getId())
                 .name(dog.getName())
                 .birthdate(dog.getBirthdate())
                 .gender(dog.getGender())
