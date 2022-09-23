@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * created by seongmin on 2022/09/14
- * updated by seongmin on 2022/09/15
+ * updated by seongmin on 2022/09/23
  */
 @Service
 @RequiredArgsConstructor
@@ -56,8 +56,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(() -> new BadRequestException("해당하는 id : {" + id + "}에 따른 유저를 조회할수 없습니다."));
+    public UserInfoDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new BadRequestException("해당하는 id : {" + id + "}에 따른 유저를 조회할수 없습니다."));
+        return UserInfoDto.of(user);
     }
 
     public KakaoTokenDto getKakaoAccessToken(String code) {
