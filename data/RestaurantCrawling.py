@@ -1,5 +1,4 @@
 from cgitb import text
-import requests
 from bs4 import BeautifulSoup
 import csv
 import urllib
@@ -11,13 +10,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-SCROLL_PAUSE_TIME = 1
+SCROLL_PAUSE_TIME = 0.2
 
 driver = webdriver.Chrome('C:\driver\chromedriver')
 
 driver.implicitly_wait(3)
-
-city = "서울"
 
 locationList = []
 
@@ -33,42 +30,63 @@ def getAddr():
 
     html = driver.page_source
     soup = BeautifulSoup(html, features="html.parser")
-    find_gu = soup.find('ul', attrs={'class': 'D2'})
 
-    idx = 2
-    for guCode in find_gu.findAll('li'):
-        gu = guCode.text
-        if(gu == '전체'):
-            continue
+    find_city = soup.find('ul', attrs={'class': 'D1'})
+    index = 0
+    for cityCode in find_city.findAll('li'):
+        index += 1
+        city = cityCode.text
+        # if(city == '서울'):
+        #     continue
 
         url = "https://www.diningcode.com/list.dc"
         driver.get(url)
-
         driver.find_element_by_xpath(
             '//*[@id="root"]/div/div/div[1]/div[2]/div[1]/div[1]/button[4]').click()
 
-        html = driver.page_source
-        soup = BeautifulSoup(html, features="html.parser")
-        find_gu = soup.find('ul', attrs={'class': 'D2'})
-
-        print(gu)
         driver.find_element_by_xpath(
-            '//*[@id="root"]/div/div[2]/div/div[3]/div[1]/ul[2]/li[' + str(idx) + ']/button').click()
+            '//*[@id="root"]/div/div[2]/div/div[3]/div[1]/ul[1]/li['+str(index)+']/button').click()
 
-        idx += 1
         html = driver.page_source
         soup = BeautifulSoup(html, features="html.parser")
-        find_station = soup.find('ul', attrs={'class': 'D3'})
 
-        for stationCode in find_station('li'):
-            station = stationCode.text
-            if(station == '전체'):
+        find_gu = soup.find('ul', attrs={'class': 'D2'})
+        idx = 2
+        for guCode in find_gu.findAll('li'):
+
+            gu = guCode.text
+            print(gu)
+            if(gu == '전체'):
                 continue
-            addr = city+" "+gu+" +"+station
-            global totalList
-            totalList = totalList + (getRestaurant(addr))
 
-        print(len(totalList))
+            driver.find_element_by_xpath(
+                '//*[@id="root"]/div/div[2]/div/div[3]/div[1]/ul[2]/li[' + str(idx) + ']/button').click()
+
+            html = driver.page_source
+            soup = BeautifulSoup(html, features="html.parser")
+
+            idx += 1
+            find_station = soup.find('ul', attrs={'class': 'D3'})
+            for stationCode in find_station('li'):
+                station = stationCode.text
+                if(station == '전체'):
+                    continue
+                addr = city+" "+gu+" +"+station
+                print(addr)
+                global totalList
+                totalList = totalList + (getRestaurant(addr))
+
+            url = "https://www.diningcode.com/list.dc"
+            driver.get(url)
+
+            driver.find_element_by_xpath(
+                '//*[@id="root"]/div/div/div[1]/div[2]/div[1]/div[1]/button[4]').click()
+
+            driver.find_element_by_xpath(
+                '//*[@id="root"]/div/div[2]/div/div[3]/div[1]/ul[1]/li['+str(index)+']/button').click()
+
+            html = driver.page_source
+            soup = BeautifulSoup(html, features="html.parser")
 
 
 def getRestaurant(addr):
@@ -93,7 +111,11 @@ def getRestaurant(addr):
         soup = BeautifulSoup(html, features="html.parser")
         placeCount = soup.find('span', attrs={'class': 'Place-Count'}).text
         # print(placeCount)
-        repeat = int(placeCount)//20 + 1
+        repeat = 0
+        try:
+            repeat = int(placeCount) // 20 + 1
+        except:  # placeCount가 10,000+로 나오는 경우가 있음
+            repeat = 1
         # print(repeat)
 
         list = []
@@ -116,8 +138,11 @@ def getRestaurant(addr):
             global num
             temp.append(num)
             num += 1
+
             temp = temp + title.split('. ')
-            temp = temp + addr.split(' +')
+
+            addr = addr.replace('+', "")
+            temp = temp + addr.split()
             temp.append(img)
 
             try:
@@ -161,7 +186,7 @@ def getRestaurant(addr):
 getAddr()
 
 print(len(totalList))
-f = open("restaurantData.csv", "w", encoding='utf-8-sig', newline='')
+f = open("data.csv", "w", encoding='utf-8-sig', newline='')
 writer = csv.writer(f)
 writer.writerows(totalList)
 f.close()
