@@ -35,9 +35,18 @@ const theme = createTheme({
     fontFamily: 'GmarketSansMedium',
   },
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderColor: 'white',
+        },
+      },
+    },
     MuiAutocomplete: {
       styleOverrides: {
         root: {
+          backgroundColor: 'white', // input box color change
+          borderRadius: 4,
           '& label': {
             fontSize: 12,
             margin: 0,
@@ -45,7 +54,7 @@ const theme = createTheme({
           },
         },
         input: {
-          height: '1.5rem',
+          height: '3rem',
           fontSize: 2,
         },
         listbox: {

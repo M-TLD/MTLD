@@ -5,7 +5,6 @@ import AbandonedItem from 'components/adoption/AbandonedItem';
 import TopImage from 'assets/dogwithperson.png';
 import Spinner from 'components/common/Spinner';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 
 const StyledAdoptionHome = styled.div`
@@ -14,14 +13,24 @@ const StyledAdoptionHome = styled.div`
   justify-content: center;
   align-items: center;
 
+  .banner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .topimage {
+    width: 100%;
+    opacity: 0.5;
+  }
+
   .titletext {
     width: 180px;
-    margin: 1vh;
     color: #5c5c5c;
     flex-wrap: nowrap;
     position: absolute;
-    top: 25vh;
-    left: 49%;
+    top: 70%;
+    left: 50%;
     transform: translate(-50%);
   }
 
@@ -31,36 +40,41 @@ const StyledAdoptionHome = styled.div`
     padding: 0;
   }
 
-  .topimage {
-    border: 6px solid #ad8158;
-    width: 400px;
-    height: 180px;
-    opacity: 0.5;
-  }
+  // 여기까지 배너 아래로는 검색창
 
   .new {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1vh;
+    padding-right: 2;
+    padding-left: 2;
+    margin-right: 0;
     margin-top: 2vh;
     margin-left: 1vh;
     margin-right: 1vh;
     border-radius: 5px;
     padding-top: 1vh;
     background-color: #efefef;
-    padding-bottom: 3vh;
-    padding-right: 0;
-    padding-left: 0;
+    box-shadow: 4px 4px #e6e4e4;
   }
 
   .section {
-    width: 40vw;
+    padding-right: 1vh;
+    padding-left: 1vh;
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
   .sectiontitle {
-    width: 70px;
+    padding-right: 0,
+    padding-left: 0,
+    width: 100%;
     font-size: 13px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    text-align: left;
   }
 
   .box {
@@ -76,11 +90,11 @@ const StyledAdoptionHome = styled.div`
   }
 
   #family {
+    // '가족' 문구
     font-weight: bold;
   }
 
   #combo-box-breed {
-    width: 10px;
     height: 1vh;
     font-size: 3px;
   }
@@ -89,9 +103,12 @@ const StyledAdoptionHome = styled.div`
     height: 1vh;
   }
 
+  #feature-keyword {
+    margin-right: 1vh;
+  }
+
   #feature-search {
-    height: 1vh;
-    margin-top: 2.5vh;
+    height: 10v;
     width: 80vw;
   }
 
@@ -99,19 +116,6 @@ const StyledAdoptionHome = styled.div`
     font-family: 'UhBeeStrawberry';
     font-weight: bold;
   }
-`;
-
-const StyledFilters = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0;
-  // @media screen and (min-width: 1356px) {
-  //   flex-wrap: wrap;
-  //   gap: 30px;
 `;
 
 const StyledItems = styled.div`
@@ -842,298 +846,423 @@ function AdoptionHome() {
     },
   ];
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=15&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
-  //     )
-  //     .then((res) => res.data)
-  //     .then((data) => {
-  //       // console.log(data);
-  //       setAbandonedList(data.response.body.items.item);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(
+        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=1000&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+      )
+      .then((res) => res.data)
+      .then((data) => {
+        // console.log(data);
+        setAbandonedList(data.response.body.items.item);
+        setLoading(false);
+      });
+  }, []);
 
-  // // console.log(abandonedList);
+  // console.log(abandonedList);
 
-  // // 검색 기능
-  // const [sex, setSex] = useState();
-  // const [breed, setBreed] = useState();
-  // const [color, setColor] = useState();
-  // const [weight, setWeight] = useState();
-  // const [neutered, setNeutered] = useState();
-  // const [place, setPlace] = useState();
-  // const [feature, setFeature] = useState();
+  // 검색 기능
+  const [sex, setSex] = useState();
+  const [breed, setBreed] = useState();
+  const [color, setColor] = useState();
+  const [weight, setWeight] = useState();
+  const [neutered, setNeutered] = useState();
+  const [place, setPlace] = useState();
+  const [feature, setFeature] = useState();
 
-  // const breedChange = (event, value) => {
-  //   const breedValue = value || undefined;
-  //   setBreed(breedValue);
-  // };
+  const breedChange = (event, value) => {
+    const breedValue = value || undefined;
+    setBreed(breedValue);
+  };
 
-  // const sexChange = (event, value) => {
-  //   const sexValue = value === '여' ? 'F' : 'M' || undefined;
-  //   // DB에는 F, M이지만 입력값은 남, 여로 받음
-  //   setSex(sexValue);
-  // };
+  const sexChange = (event, value) => {
+    const sexValue = value === '여' ? 'F' : 'M' || undefined;
+    // DB에는 F, M이지만 입력값은 남, 여로 받음
+    setSex(sexValue);
+  };
 
-  // const colorChange = (event, value) => {
-  //   const colorValue = event.target.value || undefined;
-  //   setColor(colorValue);
-  // };
+  const colorChange = (event, value) => {
+    const colorValue = event.target.value || undefined;
+    setColor(colorValue);
+  };
 
-  // const weightChange = (event, value) => {
-  //   const weightValue = event.target.value || undefined;
-  //   setWeight(weightValue);
-  // };
+  const weightChange = (event, value) => {
+    const weightValue = event.target.value || undefined;
+    setWeight(weightValue);
+  };
 
-  // const neuteredChange = (event, value) => {
-  //   // O(Y), X(N), 알수없음(U)
-  //   if (value === 'O') {
-  //     setNeutered('Y');
-  //   } else if (value === 'X') {
-  //     setNeutered('N');
-  //   } else if (value === '알수없음') {
-  //     setNeutered('U');
-  //   } else {
-  //     setNeutered(undefined);
-  //   }
-  // };
+  const neuteredChange = (event, value) => {
+    // O(Y), X(N), 알수없음(U)
+    if (value === 'O') {
+      setNeutered('Y');
+    } else if (value === 'X') {
+      setNeutered('N');
+    } else if (value === '알수없음') {
+      setNeutered('U');
+    } else {
+      setNeutered(undefined);
+    }
+  };
 
-  // const placeChange = (event, value) => {
-  //   const placeValue = value || undefined;
-  //   setPlace(placeValue);
-  // };
+  const placeChange = (event, value) => {
+    const placeValue = value || undefined;
+    setPlace(placeValue);
+  };
 
-  // const featureChange = (event, value) => {
-  //   const featureValue = event.target.value || undefined;
-  //   setFeature(featureValue);
-  // };
+  const featureChange = (event, value) => {
+    const featureValue = event.target.value || undefined;
+    setFeature(featureValue);
+  };
 
-  // const [filtered, setFiltered] = useState(abandonedList);
+  const [filtered, setFiltered] = useState(abandonedList);
+  console.log(filtered);
 
-  // const filterData = () => {
-  //   if (
-  //     // 입력값이 없으면 초기데이터 계속 출력
-  //     breed === undefined &&
-  //     sex === undefined &&
-  //     color === undefined &&
-  //     weight === undefined &&
-  //     neutered === undefined &&
-  //     place === undefined &&
-  //     feature === undefined
-  //   ) {
-  //     setFiltered(abandonedList);
-  //   } else {
-  //     const filteredList = abandonedList.reduce((acc, cur) => {
-  //       // 입력값이 없으면 기본적으로 조건에 true를 설정 (그냥 넘어가게 함)
-  //       const sexCondition = sex && sex.length > 0 ? cur.sexCd.includes(sex) : true;
-  //       const breedCondition = breed && breed.length > 0 ? cur.kindCd.includes(breed) : true;
-  //       const colorCondition = color && color.length > 0 ? cur.colorCd.includes(color) : true;
-  //       const weightCondition = weight && weight.length > 0 ? cur.weight.includes(weight) : true;
-  //       const neuteredCondition =
-  //         neutered && neutered.length > 0 ? cur.neuterYn.includes(neutered) : true;
-  //       const placeCondition = place && place.length > 0 ? cur.careAddr.includes(place) : true;
-  //       const featureCondition =
-  //         feature && feature.length > 0 ? cur.specialMark.includes(feature) : true;
-  //       if (
-  //         sexCondition &&
-  //         breedCondition &&
-  //         colorCondition &&
-  //         weightCondition &&
-  //         neuteredCondition &&
-  //         placeCondition &&
-  //         featureCondition
-  //       ) {
-  //         acc.push(cur);
-  //       }
-  //       return acc;
-  //     }, []);
+  const filterData = () => {
+    if (
+      // 입력값이 없으면 초기데이터 계속 출력
+      breed === undefined &&
+      sex === undefined &&
+      color === undefined &&
+      weight === undefined &&
+      neutered === undefined &&
+      place === undefined &&
+      feature === undefined
+    ) {
+      setFiltered(abandonedList);
+    } else {
+      const filteredList = abandonedList.reduce((acc, cur) => {
+        // 입력값이 없으면 기본적으로 조건에 true를 설정 (그냥 넘어가게 함)
+        const sexCondition = sex && sex.length > 0 ? cur.sexCd.includes(sex) : true;
+        const breedCondition = breed && breed.length > 0 ? cur.kindCd.includes(breed) : true;
+        const colorCondition = color && color.length > 0 ? cur.colorCd.includes(color) : true;
+        const weightCondition = weight && weight.length > 0 ? cur.weight.includes(weight) : true;
+        const neuteredCondition =
+          neutered && neutered.length > 0 ? cur.neuterYn.includes(neutered) : true;
+        const placeCondition = place && place.length > 0 ? cur.careAddr.includes(place) : true;
+        const featureCondition =
+          feature && feature.length > 0 ? cur.specialMark.includes(feature) : true;
+        if (
+          sexCondition &&
+          breedCondition &&
+          colorCondition &&
+          weightCondition &&
+          neuteredCondition &&
+          placeCondition &&
+          featureCondition
+        ) {
+          acc.push(cur);
+        }
+        return acc;
+      }, []);
 
-  //     setFiltered(filteredList);
-  //   }
-  // };
+      setFiltered(filteredList);
+    }
+  };
 
-  // useEffect(() => {
-  //   // input이나 데이터가 변화될때만 재렌더링 (useEffect 미사용시 무한 렌더링 - 과부하 우려)
-  //   filterData();
-  // }, [abandonedList, breed, sex, color, weight, neutered, place, feature]);
+  useEffect(() => {
+    // input이나 데이터가 변화될때만 재렌더링 (useEffect 미사용시 무한 렌더링 - 과부하 우려)
+    filterData();
+  }, [abandonedList, breed, sex, color, weight, neutered, place, feature]);
 
-  // // 페이징
+  console.log(filtered);
 
   return (
     <StyledAdoptionHome>
-      <img className="topimage" src={TopImage} alt="banner" />
+      <div className="banner">
+        <img className="topimage" src={TopImage} alt="banner" />
 
-      <div className="titletext">
-        <p className="line">소중한 아이들의 </p>
-        <span className="line" id="family">
-          가족
-        </span>
-        <span>이 되어주세요!</span>
+        <div className="titletext">
+          <p className="line">소중한 아이들의 </p>
+          <span className="line" id="family">
+            가족
+          </span>
+          <span>이 되어주세요!</span>
+        </div>
       </div>
 
       {/* 검색 조건 */}
 
       <div className="new">
-        <StyledFilters>
-          <div className="section">
-            <span className="sectiontitle">견종</span>
-            <Autocomplete
-              id="combo-box-breed"
-              options={dogKind.map((kind) => kind.knm)}
-              // onChange={breedChange}
-              disablePortal
-              className="box"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label=""
-                  inputProps={{
-                    ...params.inputProps,
-                    style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
-                  }}
-                />
-              )}
-            />
+        <div className="section">
+          <p className="sectiontitle">견종</p>
+          <Autocomplete
+            id="combo-box-breed"
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
+            options={dogKind.map((kind) => kind.knm)}
+            onChange={breedChange}
+            disablePortal
+            className="box"
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                inputProps={{
+                  ...params.inputProps,
+                  style: {
+                    fontSize: '0.1rem',
+                    paddingTop: 3,
+                    paddingBottom: 3,
+                  },
+                }}
+              />
+            )}
+          />
+        </div>
+
+        <div className="section">
+          <span className="sectiontitle">중성화</span>
+          <Autocomplete
+            id="combo-box-breed"
+            options={['O', 'X', '알수없음']}
+            onChange={neuteredChange}
+            disablePortal
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
+            className="box"
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                inputProps={{
+                  ...params.inputProps,
+                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="section">
+          <span className="sectiontitle">성별</span>
+          <Autocomplete
+            id="combo-box-breed"
+            options={['남', '여']}
+            onChange={sexChange}
+            disablePortal
+            className="box"
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                inputProps={{
+                  ...params.inputProps,
+                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                }}
+              />
+            )}
+          />
+        </div>
+
+        <div className="section">
+          <span className="sectiontitle">유기장소</span>
+          <Autocomplete
+            id="combo-box-breed"
+            options={[
+              '서울특별시',
+              '부산광역시',
+              '대구광역시',
+              '인천광역시',
+              '광주광역시',
+              '세종특별자치시',
+              '대전광역시',
+              '울산광역시',
+              '경기도',
+              '강원도',
+              '충청북도',
+              '충청남도',
+              '전라북도',
+              '전라남도',
+              '경상북도',
+              '경상남도',
+              '제주특별자치도',
+            ]}
+            onChange={placeChange}
+            disablePortal
+            className="box"
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label=""
+                sx={{
+                  '& label.Mui-focused': {
+                    color: 'white',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'white',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'white',
+                    },
+                  },
+                }}
+                inputProps={{
+                  ...params.inputProps,
+                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="section">
+          <div className="sectiontitle">털색</div>
+          <TextField
+            id="outlined-search"
+            className="box"
+            onChange={colorChange}
+            label=""
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
+            InputLabelProps={{ style: { fontSize: 12 } }}
+            inputProps={{
+              style: {
+                fontSize: 12,
+                paddingTop: 12,
+                paddingBottom: 12,
+                backgroundColor: 'white',
+                borderRadius: 4,
+              },
+            }}
+          />
+        </div>
+        <div className="section">
+          <span className="sectiontitle">몸무게</span>
+          <TextField
+            id="outlined-search"
+            className="box"
+            onChange={weightChange}
+            label=""
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+              },
+            }}
+            InputLabelProps={{ style: { fontSize: 12 } }}
+            inputProps={{
+              style: {
+                fontSize: 12,
+                paddingTop: 12,
+                paddingBottom: 12,
+                backgroundColor: 'white',
+                borderRadius: 4,
+              },
+            }}
+          />
+        </div>
+
+        <div className="section" id="feature-search">
+          <div className="sectiontitle" id="feature-keyword">
+            성격 키워드
           </div>
-          <div className="section">
-            <span className="sectiontitle">성별</span>
-            <Autocomplete
-              id="combo-box-breed"
-              options={['남', '여']}
-              // onChange={sexChange}
-              disablePortal
-              className="box"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label=""
-                  inputProps={{
-                    ...params.inputProps,
-                    style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
-                  }}
-                />
-              )}
-            />
-          </div>
-          <div className="section">
-            <div className="sectiontitle">털색</div>
+          <div id="featuretextfield">
             <TextField
-              id="outlined-search"
               className="box"
-              // onChange={colorChange}
-              label=""
+              id="featurekeyword"
+              onChange={featureChange}
+              sx={{
+                '& label.Mui-focused': {
+                  color: 'white',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+                '& .MuiInputBase-root': {
+                  width: '68vw',
+                },
+              }}
+              label="ex. 온순함, 사람따름"
               InputLabelProps={{ style: { fontSize: 12 } }}
               inputProps={{
-                style: { fontSize: 12, paddingTop: 12, paddingBottom: 12 },
+                style: {
+                  fontSize: 12,
+                  backgroundColor: 'white',
+                  borderRadius: 4,
+                  paddingTop: 7,
+                  paddingBottom: 7,
+                },
               }}
             />
           </div>
-          <div className="section">
-            <span className="sectiontitle">몸무게</span>
-            <TextField
-              id="outlined-search"
-              className="box"
-              // onChange={weightChange}
-              label=""
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              inputProps={{ style: { fontSize: 12, paddingTop: 12, paddingBottom: 12 } }}
-            />
-          </div>
-          <div className="section">
-            <span className="sectiontitle">중성화</span>
-            <Autocomplete
-              id="combo-box-breed"
-              options={['O', 'X', '알수없음']}
-              // onChange={neuteredChange}
-              disablePortal
-              className="box"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label=""
-                  inputProps={{
-                    ...params.inputProps,
-                    style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
-                  }}
-                />
-              )}
-            />
-          </div>
-          <div className="section">
-            <span className="sectiontitle">유기장소</span>
-            <Autocomplete
-              id="combo-box-breed"
-              options={[
-                '서울특별시',
-                '부산광역시',
-                '대구광역시',
-                '인천광역시',
-                '광주광역시',
-                '세종특별자치시',
-                '대전광역시',
-                '울산광역시',
-                '경기도',
-                '강원도',
-                '충청북도',
-                '충청남도',
-                '전라북도',
-                '전라남도',
-                '경상북도',
-                '경상남도',
-                '제주특별자치도',
-              ]}
-              // onChange={placeChange}
-              disablePortal
-              className="box"
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label=""
-                  inputProps={{
-                    ...params.inputProps,
-                    style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
-                  }}
-                />
-              )}
-            />
-          </div>
-          <div className="section" id="feature-search">
-            <div className="sectiontitle">성격 키워드</div>
-            <TextField
-              className=""
-              // onChange={featureChange}
-              label=""
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              inputProps={{
-                style: { fontSize: 12, paddingTop: 12, paddingBottom: 12, paddingRight: 300 },
-              }}
-            />
-          </div>
-        </StyledFilters>
+        </div>
       </div>
 
-      {/* {loading ? (
+      {loading || filtered.length === 0 ? (
         <Spinner />
       ) : (
         <div>
-          {filtered.length > 0 ? (
+          {filtered.length === 0 ? (
+            <div id="noresult">
+              <p>검색 결과가 없습니다.</p>
+              <p>다른 조건으로 검색해보세요! 🐶</p>
+            </div>
+          ) : (
             <StyledItems>
               {filtered.map((f) => (
                 <AbandonedItem key={f.desertionNo} item={f} />
               ))}
             </StyledItems>
-          ) : (
-            <StyledItems>
-              <div id="noresult">
-                <p>검색 결과가 없습니다.</p>
-                <p>다른 조건으로 검색해보세요! 🐶</p>
-              </div>
-            </StyledItems>
           )}
         </div>
-      )} */}
+      )}
     </StyledAdoptionHome>
   );
 }
