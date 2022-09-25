@@ -1,8 +1,5 @@
 package com.mtld.backend.controller;
 
-import com.mtld.backend.dto.dog.DogRequestDto;
-import com.mtld.backend.dto.dog.DogResponseDetailDto;
-import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.dto.medicine.TakingMedicineRequestDto;
 import com.mtld.backend.dto.medicine.TakingMedicineResponseDto;
 import com.mtld.backend.dto.medicine.TakingMedicineUpdateRequestDto;
@@ -27,8 +24,6 @@ import java.util.List;
 @RequestMapping("/api/medicine")
 public class TakingMedicineController {
 
-    private final DogService dogService;
-
     private final UserService userService;
 
     private final TakingMedicineService takingMedicineService;
@@ -44,8 +39,8 @@ public class TakingMedicineController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerMedicine(@RequestBody @Valid TakingMedicineRequestDto takingMedicineRequestDto) {
-        log.info("dogRequestDto :{}", takingMedicineRequestDto);
+    public ResponseEntity<?> registerTakingMedicine(@RequestBody @Valid TakingMedicineRequestDto takingMedicineRequestDto) {
+        log.info("takingMedicineRequestDto :{}", takingMedicineRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         takingMedicineService.registerTakingMedicine(userId, takingMedicineRequestDto);
 
@@ -54,8 +49,8 @@ public class TakingMedicineController {
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateMedicine(@RequestBody @Valid TakingMedicineUpdateRequestDto takingMedicineUpdateRequestDto) {
-        log.info("dogUpdateRequestDto : {}", takingMedicineUpdateRequestDto);
+    public ResponseEntity<?> updateTakingMedicine(@RequestBody @Valid TakingMedicineUpdateRequestDto takingMedicineUpdateRequestDto) {
+        log.info("takingMedicineUpdateRequestDto : {}", takingMedicineUpdateRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         takingMedicineService.updateTakingMedicine(userId, takingMedicineUpdateRequestDto);
 
@@ -63,10 +58,10 @@ public class TakingMedicineController {
     }
 
     @DeleteMapping("/{medicineId}")
-    public ResponseEntity<?> deleteMedicine(@PathVariable("medicineId") Long medicineId) {
-        log.info("deleteDog : {}", medicineId);
+    public ResponseEntity<?> deleteTakingMedicine(@PathVariable("takingMedicineId") Long takingMedicineId) {
+        log.info("takingMedicineId : {}", takingMedicineId);
         Long userId = userService.getMyInfoSecret().getId();
-        takingMedicineService.deleteTakingMedicine(userId, medicineId);
+        takingMedicineService.deleteTakingMedicine(userId, takingMedicineId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
