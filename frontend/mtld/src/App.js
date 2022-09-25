@@ -34,6 +34,48 @@ const theme = createTheme({
   typography: {
     fontFamily: 'GmarketSansMedium',
   },
+  components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderColor: 'white',
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white', // input box color change
+          borderRadius: 4,
+          '& label': {
+            fontSize: 12,
+            margin: 0,
+            padding: 0,
+          },
+        },
+        input: {
+          height: '3rem',
+          fontSize: 2,
+        },
+        listbox: {
+          fontSize: 1,
+          textAlign: 'left',
+        },
+        popupIndicator: {
+          // 드롭다운 화살표
+          color: '#81E3D7',
+        },
+      },
+    },
+    MuiTextfield: {
+      styleOverrides: {
+        fontSize: 1,
+        label: {
+          fontSize: 1,
+        },
+      },
+    },
+  },
 });
 
 function App() {

@@ -19,10 +19,8 @@ public class DogUpdateRequestDto {
     @NotNull
     private Long id;
 
-    @NotNull(message = "반려견 몸무게는 필수 입력값입니다.")
     private Double weight;
 
-    @NotNull(message = "반려견 중성화 여부는 필수 입력값입니다.")
     private boolean neuter;
 
     private String disease;
