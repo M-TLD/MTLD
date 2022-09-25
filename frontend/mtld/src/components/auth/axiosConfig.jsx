@@ -49,13 +49,12 @@ axiosInstance.interceptors.request.use(
         return config;
       })
       .catch((err) => {
-        console.log(err);
-        // 3. refresh token 발급이 거절된 경우(아마 refresh token도 만료되었을 경우)
-        console.log('error status code:', err.request.status);
+        // 3. access token 발급이 거절된 경우(아마 refresh token도 만료되었을 경우)
+        console.log('authroization error status code:', err.request.status);
         const RTexpire = window.localStorage.getItem('refreshTokenExp');
-        const parsedRTexpire = Math.ceil(RTexpire / 86400000);
-        console.log('refresh token remaining for: ', parsedRTexpire, '일');
-        if (parsedRTexpire < 0) {
+        const parsedRTexpire = Math.floor((RTexpire - parsedToday) / 3600000);
+        console.log('refresh token expires in: ', parsedRTexpire, '시간');
+        if (parsedRTexpire < 1) {
           Navigate('/login');
         }
       });
