@@ -54,7 +54,7 @@ class TakingMedicineServiceImplTest {
         // 반려견 품종 등록
         breedRepository.save(new Breed("말티즈"));
         // 반려견 등록
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate(ConvertDate.stringToDate("2020-02-02")).gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
         dogService.registerDog(user.getId(), dogRequestDto);
         // 약 등록
         medicineRepository.save(new Medicine("약1"));
@@ -120,8 +120,6 @@ class TakingMedicineServiceImplTest {
 
         TakingMedicineResponseDto takingMedicineResponseDto = takingMedicineService.getTakingMedicineById(1L);
         Assertions.assertThat(takingMedicineResponseDto.getExpectDate()).isEqualTo("2021-12-31");
-
-
     }
 
     @Test
@@ -136,7 +134,8 @@ class TakingMedicineServiceImplTest {
         takingMedicineService.registerTakingMedicine(user.getId(), takingMedicineRequestDto2);
         takingMedicineService.registerTakingMedicine(user.getId(), takingMedicineRequestDto3);
 
+        takingMedicineService.deleteTakingMedicine(user.getId(),1L);
         List<TakingMedicineResponseDto> result = takingMedicineService.getTakingMedicineByDog(user.getId(), dog.getId());
-        Assertions.assertThat(result.size()).isEqualTo("2021-12-31");
+        Assertions.assertThat(result.size()).isEqualTo(2);
     }
 }
