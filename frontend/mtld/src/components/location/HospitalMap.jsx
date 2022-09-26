@@ -47,7 +47,7 @@ function HospitalMap({ searchPlace, flag }) {
   let lat;
   let long;
   useEffect(() => {
-    console.log(searchPlace);
+    console.log('searchPlace = ', searchPlace);
     console.log(flag);
     // geoloaction으로 사용할 수 있다면
     if (navigator.geolocation) {
@@ -74,7 +74,7 @@ function HospitalMap({ searchPlace, flag }) {
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('동물병원', placeSearchCB, {
               location: new window.kakao.maps.LatLng(lat, long),
-              radius: 3000, // 3km
+              // radius: 3000, // 3km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
             });
             function placeSearchCB(data, status, pagination) {
