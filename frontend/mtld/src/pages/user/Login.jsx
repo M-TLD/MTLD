@@ -11,7 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  margin-top: -25%;
 `;
 
 const Logo = styled.img`
