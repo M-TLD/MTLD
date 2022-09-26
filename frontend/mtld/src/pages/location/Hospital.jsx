@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import HospitalMap from 'components/common/HospitalMap';
+import HospitalMap from 'components/location/HospitalMap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import HospitalLogo from 'assets/hospital.png';
