@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import CalenderView from 'components/common/CalendarView';
+import { useSelector } from 'react-redux';
 
 const StyledWalkLog = styled.div`
   .div {
@@ -15,6 +15,7 @@ const StyledWalkLog = styled.div`
   }
 
   .title {
+    margin-left: 1vh;
     text-align: left;
   }
 
@@ -31,19 +32,11 @@ const StyledWalkLog = styled.div`
   }
 
   .form {
+    display: flex;
     flex-direction: row;
     margin-top: 1vh;
     margin-bottom: 1vh;
     font-size: 0.9rem;
-  }
-
-  .time {
-    float: left;
-    margin-right: 1.5vh;
-  }
-
-  .distance {
-    float: left;
   }
 
   .input {
@@ -56,20 +49,21 @@ const StyledWalkLog = styled.div`
   }
 `;
 
-function WalkLogCreate(props) {
-  // console.log(props.value);
-  const selectedYear = props.value.getFullYear();
-  const selectedMonth = props.value.getMonth() + 1;
-  const selectedDate = props.value.getDate();
+function WalkLogCreate() {
+  const date = useSelector((state) => state.date.value);
 
-  const date = `${selectedYear}년 ${selectedMonth}월 ${selectedDate}일`;
+  const year = date.substr(0, 4);
+  const month = date.substr(5, 2);
+  const day = date.substr(8, 2);
+
+  const newDate = `${year}년 ${month}월 ${day}일`;
 
   return (
     <StyledWalkLog>
       <div className="div">
         <div className="title">산책일지</div>
         <hr className="hr" />
-        <p className="text">{date}</p>
+        <p className="text">{newDate}</p>
         <p className="text">오늘 얼만큼 산책했나요?</p>
         <div className="form">
           <div className="time">
