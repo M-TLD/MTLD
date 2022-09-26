@@ -1,4 +1,4 @@
-import { React, useState, useRef } from 'react';
+import { React, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -13,6 +13,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import axiosInstance from 'components/auth/axiosConfig';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPuppyInfo } from 'app/puppy';
 
 import puppyface from 'assets/puppyface.png';
 
@@ -91,17 +94,79 @@ const RegisterButton = styled.button`
 `;
 
 function PetInfoCreate() {
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const dispatch = useDispatch();
+
+  const [dateValue, setDateValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const [birthdateValue, setBirthdateValue] = useState('');
+  const [breedIdValue, setBreedIdValue] = useState(1);
+  const [diseaseValue, setDiseaseValue] = useState('');
+  const [fileURLValue, setFileURLValue] = useState('');
+  const [genderValue, setGenderValue] = useState('');
+  const [nameValue, setNameValue] = useState('');
+  const [neuterValue, setNeuterValue] = useState(true);
+  const [weightValue, setWeightValue] = useState(0);
+
+  const onBreedIdChange = (e) => {
+    setBreedIdValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const onDiseaseChange = (e) => {
+    setDiseaseValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const onGenderChange = (e) => {
+    setGenderValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const onNameChange = (e) => {
+    setNameValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const onNeuterChange = (e) => {
+    setNeuterValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const onWeightChange = (e) => {
+    setWeightValue(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  };
+
+  const parsedData = {
+    birthdate: birthdateValue,
+    breedId: breedIdValue,
+    disease: diseaseValue,
+    fileURL: fileURLValue,
+    gender: genderValue,
+    name: nameValue,
+    neuter: neuterValue,
+    weight: weightValue,
+  };
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setDateValue(newValue);
+    const birthDate = newValue.$d;
+    const parsedBirthDate = birthDate.toISOString().slice(0, 10);
+    setBirthdateValue(parsedBirthDate);
+    console.log(birthdateValue);
   };
 
   const [Image, setImage] = useState(puppyface);
   const fileInput = useRef(null);
+
   const onLoadFile = (event) => {
     if (event.target.files[0]) {
       setImage(event.target.files[0]);
+
+      const formData = new FormData();
+      formData.append('file', Image);
+      if (Image) {
+        setFileURLValue(formData);
+      }
     } else {
       setImage(puppyface);
     }
@@ -115,8 +180,6 @@ function PetInfoCreate() {
     reader.readAsDataURL(event.target.files[0]);
     console.log(reader);
   };
-
-  console.log(Image);
 
   return (
     <Wrap>
@@ -156,14 +219,23 @@ function PetInfoCreate() {
           noValidate
           autoComplete="off"
         >
-          <TextField id="standard-basic" label="이름" variant="standard" />
+          <TextField onChange={onNameChange} id="standard-basic" label="이름" variant="standard" />
         </Box>
-
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField onChange={onBreedIdChange} id="standard-basic" label="견종" variant="standard" type="number" />
+        </Box>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="생년월일/입양일"
             inputFormat="YYYY/MM/DD"
-            value={value}
+            value={dateValue}
             onChange={handleChange}
             renderInput={({ inputRef, inputProps, InputProps }) => (
               <Box
@@ -193,6 +265,7 @@ function PetInfoCreate() {
             label="몸무게"
             variant="standard"
             type="number"
+            onChange={onWeightChange}
             InputProps={{
               endAdornment: <InputAdornment position="end">kg</InputAdornment>,
             }}
@@ -207,7 +280,7 @@ function PetInfoCreate() {
           noValidate
           autoComplete="off"
         >
-          <TextField id="standard-basic" label="병력" variant="standard" />
+          <TextField id="standard-basic" label="병력" variant="standard" onChange={onDiseaseChange} />
         </Box>
 
         <RadioWrap>
@@ -228,9 +301,9 @@ function PetInfoCreate() {
               성별
             </FormLabel>
             <div className="radioDiv">
-              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }}>
-                <FormControlLabel value="female" control={<Radio />} label="여아" labelPlacement="end" />
-                <FormControlLabel value="male" control={<Radio />} label="남아" labelPlacement="end" />
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }} onChange={onGenderChange}>
+                <FormControlLabel value="FEMALE" control={<Radio />} label="여아" labelPlacement="end" />
+                <FormControlLabel value="MALE" control={<Radio />} label="남아" labelPlacement="end" />
               </RadioGroup>
             </div>
           </Box>
@@ -247,15 +320,22 @@ function PetInfoCreate() {
           >
             <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
             <div className="radioDiv">
-              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }}>
-                <FormControlLabel value="Y" control={<Radio />} label="예" labelPlacement="end" />
-                <FormControlLabel value="N" control={<Radio />} label="아니오" labelPlacement="end" />
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }} onChange={onNeuterChange}>
+                <FormControlLabel value="true" control={<Radio />} label="예" labelPlacement="end" />
+                <FormControlLabel value="false" control={<Radio />} label="아니오" labelPlacement="end" />
               </RadioGroup>
             </div>
           </Box>
         </RadioWrap>
       </PetInfoInput>
-      <RegisterButton>등록하기</RegisterButton>
+      <RegisterButton
+        onClick={() => {
+          // console.log(parsedData);
+          dispatch(addPuppyInfo(parsedData));
+        }}
+      >
+        등록하기
+      </RegisterButton>
     </Wrap>
   );
 }
