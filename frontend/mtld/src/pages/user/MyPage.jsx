@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import RegisteredPet from 'components/petinfo/RegisteredPet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axiosInstance from 'components/auth/axiosConfig';
+import { login } from 'app/user';
 
 const Wrap = styled.div`
   margin: 0;
@@ -32,7 +33,7 @@ const UserInfo = styled.div`
   justify-content: flex-start;
   text-align: left;
   width: 100vw;
-  height: 19vh;
+  height: 18vh;
   background-color: #fff4cb;
 
   h3 {
@@ -46,9 +47,21 @@ const UserInfo = styled.div`
     padding-left: 3vh;
   }
 
+  .subDiv {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
   span {
-    font-size: 80%;
-    font-weight: 1;
+    // font-size: 100%;
+    color: #5c5c5c;
+    margin-right: 10px;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
   }
 
   .delete {
@@ -60,7 +73,7 @@ const UserInfo = styled.div`
   }
 
   .userInfoLink {
-    padding-top: 1vh;
+    padding-top: 3vh;
     padding-left: 3vh;
   }
 `;
@@ -69,24 +82,47 @@ const PetInfo = styled.div``;
 
 function MyPage() {
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosInstance.get('/user/1');
-  });
+    axiosInstance
+      .get('api/user')
+      .then((res) => {
+        console.log('yes!');
+        dispatch(login({ id: res.data.id, email: res.data.oauthId, name: res.data.name }));
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log('fail');
+        console.log(err);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
 
   return (
     <Wrap>
       <UserInfo>
         <div className="userInfoDiv">
-          <h3>이메일</h3>
-          {/* <span>{user.payload.email}</span> */}
-          <h3>닉네임</h3>
-          {/* <span>{user.payload.name}</span> */}
+          <div className="subDiv">
+            <h3>이메일</h3>
+            <span>{user.payload.email}</span>
+          </div>
+          <div className="subDiv">
+            <h3>닉네임</h3>
+            <span>{user.payload.name}</span>
+          </div>
         </div>
         <div className="userInfoLink">
-          <span className="editUserInfo">수정하기</span>
-          <span>|</span>
-          <span className="delete">탈퇴하기</span>
+          <p>
+            <span className="editUserInfo">수정하기</span>
+            <span>|</span>
+            <span className="delete">탈퇴하기</span>
+          </p>
         </div>
       </UserInfo>
       <PetInfo>

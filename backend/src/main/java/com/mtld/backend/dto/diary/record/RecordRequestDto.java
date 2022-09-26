@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
  * updated by seongmin on 2022/09/20
  */
 
+@NoArgsConstructor
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class RecordRequestDto {
 

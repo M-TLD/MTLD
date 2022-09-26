@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialStateValue = { email: '', name: '' };
+const initialStateValue = { id: '', email: '', name: '' };
 export const userSlice = createSlice({
   // Name of the reducer
   name: 'user',

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  * updated by seongmin on 2022/09/13
  */
 
+@NoArgsConstructor
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public class WalkingRequestDto {
 
     @NotBlank(message = "산책한 날짜는 필수 입력값입니다.")
