@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calender from 'react-calendar';
 import styled from 'styled-components';
-import WalkLogCreate from 'components/walklog/WalkLogCreate';
 import WalkLogResult from 'components/walklog/WalkLogResult';
+import { useSelector, useDispatch } from 'react-redux';
+import { update } from 'app/date';
 
 const StyledCalender = styled.div`
   .div {
@@ -138,8 +139,25 @@ const StyledCalender = styled.div`
 `;
 
 function CalenderView() {
+  const date = useSelector((state) => state.date.value);
+  const dispatch = useDispatch();
+  console.log('reducer', date);
+
   const [value, onChange] = useState(new Date());
-  // console.log(value);
+  console.log(value);
+
+  const selectedYear = value.getFullYear();
+  const selectedMonth = String(value.getMonth() + 1).padStart(2, '0');
+  const selectedDate = String(value.getDate()).padStart(2, '0');
+
+  const dateValue = `${selectedYear}-${selectedMonth}-${selectedDate}`;
+  console.log(dateValue);
+
+  useEffect(() => {
+    dispatch(update(dateValue));
+  });
+
+  console.log('reduced', date);
 
   return (
     <StyledCalender>
@@ -150,8 +168,6 @@ function CalenderView() {
           formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })} // 날짜에서 '일' 글자 제외
           locale="eng-US"
         />
-        <WalkLogCreate value={value} />
-        <WalkLogResult value={value} />
       </div>
     </StyledCalender>
   );

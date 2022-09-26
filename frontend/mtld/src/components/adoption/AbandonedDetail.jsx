@@ -77,7 +77,7 @@ function AbandonedDetail() {
   useEffect(() => {
     axios
       .get(
-        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=15&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=1000&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
       )
       .then((res) => res.data)
       .then((data) => {
@@ -161,7 +161,9 @@ function AbandonedDetail() {
               <span className="text">{puppy.specialMark}</span>
             </p>
           </div>
-          <Button onClick={() => window.open('https://www.animal.go.kr/front/awtis/protection/protectionList.do?menuNo=1000000060', '_blank')}>
+          <Button
+            onClick={() => window.open(`https://www.animal.go.kr/front/awtis/protection/protectionDtl.do?desertionNo=${puppy.desertionNo}`, '_blank')}
+          >
             <span className="content">평생가족 되어주기</span>
           </Button>
         </div>

@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
  */
 
 @NoArgsConstructor
-
 @Getter
-
 @AllArgsConstructor
 @ToString
 public class RecordRequestDto {
