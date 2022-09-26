@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
  * updated by seongmin on 2022/09/20
  */
 
-@Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
 @NoArgsConstructor
+
+@Getter
+
+@AllArgsConstructor
 @ToString
 public class RecordRequestDto {
 
