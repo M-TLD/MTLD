@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import KakaoMap from 'components/common/KakaoMap';
+import HospitalMap from 'components/location/HospitalMap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import HospitalLogo from 'assets/hospital.png';
@@ -136,7 +136,7 @@ function Hospital() {
           <StyledPlaceRoundedIcon fontSize="medium" />
           <CurrentPosition onClick={handleChange}>현재 위치 중심</CurrentPosition>
         </CurrentPositiondiv>
-        <KakaoMap searchPlace={Place} flag={flag} />
+        <HospitalMap searchPlace={Place} flag={flag} />
       </Container>
     </div>
   );
