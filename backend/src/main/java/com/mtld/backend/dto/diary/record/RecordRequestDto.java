@@ -1,9 +1,6 @@
 package com.mtld.backend.dto.diary.record;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class RecordRequestDto {
 

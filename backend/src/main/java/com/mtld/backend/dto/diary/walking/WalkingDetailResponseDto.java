@@ -4,11 +4,13 @@ import com.mtld.backend.entity.diary.Walking;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * created by seongmin on 2022/09/19
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Getter
 public class WalkingDetailResponseDto {
