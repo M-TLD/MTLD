@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
  */
 
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

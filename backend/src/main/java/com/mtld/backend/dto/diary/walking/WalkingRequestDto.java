@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
  */
 
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 public class WalkingRequestDto {
