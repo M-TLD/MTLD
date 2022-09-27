@@ -33,6 +33,9 @@ const MenuGroup = styled.div`
 const MenuItem = styled.div`
   width: 30%;
   margin-bottom: 20px;
+  @media screen and (min-width: 1356px) {
+    width: 80px;
+  }
 `;
 
 const MenuImage = styled.img`
@@ -120,7 +123,7 @@ function Main() {
             </OurBabyDiv>
           </StyledLink>
           <Welcome>
-            <BabyName>&nbsp;보비야</BabyName>
+            <BabyName>&nbsp;보비</BabyName>
             <span>&nbsp;반가워!</span>
           </Welcome>
           <StyledLink to="/pet-medical-card">
