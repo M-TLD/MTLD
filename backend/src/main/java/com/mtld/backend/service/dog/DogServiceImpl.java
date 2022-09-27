@@ -63,7 +63,7 @@ public class DogServiceImpl implements DogService {
     @Transactional
     public void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile image) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Breed breed = breedRepository.findById(dogRequestDto.getBreedId()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
+        Breed breed = breedRepository.findByCode(dogRequestDto.getCode()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
         Dog dog = Dog.builder()
                 .name(dogRequestDto.getName())
                 .birthdate(ConvertDate.stringToDate(dogRequestDto.getBirthdate()))
