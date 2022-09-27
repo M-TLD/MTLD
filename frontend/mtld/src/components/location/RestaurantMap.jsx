@@ -1,8 +1,15 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-// import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import dummy from 'data/RestaurantData.json';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const ResultList = styled.div`
   background-color: #F8F7F7;
@@ -14,10 +21,24 @@ const ResultItem = styled.div`
   padding: 15px;
 `;
 
-// const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
-//   // color: #646464;
-//   vertical-align: middle;
-// `;
+const ItemDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+`;
+
+const PlaceDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  
+`;
+const StyledRestaurantIcon = styled(RestaurantIcon)`
+  // color: #646464;
+  vertical-align: middle;
+  margin-right: 5px;
+`;
 
 const PlaceName = styled.span`
   font-size: 15px;
@@ -37,6 +58,20 @@ const Address = styled.span`
   font-size: 12px;
 `;
 
+const ImgDiv = styled.div`
+  width: 100px;  
+  height: 65px;
+  // overflow: hidden;
+  // object-fit: cover;
+`;
+
+const PlaceImg = styled.img`
+  width: 100px;  
+  height: 65px;
+  overflow: hidden;
+  object-fit: cover;
+`;
+
 const Line = styled.hr`
   margin: 0;
   color: #C7C7C7;
@@ -48,22 +83,6 @@ function RestaurantMap({ searchPlace, flag }) {
   let lat;
   let long;
 
-  // {dummy.map((content, idx) => ({
-  //   content.name.includes({item.name})? {content.image}:{}}
-  // ))}
-  // const content =
-  // for문을 사용해 json 파일의 데이터를 뽑아줌
-  // const contextList = dummy.map((context) => {
-  //   console.log(context);
-  //   contextName = {context.name}
-  //   contextImage = {context.image}
-  // });
-  // let contextList = dummy.map((context, idx) => {
-  //   return(
-  //     <div key={index}>
-  //     </div>
-  //   )
-  // })
   useEffect(() => {
     console.log(searchPlace);
     console.log(flag);
@@ -95,7 +114,7 @@ function RestaurantMap({ searchPlace, flag }) {
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('반려견동반식당', placeSearchCB, {
               location: new window.kakao.maps.LatLng(lat, long),
-              radius: 3000, // 3km
+              // radius: 3000, // 3km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
               category_group_code: 'FD6',
             });
@@ -270,36 +289,36 @@ function RestaurantMap({ searchPlace, flag }) {
 
   return (
     <div>
-      <div
-        id="map"
-        style={{ width: '300px', height: '300px' }}
-      />
-      <ResultList>
-        {places.map((item, i) => (
-          <div key={i}>
-            <ResultItem>
-              <div>
-                {/* <StyledLocalHospitalIcon fontSize="medium" /> */}
-                <PlaceName>{item.place_name}</PlaceName>
-              </div>
-              <Phone href="tel:{item.phone}">{item.phone}</Phone>
-              {item.road_address_name ? (
-                <div>
-                  <Address>{item.road_address_name}</Address>
-                  <br />
-                  <Address>{item.address_name}</Address>
-                </div>
-              ) : (
-                <Address>{item.address_name}</Address>
-              )}
-              <img src={item.img} alt="placeImg" />
-            </ResultItem>
-            <div />
-            <Line />
-          </div>
-        ))}
-        <div id="pagination" style={{ margin: '10px' }} />
-      </ResultList>
+      <Container>
+        <div
+          id="map"
+          style={{ width: '300px', height: '300px' }}
+        />
+        <ResultList>
+          {places.map((item, i) => (
+            <div key={i}>
+              <ResultItem>
+                <ItemDiv>
+                  <PlaceDiv>
+                    <div>
+                      <StyledRestaurantIcon fontSize="small" />
+                      <PlaceName>{item.place_name}</PlaceName>
+                    </div>
+                    <Phone href="tel:{item.phone}">{item.phone}</Phone>
+                    <Address>{item.address_name}</Address>
+                  </PlaceDiv>
+                  <ImgDiv>
+                    <PlaceImg src={item.img} alt="placeImg" />
+                  </ImgDiv>
+                </ItemDiv>
+              </ResultItem>
+              <div />
+              <Line />
+            </div>
+          ))}
+          <div id="pagination" style={{ margin: '10px' }} />
+        </ResultList>
+      </Container>
     </div>
 
   );
