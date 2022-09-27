@@ -107,7 +107,7 @@ const QuizResult = styled.div`
 
   h1 {
     position: absolute;
-    top: 9vh;
+    top: 13vh;
   }
 
   img {

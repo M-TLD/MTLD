@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
+import Spinner from 'components/common/Spinner';
 
 const Wrap = styled.div`
   .images {
@@ -29,7 +30,7 @@ function AbandonedCarousel({ item }) {
   };
 
   const [abandonedList, setAbandonedList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -44,12 +45,16 @@ function AbandonedCarousel({ item }) {
       });
   }, []);
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <Wrap>
       <Link to="/adoption-home">
         <Slider {...settings}>
           {abandonedList.map((item) => (
-            <img className="images" src={item.popfile} alt="abandoned-dogs" />
+            <img className="images" src={item.popfile} alt="abandoned-dogs" key={item} />
           ))}
         </Slider>
       </Link>
