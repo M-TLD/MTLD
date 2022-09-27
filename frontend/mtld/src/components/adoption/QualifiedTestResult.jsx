@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { resetScore } from 'app/score';
+import AbandonedCarousel from 'components/adoption/AbandonedCarousel';
 
 const Wrap = styled.div`
   color: #5c5c5c;
@@ -33,20 +34,14 @@ const Wrap = styled.div`
     border: none;
     background-color: #ffdcdc;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
-    margin-top: 5px;
     font-family: 'GmarketSansMedium';
     color: #5c5c5c;
-    margin-top: 5vh;
+    margin-top: 3vh;
   }
 `;
 
 function QualifiedTestResult() {
   const score = useSelector((state) => state.score.value);
-  const dispatch = useDispatch();
-
-  function reset() {
-    dispatch(resetScore());
-  }
 
   return (
     <Wrap>
@@ -59,15 +54,9 @@ function QualifiedTestResult() {
         <p>아이들의 가족이 되어주세요!</p>
         <p>당신의 입양을 기다리는 아이들</p>
       </div>
-      <div className="carousel">
-        <div>d</div>
-        <div>d</div>
-        <div>d</div>
-      </div>
+      <AbandonedCarousel />
       <Link to="/adoption-survey">
-        <button type="button" onClick={reset}>
-          적합도 다시 알아보기
-        </button>
+        <button type="button">적합도 다시 알아보기</button>
       </Link>
     </Wrap>
   );

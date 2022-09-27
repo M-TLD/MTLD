@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import sadPuppy from 'assets/sad_puppy.png';
 import { Link } from 'react-router-dom';
-import { resetScore } from 'app/score';
 
 const Wrap = styled.div`
   color: #5c5c5c;
@@ -44,11 +43,6 @@ const Wrap = styled.div`
 
 function DisqualifiedTestResult() {
   const score = useSelector((state) => state.score.value);
-  const dispatch = useDispatch();
-
-  function reset() {
-    dispatch(resetScore());
-  }
 
   return (
     <Wrap>
@@ -65,9 +59,7 @@ function DisqualifiedTestResult() {
         <p>책임은 끝까지 !</p>
       </div>
       <Link to="/adoption-survey">
-        <button type="button" onClick={reset}>
-          적합도 다시 알아보기
-        </button>
+        <button type="button">적합도 다시 알아보기</button>
       </Link>
     </Wrap>
   );
