@@ -21,6 +21,7 @@ const StartButton = styled.button`
   background: #ffdcdc;
   color: #fff;
   font-family: GmarketSansMedium;
+  box-shadow: 0px 3px 5px 0.1px #888888;
 `;
 
 const AdoptionSurvey = () => {
@@ -50,7 +51,7 @@ const AdoptionSurvey = () => {
     <div>
       {states.mode === 'main' ? (
         <QuizDiv>
-          <img src={cardlogo} alt="puppy" style={{ width: '20vw', margin: '5px' }} />
+          <img src={cardlogo} alt="puppy" style={{ width: '20vw', margin: '2vh' }} />
           <StartButton
             style={{ border: '0', borderRadius: '15px', fontSize: '2rem' }}
             onClick={() => {
