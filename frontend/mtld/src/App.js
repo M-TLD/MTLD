@@ -9,6 +9,7 @@ import Layout from './components/layout/Layout';
 import AbandonedDetail from './components/adoption/AbandonedDetail';
 import AdoptionHome from './pages/adoption/AdoptionHome';
 import AdoptionResult from './pages/adoption/AdoptionResult';
+import AdoptionSurveyHome from './pages/adoption/AdoptionSurveyHome';
 import AdoptionSurvey from './pages/adoption/AdoptionSurvey';
 import DiaryCreate from './pages/diary/DiaryCreate';
 import DiaryDetail from './pages/diary/DiaryDetail';
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/adoption-home" element={<AdoptionHome />} exact />
                 <Route path="/adoption-result" element={<AdoptionResult />} exact />
                 <Route path="/abandoned-detail/:id" element={<AbandonedDetail />} exact />
+                <Route path="/adoption-survey-home" element={<AdoptionSurveyHome />} exact />
                 <Route path="/adoption-survey" element={<AdoptionSurvey />} exact />
                 <Route path="/diary-create" element={<DiaryCreate />} exact />
                 <Route path="/diary/:diaryId" element={<DiaryDetail />} exact />
