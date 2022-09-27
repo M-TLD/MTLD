@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -35,10 +36,11 @@ public class DogController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerDog(@RequestBody @Valid DogRequestDto dogRequestDto) {
-        log.info("dogRequestDto :{}", dogRequestDto);
+    public ResponseEntity<?> registerDog(@RequestPart(value = "dog") @Valid DogRequestDto dogRequestDto,
+                                         @RequestPart(value = "image", required = false) MultipartFile multipartFile) {
+        log.info("dogRequestDto = {}", dogRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
-        dogService.registerDog(userId, dogRequestDto);
+        dogService.registerDog(userId, dogRequestDto, multipartFile);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
@@ -61,7 +63,6 @@ public class DogController {
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 
 
 }

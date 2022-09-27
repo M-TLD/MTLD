@@ -85,7 +85,7 @@ public class Dog extends BaseEntity {
         this.weight = dogUpdateRequestDto.getWeight();
         if (!this.neuter && dogUpdateRequestDto.isNeuter()) withdrawNeuter();
         writeDisease(dogUpdateRequestDto.getDisease());
-        if(this.fileURL != dogUpdateRequestDto.getFileURL())
+        if (!this.fileURL.equals(dogUpdateRequestDto.getFileURL()))
             uploadFile(dogUpdateRequestDto.getFileURL());
     }
 }
