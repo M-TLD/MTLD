@@ -3,6 +3,8 @@ import Score from 'components/adoption/DisqualifiedTestResult';
 import Quiz from 'components/adoption/AdoptionQuestion';
 import styled from 'styled-components';
 import cardlogo from 'assets/cardlogo.png';
+import { resetScore } from 'app/score';
+import { useDispatch } from 'react-redux';
 
 const QuizDiv = styled.div`
   display: flex;
@@ -43,6 +45,12 @@ const AdoptionSurvey = () => {
     ],
   });
 
+  const dispatch = useDispatch();
+
+  function reset() {
+    dispatch(resetScore());
+  }
+
   function changeMode(mode) {
     setStates({ ...states, mode });
   }
@@ -56,9 +64,10 @@ const AdoptionSurvey = () => {
             style={{ border: '0', borderRadius: '15px', fontSize: '2rem' }}
             onClick={() => {
               changeMode('quiz');
+              reset();
             }}
           >
-            퀴즈 시작하기
+            검사 시작하기
           </StartButton>
         </QuizDiv>
       ) : null}

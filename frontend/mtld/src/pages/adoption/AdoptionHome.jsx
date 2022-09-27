@@ -956,7 +956,7 @@ function AdoptionHome() {
   };
 
   const [filtered, setFiltered] = useState(abandonedList);
-  console.log(filtered);
+  // console.log(filtered);
 
   const filterData = () => {
     if (
@@ -995,7 +995,7 @@ function AdoptionHome() {
     filterData();
   }, [abandonedList, breed, sex, color, weight, neutered, place, feature]);
 
-  console.log(filtered);
+  // console.log(filtered);
 
   return (
     <StyledAdoptionHome>
