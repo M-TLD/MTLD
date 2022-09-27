@@ -56,6 +56,7 @@ function DiaryCreate() {
       </div>
       <br />
       <div>
+        {/* 해당 날짜에 산책 기록이 있으면 발자국 표시 */}
         <PawImage src={Paw} />
       </div>
       <div>

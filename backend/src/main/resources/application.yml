@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.38.193.232:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://j7a106.p.ssafy.io:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
     username: mtld
     password: mtld106@#
   mvc:
@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true;
@@ -42,7 +42,7 @@ spring:
               - age_range
             client-name: Kakao
   redis:
-    host: 3.38.193.232
+    host: j7a106.p.ssafy.io
     port: 6379
 
 
