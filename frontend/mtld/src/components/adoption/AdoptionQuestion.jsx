@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import TinderCard from 'react-tinder-card';
 import cardlogo from 'assets/cardlogo.png';
+import dog from 'assets/404dog.png';
+import { Link } from 'react-router-dom';
 
 const AdoptionQuestion = (props) => {
   console.log(props);
@@ -14,7 +16,17 @@ const AdoptionQuestion = (props) => {
   };
 
   if (num > 9) {
-    return <div>끝!</div>;
+    return (
+      <QuizResult>
+        <h1>적합도 검사 결과 확인</h1>
+        <img src={dog} alt="404dog" />
+        <Link to="/adoption-result">
+          <button className="resultButton" type="button">
+            적합도 검사 결과
+          </button>
+        </Link>
+      </QuizResult>
+    );
   }
 
   return (
@@ -75,6 +87,37 @@ const QuizContainer = styled.div`
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
+  }
+`;
+
+const QuizResult = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30vh;
+  color: #5c5c5c;
+
+  h1 {
+    position: absolute;
+    top: 9vh;
+  }
+
+  img {
+    width: 25vw;
+    margin-bottom: 5vh;
+  }
+  .resultButton {
+    width: 70vw;
+    height: 5vh;
+    border: none;
+    background-color: #ffdcdc;
+    box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+    font-family: GmarketSansMedium;
+    color: #5c5c5c;
+    border-radius: 10px;
+    font-size: 110%;
+    margin-bottom: 3vh;
   }
 `;
 
