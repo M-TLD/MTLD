@@ -16,6 +16,7 @@ const ResultItem = styled.div`
 const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
   // color: #646464;
   vertical-align: middle;
+  margin-right: 3px;
 `;
 
 const PlaceName = styled.span`
@@ -119,7 +120,7 @@ function HospitalMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695634.png';
               const imageSize = new kakao.maps.Size(30, 32);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
@@ -223,7 +224,7 @@ function HospitalMap({ searchPlace, flag }) {
           <div key={i}>
             <ResultItem>
               <div>
-                <StyledLocalHospitalIcon fontSize="medium" />
+                <StyledLocalHospitalIcon fontSize="small" />
                 <PlaceName>{item.place_name}</PlaceName>
               </div>
               <Phone href="tel:{item.phone}">{item.phone}</Phone>

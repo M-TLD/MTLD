@@ -17,9 +17,13 @@ const TitleDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 24px;
+  font-size: 27px;
   color: #5C5C5C;
   line-height: 30px;
+`;
+
+const Title = styled.span`
+  margin-top: 5px;
 `;
 
 const Highlight = styled.span`
@@ -28,12 +32,11 @@ const Highlight = styled.span`
 `;
 
 const HospitalImg = styled.img`
-  height: 7vh;
+  height: 8vh;
 `;
 
 const SearchDiv = styled.div`
   margin: 15px 0 5px 0;   
-
 `;
 
 const SearchForm = styled.form`
@@ -116,12 +119,12 @@ function Hospital() {
     <div>
       <Container>
         <TitleDiv>
-          <span>
+          <Title>
             현재 우리 아이
             <br />
             주변의
             <Highlight> 동물병원</Highlight>
-          </span>
+          </Title>
           <HospitalImg src={HospitalLogo} />
         </TitleDiv>
         <SearchDiv>
