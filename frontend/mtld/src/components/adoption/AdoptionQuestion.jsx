@@ -4,14 +4,21 @@ import TinderCard from 'react-tinder-card';
 import cardlogo from 'assets/cardlogo.png';
 import dog from 'assets/404dog.png';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { sumScore } from 'app/score';
 
 const AdoptionQuestion = (props) => {
+  const dispatch = useDispatch();
   console.log(props);
 
   const [num, setNum] = React.useState(0);
 
   const onSwipe = (direction) => {
     console.log(`You swiped: ${direction}`);
+    const tempDirection = direction;
+    if (tempDirection === 'left') {
+      dispatch(sumScore());
+    }
     setNum(num + 1);
   };
 
@@ -21,8 +28,8 @@ const AdoptionQuestion = (props) => {
         <h1>적합도 검사 결과 확인</h1>
         <img src={dog} alt="404dog" />
         <Link to="/adoption-result">
-          <button className="resultButton" type="button">
-            적합도 검사 결과
+          <button className="toResult" type="button">
+            적합도 검사 결과 보러가기
           </button>
         </Link>
       </QuizResult>
@@ -55,7 +62,7 @@ const AdoptionQuestion = (props) => {
         if (idx === num) {
           return (
             <DragItem key={idx}>
-              <TinderCard onSwipe={onSwipe} onCardLeftScreen={onSwipe} onCardRightScreen={onSwipe} preventSwipe={['up', 'down']}>
+              <TinderCard onCardLeftScreen={onSwipe} onCardRightScreen={onSwipe} preventSwipe={['up', 'down']}>
                 <img src={cardlogo} alt="puppy" style={{ width: '20vw' }} />
               </TinderCard>
             </DragItem>
@@ -100,14 +107,14 @@ const QuizResult = styled.div`
 
   h1 {
     position: absolute;
-    top: 9vh;
+    top: 13vh;
   }
 
   img {
     width: 25vw;
     margin-bottom: 5vh;
   }
-  .resultButton {
+  .toResult {
     width: 70vw;
     height: 5vh;
     border: none;
