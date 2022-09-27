@@ -12,8 +12,11 @@ export const scoreSlice = createSlice({
       state.value += 10;
       console.log('acc score: ', state.value);
     },
+    resetScore: (state) => {
+      state.value = 0;
+    },
   },
 });
 
-export const { sumScore } = scoreSlice.actions;
+export const { sumScore, resetScore } = scoreSlice.actions;
 export default scoreSlice.reducer;
