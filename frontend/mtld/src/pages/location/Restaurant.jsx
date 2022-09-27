@@ -36,7 +36,6 @@ const RestaurantImg = styled.img`
 
 const SearchDiv = styled.div`
   margin: 15px 0 5px 0;   
-
 `;
 
 const SearchForm = styled.form`
