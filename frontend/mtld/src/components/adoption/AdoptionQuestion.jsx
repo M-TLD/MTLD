@@ -4,14 +4,21 @@ import TinderCard from 'react-tinder-card';
 import cardlogo from 'assets/cardlogo.png';
 import dog from 'assets/404dog.png';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { sumScore } from 'app/score';
 
 const AdoptionQuestion = (props) => {
+  const dispatch = useDispatch();
   console.log(props);
 
   const [num, setNum] = React.useState(0);
 
   const onSwipe = (direction) => {
     console.log(`You swiped: ${direction}`);
+    const tempDirection = direction;
+    if (tempDirection === 'left') {
+      dispatch(sumScore());
+    }
     setNum(num + 1);
   };
 
@@ -55,7 +62,7 @@ const AdoptionQuestion = (props) => {
         if (idx === num) {
           return (
             <DragItem key={idx}>
-              <TinderCard onSwipe={onSwipe} onCardLeftScreen={onSwipe} onCardRightScreen={onSwipe} preventSwipe={['up', 'down']}>
+              <TinderCard onCardLeftScreen={onSwipe} onCardRightScreen={onSwipe} preventSwipe={['up', 'down']}>
                 <img src={cardlogo} alt="puppy" style={{ width: '20vw' }} />
               </TinderCard>
             </DragItem>
