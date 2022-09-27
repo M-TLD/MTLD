@@ -28,8 +28,8 @@ const AdoptionQuestion = (props) => {
         <h1>적합도 검사 결과 확인</h1>
         <img src={dog} alt="404dog" />
         <Link to="/adoption-result">
-          <button className="resultButton" type="button">
-            적합도 검사 결과
+          <button className="toResult" type="button">
+            적합도 검사 결과 보러가기
           </button>
         </Link>
       </QuizResult>
@@ -114,7 +114,7 @@ const QuizResult = styled.div`
     width: 25vw;
     margin-bottom: 5vh;
   }
-  .resultButton {
+  .toResult {
     width: 70vw;
     height: 5vh;
     border: none;
