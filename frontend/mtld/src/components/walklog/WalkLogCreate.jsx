@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 const StyledWalkLog = styled.div`
   .div {
@@ -15,8 +16,11 @@ const StyledWalkLog = styled.div`
   }
 
   .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-left: 1vh;
-    text-align: left;
+    margin-right: 1vh;
   }
 
   .hr {
@@ -33,6 +37,7 @@ const StyledWalkLog = styled.div`
 
   .form {
     display: flex;
+    justify-content: center;
     flex-direction: row;
     margin-top: 1vh;
     margin-bottom: 1vh;
@@ -61,7 +66,11 @@ function WalkLogCreate() {
   return (
     <StyledWalkLog>
       <div className="div">
-        <div className="title">산책일지</div>
+        <div className="title">
+          <span>산책일지</span>
+          {/* 체크 버튼 클릭시 */}
+          <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
+        </div>
         <hr className="hr" />
         <p className="text">{newDate}</p>
         <p className="text">오늘 얼만큼 산책했나요?</p>
