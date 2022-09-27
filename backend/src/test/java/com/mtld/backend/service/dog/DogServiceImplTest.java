@@ -47,8 +47,8 @@ class DogServiceImplTest {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
         DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.get().getId(), dogRequestDto);
-        dogService.registerDog(user.get().getId(), dogRequestDto2);
+        dogService.registerDog(user.get().getId(), dogRequestDto, null);
+        dogService.registerDog(user.get().getId(), dogRequestDto2, null);
         List<Dog> result = dogRepository.findAll();
         Assertions.assertThat(result.size()).isEqualTo(2);
     }
@@ -59,11 +59,11 @@ class DogServiceImplTest {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
         DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.get().getId(), dogRequestDto);
-        dogService.registerDog(user.get().getId(), dogRequestDto2);
+        dogService.registerDog(user.get().getId(), dogRequestDto, null);
+        dogService.registerDog(user.get().getId(), dogRequestDto2, null);
 
-        dogService.registerDog(user.get().getId(), dogRequestDto);
-        dogService.registerDog(user.get().getId(), dogRequestDto2);
+        dogService.registerDog(user.get().getId(), dogRequestDto, null);
+        dogService.registerDog(user.get().getId(), dogRequestDto2, null);
         DogResponseDetailDto resultDog = dogService.getDogById(user.get().getId(), 2L);
         Assertions.assertThat(resultDog.getName()).isEqualTo("뽀삥");
 
@@ -75,8 +75,8 @@ class DogServiceImplTest {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
         DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.get().getId(), dogRequestDto);
-        dogService.registerDog(user.get().getId(), dogRequestDto2);
+        dogService.registerDog(user.get().getId(), dogRequestDto, null);
+        dogService.registerDog(user.get().getId(), dogRequestDto2, null);
 
         DogUpdateRequestDto dogUpdateRequestDto = DogUpdateRequestDto.builder().id(2L).neuter(true).weight(25.1).build();
         dogService.updateDog(user.get().getId(), dogUpdateRequestDto);
@@ -92,8 +92,8 @@ class DogServiceImplTest {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
         DogRequestDto dogRequestDto2 = DogRequestDto.builder().name("뽀삥").birthdate("2020-02-02").gender(Gender.FEMALE).weight(15.9).neuter(false).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.get().getId(), dogRequestDto);
-        dogService.registerDog(user.get().getId(), dogRequestDto2);
+        dogService.registerDog(user.get().getId(), dogRequestDto, null);
+        dogService.registerDog(user.get().getId(), dogRequestDto2, null);
 
         dogService.deleteDog(user.get().getId(), dogService.getDog(1L).getId());
 

@@ -38,6 +38,4 @@ public class DogRequestDto {
     @NotNull(message = "품종은 필수 입력값입니다.")
     private Long breedId;
 
-    private String fileURL;
-
 }

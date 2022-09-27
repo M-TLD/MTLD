@@ -55,7 +55,7 @@ class TakingMedicineServiceImplTest {
         breedRepository.save(new Breed("말티즈"));
         // 반려견 등록
         DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.getId(), dogRequestDto);
+        dogService.registerDog(user.getId(), dogRequestDto, null);
         // 약 등록
         medicineRepository.save(new Medicine("약1"));
         medicineRepository.save(new Medicine("약2"));
