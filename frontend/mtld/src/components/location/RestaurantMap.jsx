@@ -116,7 +116,7 @@ function RestaurantMap({ searchPlace, flag }) {
               location: new window.kakao.maps.LatLng(lat, long),
               // radius: 3000, // 3km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
-              category_group_code: 'FD6',
+              category_group_code: 'FD6', // 카테고리 그룹 코드 - 식당
             });
             function placeSearchCB(data, status, pagination) {
               if (status === kakao.maps.services.Status.OK) {
