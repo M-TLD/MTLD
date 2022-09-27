@@ -1,7 +1,7 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import dummy from 'data/RestaurantData.json';
 
 const Container = styled.div`
@@ -34,7 +34,7 @@ const PlaceDiv = styled.div`
   text-align: start;
   
 `;
-const StyledRestaurantIcon = styled(RestaurantIcon)`
+const StyledLocalCafeIcon = styled(LocalCafeIcon)`
   // color: #646464;
   vertical-align: middle;
   margin-right: 5px;
@@ -291,7 +291,7 @@ function RestaurantMap({ searchPlace, flag }) {
                 <ItemDiv>
                   <PlaceDiv>
                     <div>
-                      <StyledRestaurantIcon fontSize="small" />
+                      <StyledLocalCafeIcon fontSize="small" />
                       <PlaceName>{item.place_name}</PlaceName>
                     </div>
                     <Phone href="tel:{item.phone}">{item.phone}</Phone>
