@@ -16,6 +16,7 @@ const ResultItem = styled.div`
 const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
   // color: #646464;
   vertical-align: middle;
+  margin-right: 3px;
 `;
 
 const PlaceName = styled.span`
@@ -223,7 +224,7 @@ function HospitalMap({ searchPlace, flag }) {
           <div key={i}>
             <ResultItem>
               <div>
-                <StyledLocalHospitalIcon fontSize="medium" />
+                <StyledLocalHospitalIcon fontSize="small" />
                 <PlaceName>{item.place_name}</PlaceName>
               </div>
               <Phone href="tel:{item.phone}">{item.phone}</Phone>
