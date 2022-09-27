@@ -3,6 +3,7 @@ package com.mtld.backend.entity.dog;
 import com.mtld.backend.entity.BaseEntity;
 import com.nimbusds.openid.connect.sdk.claims.Gender;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,9 +22,12 @@ public class Breed extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
+
     private String name;
 
-    public Breed(String name) {
+    public Breed(String code, String name) {
+        this.code = code;
         this.name = name;
     }
 }

@@ -1,7 +1,7 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import dummy from 'data/RestaurantData.json';
 
 const Container = styled.div`
@@ -34,7 +34,7 @@ const PlaceDiv = styled.div`
   text-align: start;
   
 `;
-const StyledRestaurantIcon = styled(RestaurantIcon)`
+const StyledLocalCafeIcon = styled(LocalCafeIcon)`
   // color: #646464;
   vertical-align: middle;
   margin-right: 5px;
@@ -112,11 +112,11 @@ function RestaurantMap({ searchPlace, flag }) {
             // }
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
-            ps.keywordSearch('반려견동반식당', placeSearchCB, {
+            ps.keywordSearch('반려견동반카페', placeSearchCB, {
               location: new window.kakao.maps.LatLng(lat, long),
               // radius: 3000, // 3km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
-              category_group_code: 'FD6', // 카테고리 그룹 코드 - 식당
+              category_group_code: 'CE7', // 카테고리 그룹 코드 - 카페
             });
             function placeSearchCB(data, status, pagination) {
               if (status === kakao.maps.services.Status.OK) {
@@ -162,7 +162,7 @@ function RestaurantMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695138.png';
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5693/5693993.png';
               const imageSize = new kakao.maps.Size(30, 32);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
@@ -183,16 +183,6 @@ function RestaurantMap({ searchPlace, flag }) {
                 place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
               }
               console.log('place = ', place);
-              // const img = dummy.find((v) => {
-              //   console.log('v = ', v.name.includes('역삼'));
-              //   place.forEach((data, idx) => {
-              //     if (v.name.includes(data.place_name)) {
-              //       console.log('v.image = ', v.image);
-              //     }
-              //   });
-              // }).image;
-              // console.log('img = ', img);
-              // 마커 누르면 인포윈도우에 장소명 나옴
               kakao.maps.event.addListener(marker, 'click', () => {
                 infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
                 infowindow.open(map, marker);
@@ -301,7 +291,7 @@ function RestaurantMap({ searchPlace, flag }) {
                 <ItemDiv>
                   <PlaceDiv>
                     <div>
-                      <StyledRestaurantIcon fontSize="small" />
+                      <StyledLocalCafeIcon fontSize="small" />
                       <PlaceName>{item.place_name}</PlaceName>
                     </div>
                     <Phone href="tel:{item.phone}">{item.phone}</Phone>

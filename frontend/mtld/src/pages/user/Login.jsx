@@ -91,7 +91,7 @@ function Login() {
       <Desktop>
         <DesktopWrap>
           <DesktopLogo src={mtldLogo} />
-          <a href="http://localhost:3000/">
+          <a href={KAKAO_AUTH_URI}>
             <DesktopKakaoBtn src={kakaoLogin} />
           </a>
         </DesktopWrap>
