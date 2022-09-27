@@ -162,7 +162,7 @@ function RestaurantMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695138.png';
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
               const imageSize = new kakao.maps.Size(30, 32);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
