@@ -96,7 +96,7 @@ const CurrentPosition = styled.span`
   font-family: 'GmarketSansMedium';
 `;
 
-function Hospital() {
+function Restaurant() {
   const [InputText, setInputText] = useState('');
   const [Place, setPlace] = useState('');
   const [flag, setFlag] = useState(false);
@@ -145,4 +145,4 @@ function Hospital() {
   );
 }
 
-export default Hospital;
+export default Restaurant;
