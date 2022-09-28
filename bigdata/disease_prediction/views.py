@@ -26,5 +26,5 @@ def get_post(request,condition):
         result['9999']=0
         result=result.sort_values(ascending=False)
         # result.index[0:5].to_json() 
-        return HttpResponse(df.loc[result.index[0:5]-1].to_json())
+        return HttpResponse(df.loc[result.index[0:5]-1].to_json(orient='records'))
         # df.loc[result.index[1]-1]
