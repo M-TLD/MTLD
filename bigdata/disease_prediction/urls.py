@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import get_post
+
+from .views import disease_predict, load_data
 
 urlpatterns=[
-    path('<condition>/',get_post)
+    path('loadData/',load_data),
+    path('<condition>/',disease_predict)
 ]
