@@ -61,7 +61,7 @@ class DogRepositoryTest {
     void getDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         List<Dog> result = dogRepository.findByUser(user.get());
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.size()).isEqualTo(2);
 
 
     }

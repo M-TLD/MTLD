@@ -7,6 +7,8 @@ import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.repository.dog.DogRepository;
 
+import java.util.List;
+
 
 /**
  * created by myeongseok on 2022/09/16
@@ -15,6 +17,9 @@ import com.mtld.backend.repository.dog.DogRepository;
 public interface DogService {
 
     Dog getDog(Long dogId);
+
+    List<DogResponseDetailDto> getDogByUser(Long userId);
+
     DogResponseDetailDto getDogById(Long uid, Long id);
 
     void registerDog(Long userId, DogRequestDto dogRequestDto);

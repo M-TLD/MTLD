@@ -1,5 +1,8 @@
 package com.mtld.backend.service.dog;
 
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
@@ -16,6 +19,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * created by myeongSeok on 2022/09/14
@@ -38,6 +48,17 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    public List<DogResponseDetailDto> getDogByUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+
+        List<DogResponseDetailDto> dogResponseDetailDtoList = new ArrayList<>();
+        for(Dog dog : dogRepository.findByUser(user)){
+            dogResponseDetailDtoList.add(DogResponseDetailDto.of(dog));
+        }
+        return dogResponseDetailDtoList;
+    }
+
+    @Override
     public DogResponseDetailDto getDogById(Long uid, Long dogId) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
@@ -55,6 +76,30 @@ public class DogServiceImpl implements DogService {
         Dog dog = Dog.builder().name(dogRequestDto.getName()).birthdate(ConvertDate.stringToDate(dogRequestDto.getBirthdate())).gender(dogRequestDto.getGender()).weight(dogRequestDto.getWeight()).neuter(dogRequestDto.isNeuter()).breed(breed).user(user).build();
         dog.writeDisease(dogRequestDto.getDisease());
 
+        if (image.isEmpty()) {
+            dogRepository.save(dog);
+            return;
+        }
+
+        String originName = image.getOriginalFilename();
+        String fileName = createFileName(originName);
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(image.getContentType());
+        objectMetadata.setContentLength(image.getSize());
+
+        try (InputStream inputStream = image.getInputStream()) {
+            amazonS3Client.putObject(
+                    new PutObjectRequest(bucket, fileName, inputStream,
+                            objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead)
+            );
+            String imagePath = amazonS3Client.getUrl(bucket, fileName).toString();
+            dog.uploadFile(imagePath);
+        } catch (IOException e) {
+            throw new IllegalStateException("파일(이미지) 업로드에 실패했습니다.");
+        }
+        if(dogRepository.findByUser(user).size() >3)
+            throw new BadRequestException("반려견을 3마리 이상 등록할 수 없습니다.");
         dogRepository.save(dog);
     }
 
