@@ -6,6 +6,7 @@ import RegisteredPet from 'components/petinfo/RegisteredPet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axiosInstance from 'components/auth/axiosConfig';
 import { login } from 'app/user';
+import Spinner from 'components/common/Spinner';
 
 const Wrap = styled.div`
   margin: 0;
@@ -101,7 +102,7 @@ function MyPage() {
   }, []);
 
   if (isLoading) {
-    return <div className="App">Loading...</div>;
+    return <Spinner />;
   }
 
   return (

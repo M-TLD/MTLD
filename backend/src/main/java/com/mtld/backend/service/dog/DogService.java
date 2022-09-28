@@ -6,13 +6,14 @@ import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.repository.dog.DogRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 
 /**
  * created by myeongseok on 2022/09/16
- * updated by myeongseok on 2022/09/20
+ * updated by seongmin on 2022/09/27
  */
 public interface DogService {
 
@@ -22,7 +23,7 @@ public interface DogService {
 
     DogResponseDetailDto getDogById(Long uid, Long id);
 
-    void registerDog(Long userId, DogRequestDto dogRequestDto);
+    void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile file);
 
     void updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto);
 

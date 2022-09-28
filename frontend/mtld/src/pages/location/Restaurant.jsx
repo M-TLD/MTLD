@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import RestaurnatMap from 'components/location/RestaurantMap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
-// import HospitalLogo from 'assets/hospital.png';
+import RestaurantLogo from 'assets/restaurant.png';
 
 const Container = styled.div`
   margin: 30px;
@@ -15,11 +15,14 @@ const Container = styled.div`
 
 const TitleDiv = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 24px;
+  gap: 7px;
+  font-size: 27px;
   color: #5C5C5C;
   line-height: 30px;
+`;
+
+const Title = styled.span`
+  margin-top: 5px;
 `;
 
 const Highlight = styled.span`
@@ -27,13 +30,12 @@ const Highlight = styled.span`
   font-weight: 600;
 `;
 
-// const HospitalImg = styled.img`
-//   height: 7vh;
-// `;
+const RestaurantImg = styled.img`
+  height: 8vh;
+`;
 
 const SearchDiv = styled.div`
   margin: 15px 0 5px 0;   
-
 `;
 
 const SearchForm = styled.form`
@@ -93,7 +95,7 @@ const CurrentPosition = styled.span`
   font-family: 'GmarketSansMedium';
 `;
 
-function Hospital() {
+function Restaurant() {
   const [InputText, setInputText] = useState('');
   const [Place, setPlace] = useState('');
   const [flag, setFlag] = useState(false);
@@ -116,13 +118,13 @@ function Hospital() {
     <div>
       <Container>
         <TitleDiv>
-          <span>
+          <Title>
             우리 아이와 함께
             <br />
             갈 수 있는
             <Highlight> 식당</Highlight>
-          </span>
-          {/* <HospitalImg src={HospitalLogo} /> */}
+          </Title>
+          <RestaurantImg src={RestaurantLogo} />
         </TitleDiv>
         <SearchDiv>
           <SearchForm onSubmit={handleSubmit}>
@@ -142,4 +144,4 @@ function Hospital() {
   );
 }
 
-export default Hospital;
+export default Restaurant;

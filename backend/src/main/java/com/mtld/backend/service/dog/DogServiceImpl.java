@@ -1,12 +1,13 @@
 package com.mtld.backend.service.dog;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
@@ -17,6 +18,7 @@ import com.mtld.backend.repository.user.UserRepository;
 import com.mtld.backend.util.ConvertDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +31,7 @@ import java.util.UUID;
 
 /**
  * created by myeongSeok on 2022/09/14
- * updated by myeongSeok on 2022/09/20
+ * updated by seongmin on 2022/09/27
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -39,9 +41,11 @@ public class DogServiceImpl implements DogService {
     private final DogRepository dogRepository;
     private final UserRepository userRepository;
     private final BreedRepository breedRepository;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    private final AmazonS3Client amazonS3Client;
 
     @Override
-    @Transactional
     public Dog getDog(Long dogId) {
         Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
         return dog;
@@ -70,10 +74,17 @@ public class DogServiceImpl implements DogService {
 
     @Override
     @Transactional
-    public void registerDog(Long userId, DogRequestDto dogRequestDto) {
+    public void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile image) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        Breed breed = breedRepository.findById(dogRequestDto.getBreedId()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
-        Dog dog = Dog.builder().name(dogRequestDto.getName()).birthdate(ConvertDate.stringToDate(dogRequestDto.getBirthdate())).gender(dogRequestDto.getGender()).weight(dogRequestDto.getWeight()).neuter(dogRequestDto.isNeuter()).breed(breed).user(user).build();
+        Breed breed = breedRepository.findByCode(dogRequestDto.getCode()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
+        Dog dog = Dog.builder()
+                .name(dogRequestDto.getName())
+                .birthdate(ConvertDate.stringToDate(dogRequestDto.getBirthdate()))
+                .gender(dogRequestDto.getGender())
+                .weight(dogRequestDto.getWeight())
+                .neuter(dogRequestDto.isNeuter())
+                .breed(breed).user(user)
+                .build();
         dog.writeDisease(dogRequestDto.getDisease());
 
         if (image.isEmpty()) {
@@ -124,5 +135,16 @@ public class DogServiceImpl implements DogService {
         dogRepository.delete(dog);
     }
 
+    private String createFileName(String originalFileName) {
+        return UUID.randomUUID().toString().concat(getFileExtension(originalFileName));
+    }
+
+    private String getFileExtension(String fileName) {
+        try {
+            return fileName.substring(fileName.lastIndexOf("."));
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new BadRequestException("잘못된 형식의 파일 입니다");
+        }
+    }
 
 }
