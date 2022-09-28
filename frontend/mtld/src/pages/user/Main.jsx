@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
 import 'swiper/css';
+import 'swiper/css/navigation';
 import Bobi from 'assets/bobi.png';
 import MedicalCheckup from 'assets/survey_question.png';
 import WalkingDiary from 'assets/diary_home.png';
@@ -11,13 +13,62 @@ import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
 
+const StyledSwiper = styled(Swiper)`
+  margin: 15px;
+`;
+
+const StyledSwiperSlide = styled(SwiperSlide)`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`;
+
+const OurBabyDiv = styled.div`
+width: 150px;
+height: 150px;
+border-radius: 70%;
+border: 10px solid #ffeeb1;
+overflow: hidden;
+margin-bottom: 20px;
+`;
+
+const OurBaby = styled.img`
+width: 100%;
+height: 100%;
+object-fit: cover;
+`;
+
+const Welcome = styled.div`
+display: flex;
+color: #5c5c5c;
+font-size: 28px;
+margin-bottom: 12px;
+`;
+
+const BabyName = styled.span`
+color: #81e3d7;
+font-weight: 600;
+`;
+
+const Alarm = styled.div`
+width: 330px;
+height: 90px;
+background-color: #eafed1;
+border-radius: 15px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+color: #5c5c5c;
+font-size: 18px;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  // gap: 50px;
 `;
 
 const MenuGroup = styled.div`
@@ -55,66 +106,16 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledSwiper = styled(Swiper)`
-  margin: 15px;
-`;
-
-const StyledSwiperSlide = styled(SwiperSlide)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const OurBabyDiv = styled.div`
-  width: 150px;
-  height: 150px;
-  border-radius: 70%;
-  border: 10px solid #ffeeb1;
-  overflow: hidden;
-  margin-bottom: 20px;
-`;
-
-const OurBaby = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const Welcome = styled.div`
-  display: flex;
-  color: #5c5c5c;
-  font-size: 28px;
-  margin-bottom: 12px;
-`;
-
-const BabyName = styled.span`
-  color: #81e3d7;
-  font-weight: 600;
-`;
-
-const Alarm = styled.div`
-  width: 330px;
-  height: 90px;
-  background-color: #eafed1;
-  border-radius: 15px;
-  // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #5c5c5c;
-  font-size: 18px;
-  // line-height : 50px;
-`;
-
 function Main() {
   return (
     <div>
       <StyledSwiper
+        modules={[Navigation]}
         spaceBetween={50}
         slidesPerView={1} // 한 슬라이드에 보여줄 갯수
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        navigation
       >
         <StyledSwiperSlide>
           <StyledLink to="/mypage">
