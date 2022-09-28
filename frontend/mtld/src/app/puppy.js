@@ -11,7 +11,6 @@ export const puppySlice = createSlice({
   reducers: {
     addPuppyInfo: (state, action) => {
       // actions 내에는 payload, type이 존재
-      console.log(action);
       console.log(action.payload);
       console.log(state);
       axiosInstance
