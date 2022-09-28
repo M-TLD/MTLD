@@ -4,10 +4,15 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Paw from 'assets/paw_blue.png';
-
+import axios from 'axios';
 import ImageCarousel from 'components/walklog/ImageCarousel';
 
 const StyledDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   .top {
     display: relative;
     margin-top: 2vh;
@@ -35,6 +40,12 @@ const PawImage = styled.img`
 `;
 
 function DiaryDetail() {
+  const res = axios.get('http://localhost:8080/api/diary/record/3', {
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+    },
+  });
+  console.log(res);
   return (
     <StyledDetail>
       <div className="top">
@@ -48,6 +59,7 @@ function DiaryDetail() {
         <PawImage src={Paw} />
       </div>
       <ImageCarousel />
+      <p>보이나</p>
     </StyledDetail>
   );
 }
