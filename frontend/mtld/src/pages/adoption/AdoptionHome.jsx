@@ -29,7 +29,7 @@ const StyledAdoptionHome = styled.div`
     color: #5c5c5c;
     flex-wrap: nowrap;
     position: absolute;
-    top: 70%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%);
   }
@@ -89,9 +89,26 @@ const StyledAdoptionHome = styled.div`
     font-size: 1px;
   }
 
+  .itemtitle {
+    color: #5C5C5C;
+    width: 90%;
+    text-align: left;
+    margin-top: 1.5vh;
+    margin-bottom: 0;
+  }
+
+  .contents {
+    margin-top: 0;
+  }
+
   #family {
     // '가족' 문구
     font-weight: bold;
+  }
+
+  #family2 {
+    font-weight: bold;
+    color: #81E3D7;
   }
 
   #combo-box-breed {
@@ -108,7 +125,6 @@ const StyledAdoptionHome = styled.div`
   }
 
   #feature-search {
-    height: 10v;
     width: 80vw;
   }
 
@@ -122,10 +138,35 @@ const StyledItems = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1vh;
+  margin-top: 0;
+  margin-left: 1vh;
+  margin-right: 1vh;
   @media screen and (min-width: 1356px) {
     flex-wrap: nowrap;
     gap: 30px;
+  }
+`;
+
+const Button = styled.div`
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 280px;
+  height: 4vh;
+  background-color: #ffdcdc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #5c5c5c;
+  font-size: 18px;
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
+
+  .content {
+    font-size: 14px;
   }
 `;
 
@@ -915,7 +956,7 @@ function AdoptionHome() {
   };
 
   const [filtered, setFiltered] = useState(abandonedList);
-  console.log(filtered);
+  // console.log(filtered);
 
   const filterData = () => {
     if (
@@ -936,20 +977,10 @@ function AdoptionHome() {
         const breedCondition = breed && breed.length > 0 ? cur.kindCd.includes(breed) : true;
         const colorCondition = color && color.length > 0 ? cur.colorCd.includes(color) : true;
         const weightCondition = weight && weight.length > 0 ? cur.weight.includes(weight) : true;
-        const neuteredCondition =
-          neutered && neutered.length > 0 ? cur.neuterYn.includes(neutered) : true;
+        const neuteredCondition = neutered && neutered.length > 0 ? cur.neuterYn.includes(neutered) : true;
         const placeCondition = place && place.length > 0 ? cur.careAddr.includes(place) : true;
-        const featureCondition =
-          feature && feature.length > 0 ? cur.specialMark.includes(feature) : true;
-        if (
-          sexCondition &&
-          breedCondition &&
-          colorCondition &&
-          weightCondition &&
-          neuteredCondition &&
-          placeCondition &&
-          featureCondition
-        ) {
+        const featureCondition = feature && feature.length > 0 ? cur.specialMark.includes(feature) : true;
+        if (sexCondition && breedCondition && colorCondition && weightCondition && neuteredCondition && placeCondition && featureCondition) {
           acc.push(cur);
         }
         return acc;
@@ -964,7 +995,7 @@ function AdoptionHome() {
     filterData();
   }, [abandonedList, breed, sex, color, weight, neutered, place, feature]);
 
-  console.log(filtered);
+  // console.log(filtered);
 
   return (
     <StyledAdoptionHome>
@@ -978,6 +1009,9 @@ function AdoptionHome() {
           </span>
           <span>이 되어주세요!</span>
         </div>
+        <Button onClick={() => window.open('https://www.animal.go.kr/front/awtis/public/publicList.do?menuNo=1000000055', '_blank')}>
+          <span className="content">더 많은 아이들 보러 가기</span>
+        </Button>
       </div>
 
       {/* 검색 조건 */}
@@ -1245,10 +1279,15 @@ function AdoptionHome() {
         </div>
       </div>
 
+      <div className="itemtitle">
+        <span id="family2">가족</span>
+        <span>을 기다리는 아이들</span>
+      </div>
+
       {loading || filtered.length === 0 ? (
         <Spinner />
       ) : (
-        <div>
+        <div className="contents">
           {filtered.length === 0 ? (
             <div id="noresult">
               <p>검색 결과가 없습니다.</p>

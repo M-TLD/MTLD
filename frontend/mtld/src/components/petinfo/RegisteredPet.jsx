@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import bobi from 'assets/bobi.png';
+// import { addPuppyInfo } from 'app/puppy';
+import axiosInstance from 'components/auth/axiosConfig';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Wrap = styled.div`
   margin: 0;

@@ -7,7 +7,7 @@ const PrivateRoutes = () => {
 
   const today = new Date();
   const parsedToday = today.getTime();
-  const isExpired = refreshTokenExp - parsedToday < 1;
+  const isExpired = refreshTokenExp - parsedToday < 0;
   console.log('isExpired?', isExpired);
 
   if (isExpired) {
