@@ -1,7 +1,6 @@
 package com.mtld.backend.entity.diary;
 
-import com.mtld.backend.entity.User;
-import com.mtld.backend.entity.diary.Diary;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.dog.Dog;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * created by seongmin on 2022/09/08

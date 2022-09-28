@@ -11,7 +11,7 @@ import com.mtld.backend.dto.diary.walking.WalkingDetailRequestDto;
 import com.mtld.backend.dto.diary.walking.WalkingDetailResponseDto;
 import com.mtld.backend.dto.diary.walking.WalkingRequestDto;
 import com.mtld.backend.entity.UploadFile;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;

@@ -4,6 +4,7 @@ import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.*;
 import com.mtld.backend.entity.medicine.TakingMedicine;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.vaccine.Vaccination;
 import lombok.AccessLevel;
 import lombok.Builder;
