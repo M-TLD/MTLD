@@ -35,8 +35,7 @@ public class DogController {
     public ResponseEntity<?> findById(@PathVariable("dogId") Long dogId) {
         log.info("getDogId = {}", dogId);
         DogResponseDetailDto dogResponseDetailDto = dogService.getDogById(userService.getMyInfoSecret().getId(), dogId);
-        return ResponseEntity.status(OK).body(dogResponseDetailDto);
-
+        return ResponseEntity.status(HttpStatus.OK).body(dogResponseDetailDto);
     }
 
     @PostMapping

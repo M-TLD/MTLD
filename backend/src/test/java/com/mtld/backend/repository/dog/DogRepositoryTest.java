@@ -1,6 +1,6 @@
 package com.mtld.backend.repository.dog;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.entity.dog.Gender;
@@ -61,7 +61,7 @@ class DogRepositoryTest {
     void getDog() {
         Optional<User> user = userRepository.findByOauthId("test@gmail.com");
         List<Dog> result = dogRepository.findByUser(user.get());
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.size()).isEqualTo(2);
 
 
     }

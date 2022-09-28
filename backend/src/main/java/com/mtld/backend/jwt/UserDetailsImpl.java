@@ -1,6 +1,6 @@
 package com.mtld.backend.jwt;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;

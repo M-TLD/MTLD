@@ -8,6 +8,8 @@ import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.repository.dog.DogRepository;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 /**
  * created by myeongseok on 2022/09/16
@@ -16,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 public interface DogService {
 
     Dog getDog(Long dogId);
+
+    List<DogResponseDetailDto> getDogByUser(Long userId);
+
     DogResponseDetailDto getDogById(Long uid, Long id);
 
     void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile file);

@@ -1,11 +1,10 @@
 package com.mtld.backend.repository.diary;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.diary.Record;
 import com.mtld.backend.repository.user.UserRepository;
 import com.mtld.backend.util.ConvertDate;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * created by seongmin on 2022/09/20

@@ -1,17 +1,15 @@
 package com.mtld.backend.service.medicine;
 
 import com.mtld.backend.dto.dog.DogRequestDto;
-import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.medicine.TakingMedicineRequestDto;
 import com.mtld.backend.dto.medicine.TakingMedicineResponseDto;
 import com.mtld.backend.dto.medicine.TakingMedicineUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.entity.dog.Gender;
 import com.mtld.backend.entity.medicine.Medicine;
-import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.repository.dog.BreedRepository;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.medicine.MedicineRepository;
@@ -26,9 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
