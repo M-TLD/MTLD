@@ -4,16 +4,14 @@ import { useSelector } from 'react-redux';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 const StyledWalkLog = styled.div`
-  .div {
-    border: 2px solid #e5e5e5;
-    border-radius: 5px;
-    flex-direction: column;
-    box-shadow: 4px 4px #e6e4e4;
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-    color: #5c5c5c;
-    width: 350px; // 캘린더 기본 너비와 일치시킴
-  }
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+  flex-direction: column;
+  box-shadow: 4px 4px #e6e4e4;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  color: #5c5c5c;
+  width: 330px; // 캘린더 기본 너비:350px
 
   .title {
     display: flex;
@@ -24,7 +22,7 @@ const StyledWalkLog = styled.div`
   }
 
   .hr {
-    width: 350px;
+    width: 330px;
     background-color: #a4a4a4;
     height: 0.5px;
   }
@@ -52,6 +50,10 @@ const StyledWalkLog = styled.div`
     border-bottom-width: 0.3vh;
     border-color: #a4a4a4;
   }
+
+  .time {
+    margin-right: 20px;
+  }
 `;
 
 function WalkLogCreate() {
@@ -65,24 +67,22 @@ function WalkLogCreate() {
 
   return (
     <StyledWalkLog>
-      <div className="div">
-        <div className="title">
-          <span>산책일지</span>
-          {/* 체크 버튼 클릭시 */}
-          <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
+      <div className="title">
+        <span>산책일지</span>
+        {/* 체크 버튼 클릭시 */}
+        <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
+      </div>
+      <hr className="hr" />
+      <p className="text">{newDate}</p>
+      <p className="text">오늘 얼만큼 산책했나요?</p>
+      <div className="form">
+        <div className="time">
+          <input className="input" type="int" />
+          <span> 시간 </span>
         </div>
-        <hr className="hr" />
-        <p className="text">{newDate}</p>
-        <p className="text">오늘 얼만큼 산책했나요?</p>
-        <div className="form">
-          <div className="time">
-            <input className="input" type="int" />
-            <span> 시간 </span>
-          </div>
-          <div className="distance">
-            <input className="input" type="int" />
-            <span> km</span>
-          </div>
+        <div className="distance">
+          <input className="input" type="int" />
+          <span> km</span>
         </div>
       </div>
     </StyledWalkLog>
