@@ -10,10 +10,17 @@ const StyledDiaryHome = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  .walklog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+  }
 `;
 
 const StyledLink = styled(Link)`
-  width: 350px;
+  width: 330px;
   height: 5vh;
   text-decoration: none;
   background-color: #ffdcdc;
@@ -37,10 +44,10 @@ function DiaryHome() {
     <StyledDiaryHome>
       <CalenderView />
 
-      <div>
+      <div className="walklog">
         {/* 산책일지 */}
         {/* 해당하는 값이 있는 경우: Result, 없는 경우: Create */}
-        <WalkLogCreate />
+        {/* <WalkLogCreate /> */}
         <WalkLogResult />
       </div>
 
