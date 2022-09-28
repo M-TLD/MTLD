@@ -4,7 +4,7 @@ import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.vaccine.VaccinationRequestDto;
 import com.mtld.backend.dto.vaccine.VaccinationResponseDto;
 import com.mtld.backend.dto.vaccine.VaccinationUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
@@ -24,8 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

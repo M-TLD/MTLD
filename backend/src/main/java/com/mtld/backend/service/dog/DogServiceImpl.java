@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.exception.AuthException;
@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -47,6 +49,17 @@ public class DogServiceImpl implements DogService {
     public Dog getDog(Long dogId) {
         Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
         return dog;
+    }
+
+    @Override
+    public List<DogResponseDetailDto> getDogByUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+
+        List<DogResponseDetailDto> dogResponseDetailDtoList = new ArrayList<>();
+        for(Dog dog : dogRepository.findByUser(user)){
+            dogResponseDetailDtoList.add(DogResponseDetailDto.of(dog));
+        }
+        return dogResponseDetailDtoList;
     }
 
     @Override
@@ -96,6 +109,8 @@ public class DogServiceImpl implements DogService {
         } catch (IOException e) {
             throw new IllegalStateException("파일(이미지) 업로드에 실패했습니다.");
         }
+        if(dogRepository.findByUser(user).size() >3)
+            throw new BadRequestException("반려견을 3마리 이상 등록할 수 없습니다.");
         dogRepository.save(dog);
     }
 

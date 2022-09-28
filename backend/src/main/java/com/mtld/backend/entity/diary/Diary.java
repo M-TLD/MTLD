@@ -1,14 +1,13 @@
 package com.mtld.backend.entity.diary;
 
 import com.mtld.backend.entity.BaseEntity;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * created by seongmin on 2022/09/08

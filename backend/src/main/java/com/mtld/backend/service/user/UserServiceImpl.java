@@ -9,7 +9,7 @@ import com.mtld.backend.dto.token.ReissueDto;
 import com.mtld.backend.dto.token.TokenDto;
 import com.mtld.backend.dto.user.LoginResponseDto;
 import com.mtld.backend.dto.user.UserInfoDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.repository.user.UserRepository;

@@ -1,6 +1,7 @@
-package com.mtld.backend.entity;
+package com.mtld.backend.entity.user;
 
 import com.mtld.backend.converter.BooleanToYNConverter;
+import com.mtld.backend.entity.BaseEntity;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.diary.Diary;
 import com.mtld.backend.entity.dog.Dog;

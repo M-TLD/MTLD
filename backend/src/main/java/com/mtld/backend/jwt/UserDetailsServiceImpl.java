@@ -1,6 +1,6 @@
 package com.mtld.backend.jwt;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
