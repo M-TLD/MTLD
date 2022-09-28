@@ -16,7 +16,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axiosInstance from 'components/auth/axiosConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPuppyInfo } from 'app/puppy';
-
 import puppyface from 'assets/puppyface.png';
 
 const Wrap = styled.div`
@@ -136,11 +135,11 @@ function PetInfoCreate() {
     console.log(e.currentTarget.value);
   };
 
-  const parsedData = {
+  let parsedData = {
     birthdate: birthdateValue,
     breedId: breedIdValue,
     disease: diseaseValue,
-    fileURL: fileURLValue,
+    // fileURL: fileURLValue,
     gender: genderValue,
     name: nameValue,
     neuter: neuterValue,
@@ -162,13 +161,13 @@ function PetInfoCreate() {
     if (event.target.files[0]) {
       setImage(event.target.files[0]);
 
-      const formData = new FormData();
-      formData.append('file', Image);
-      if (Image) {
-        setFileURLValue(formData);
-      }
-    } else {
-      setImage(puppyface);
+      //   const formData = new FormData();
+      //   formData.append('file', Image);
+      //   if (Image) {
+      //     setFileURLValue(formData);
+      //   }
+      // } else {
+      //   setImage(puppyface);
     }
 
     const reader = new FileReader();
@@ -180,6 +179,24 @@ function PetInfoCreate() {
     reader.readAsDataURL(event.target.files[0]);
     console.log(reader);
   };
+
+  const formData = new FormData();
+  parsedData = JSON.stringify(parsedData);
+  formData.append('dog', new Blob([parsedData]), {
+    type: 'application/json',
+  });
+  formData.append('image', Image);
+
+  // console.log(formData.get('dog'));
+  // console.log(formData.get('image'));
+
+  // const axiosRequest = () => {
+  //   axiosInstance
+  //     .post('/api/dog', {
+  //       data: formData,
+  //     })
+  //     .then((res) => console.log(res));
+  // };
 
   return (
     <Wrap>
@@ -246,7 +263,15 @@ function PetInfoCreate() {
                 noValidate
                 autoComplete="off"
               >
-                <TextField ref={inputRef} {...inputProps} id="date" label="생년월일/입양일" variant="standard" InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }} InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }} />
+                <TextField
+                  ref={inputRef}
+                  {...inputProps}
+                  id="date"
+                  label="생년월일/입양일"
+                  variant="standard"
+                  InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                  InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                />
               </Box>
             )}
           />
@@ -301,7 +326,13 @@ function PetInfoCreate() {
               성별
             </FormLabel>
             <div className="radioDiv">
-              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }} onChange={onGenderChange}>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                sx={{ gap: '15vw' }}
+                onChange={onGenderChange}
+              >
                 <FormControlLabel value="FEMALE" control={<Radio />} label="여아" labelPlacement="end" />
                 <FormControlLabel value="MALE" control={<Radio />} label="남아" labelPlacement="end" />
               </RadioGroup>
@@ -320,7 +351,13 @@ function PetInfoCreate() {
           >
             <FormLabel id="demo-row-radio-buttons-group-label">중성화여부</FormLabel>
             <div className="radioDiv">
-              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" sx={{ gap: '15vw' }} onChange={onNeuterChange}>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                sx={{ gap: '15vw' }}
+                onChange={onNeuterChange}
+              >
                 <FormControlLabel value="true" control={<Radio />} label="예" labelPlacement="end" />
                 <FormControlLabel value="false" control={<Radio />} label="아니오" labelPlacement="end" />
               </RadioGroup>
@@ -330,8 +367,9 @@ function PetInfoCreate() {
       </PetInfoInput>
       <RegisterButton
         onClick={() => {
-          // console.log(parsedData);
-          dispatch(addPuppyInfo(parsedData));
+          console.log(parsedData);
+          dispatch(addPuppyInfo(formData));
+          // axiosRequest();
         }}
       >
         등록하기
