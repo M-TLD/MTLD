@@ -7,7 +7,9 @@ const accessToken = window.localStorage.getItem('accessToken');
 
 const axiosInstance = axios.create({
   baseURL,
-  headers: { Authorization: `Bearer ${accessToken}` },
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+  },
 });
 
 // request interceptor

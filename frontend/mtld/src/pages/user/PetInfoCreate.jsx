@@ -95,6 +95,8 @@ const RegisterButton = styled.button`
 function PetInfoCreate() {
   const dispatch = useDispatch();
 
+  // const formData = new FormData();
+
   const [dateValue, setDateValue] = useState(dayjs('2014-08-18T21:11:54'));
   const [birthdateValue, setBirthdateValue] = useState('');
   const [breedIdValue, setBreedIdValue] = useState(1);
@@ -135,11 +137,10 @@ function PetInfoCreate() {
     console.log(e.currentTarget.value);
   };
 
-  let parsedData = {
+  const parsedData = {
     birthdate: birthdateValue,
-    breedId: breedIdValue,
+    code: breedIdValue,
     disease: diseaseValue,
-    // fileURL: fileURLValue,
     gender: genderValue,
     name: nameValue,
     neuter: neuterValue,
@@ -151,23 +152,23 @@ function PetInfoCreate() {
     const birthDate = newValue.$d;
     const parsedBirthDate = birthDate.toISOString().slice(0, 10);
     setBirthdateValue(parsedBirthDate);
-    console.log(birthdateValue);
   };
+  console.log(birthdateValue);
 
   const [Image, setImage] = useState(puppyface);
   const fileInput = useRef(null);
 
   const onLoadFile = (event) => {
     if (event.target.files[0]) {
-      setImage(event.target.files[0]);
+      setImage(event.target.files[0].name);
 
-      //   const formData = new FormData();
-      //   formData.append('file', Image);
-      //   if (Image) {
-      //     setFileURLValue(formData);
-      //   }
-      // } else {
-      //   setImage(puppyface);
+      // formData.append('image', event.target.files[0]);
+
+      if (Image) {
+        setFileURLValue(event.target.files[0]);
+      }
+    } else {
+      setImage(puppyface);
     }
 
     const reader = new FileReader();
@@ -180,24 +181,6 @@ function PetInfoCreate() {
     console.log(reader);
   };
 
-  const formData = new FormData();
-  parsedData = JSON.stringify(parsedData);
-  formData.append('dog', new Blob([parsedData]), {
-    type: 'application/json',
-  });
-  formData.append('image', Image);
-
-  // console.log(formData.get('dog'));
-  // console.log(formData.get('image'));
-
-  // const axiosRequest = () => {
-  //   axiosInstance
-  //     .post('/api/dog', {
-  //       data: formData,
-  //     })
-  //     .then((res) => console.log(res));
-  // };
-
   return (
     <Wrap>
       <Title>
@@ -209,7 +192,7 @@ function PetInfoCreate() {
             alt="puppyface"
             className="uploadedImage"
             src={Image}
-            round
+            // round="true"
             sx={{ width: '180px', height: '180px' }}
             onClick={() => {
               fileInput.current.click();
@@ -367,8 +350,8 @@ function PetInfoCreate() {
       </PetInfoInput>
       <RegisterButton
         onClick={() => {
-          console.log(parsedData);
-          dispatch(addPuppyInfo(formData));
+          // console.log(parsedData);
+          dispatch(addPuppyInfo([fileURLValue, parsedData]));
           // axiosRequest();
         }}
       >

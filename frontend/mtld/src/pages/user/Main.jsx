@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
 import 'swiper/css';
+import 'swiper/css/navigation';
 import Bobi from 'assets/bobi.png';
 import MedicalCheckup from 'assets/survey_question.png';
 import WalkingDiary from 'assets/diary_home.png';
@@ -10,50 +12,28 @@ import PetFriendly from 'assets/location_main.png';
 import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  // gap: 50px;
-`;
-
-const MenuGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  @media screen and (min-width: 1356px) {
-    flex-wrap: nowrap;
-    gap: 60px;
-  }
-`;
-
-const MenuItem = styled.div`
-  width: 30%;
-  margin-bottom: 20px;
-`;
-
-const MenuImage = styled.img`
-  height: 8vh;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    text-decoration: none;
-    color: #5c5c5c;
-    font-size: 13px;
-  }
-`;
+import Arrow from 'assets/arrow.png';
 
 const StyledSwiper = styled(Swiper)`
-  margin: 15px;
+  margin-top: 30px;
+  position: relative;
+  .swiper-button-prev {
+    display: none;
+  }
+  .swiper-button-next {
+    width: 90px;
+    height: 100px;
+    background: url(${Arrow}) no-repeat!important;
+    position: absolute; 
+    right: 0;
+    top: 100px;
+  }
+  .swiper-button-next::after {
+    display: none;
+  }
+  @media screen and (min-width: 1356px) {
+    margin-top: 60px;
+  }
 `;
 
 const StyledSwiperSlide = styled(SwiperSlide)`
@@ -61,6 +41,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 5px;
 `;
 
 const OurBabyDiv = styled.div`
@@ -95,23 +76,70 @@ const Alarm = styled.div`
   height: 90px;
   background-color: #eafed1;
   border-radius: 15px;
-  // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
   color: #5c5c5c;
   font-size: 18px;
-  // line-height : 50px;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+`;
+
+const MenuDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  @media screen and (min-width: 1356px) {
+    margin-top: 60px;
+  }
+`;
+
+const MenuGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  @media screen and (min-width: 1356px) {
+    flex-wrap: nowrap;
+    gap: 60px;
+  }
+`;
+
+const MenuItem = styled.div`
+  width: 30%;
+  margin-bottom: 20px;
+  @media screen and (min-width: 1356px) {
+    width: 80px;
+  }
+`;
+
+const MenuImage = styled.img`
+  height: 8vh;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+    color: #5c5c5c;
+    font-size: 13px;
+  }
 `;
 
 function Main() {
   return (
     <div>
       <StyledSwiper
-        spaceBetween={50}
+        modules={[Navigation]}
+        // spaceBetween={}
         slidesPerView={1} // 한 슬라이드에 보여줄 갯수
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        navigation
       >
         <StyledSwiperSlide>
           <StyledLink to="/mypage">
@@ -120,7 +148,7 @@ function Main() {
             </OurBabyDiv>
           </StyledLink>
           <Welcome>
-            <BabyName>&nbsp;보비야</BabyName>
+            <BabyName>&nbsp;보비</BabyName>
             <span>&nbsp;반가워!</span>
           </Welcome>
           <StyledLink to="/pet-medical-card">
@@ -150,7 +178,7 @@ function Main() {
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
       </StyledSwiper>
-      <Container>
+      <MenuDiv>
         <MenuGroup>
           <MenuItem>
             <StyledLink to="/survey-question">
@@ -201,7 +229,7 @@ function Main() {
             </StyledLink>
           </MenuItem>
         </MenuGroup>
-      </Container>
+      </MenuDiv>
     </div>
   );
 }

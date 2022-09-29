@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance from 'components/auth/axiosConfig';
+import axios from 'axios';
 
 const initialStateValue = {};
 
@@ -11,12 +12,35 @@ export const puppySlice = createSlice({
   reducers: {
     addPuppyInfo: (state, action) => {
       // actions 내에는 payload, type이 존재
-      console.log(action.payload);
-      console.log(state);
-      axiosInstance
-        .post('api/dogs', {
-          data: action.payload,
-        })
+
+      const dogFormData = new FormData();
+      const dogInfo = JSON.stringify(action.payload[1]);
+      dogFormData.append('image', action.payload[0]);
+      dogFormData.append(
+        'dog',
+        new Blob([dogInfo], {
+          type: 'application/json',
+        }),
+      );
+
+      console.log(dogFormData.get('dog'));
+      console.log(dogFormData.get('image'));
+
+      for (const value of dogFormData.values()) {
+        console.log(value);
+      }
+
+      const accessToken = window.localStorage.getItem('accessToken');
+
+      axios({
+        url: `${process.env.REACT_APP_BASE_URL}/api/dogs`,
+        method: 'post',
+        headers: {
+          'content-type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: dogFormData,
+      })
         .then((res) => {
           console.log(res);
           console.log('successfully registered puppy');
