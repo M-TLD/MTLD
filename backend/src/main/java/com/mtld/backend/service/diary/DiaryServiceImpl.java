@@ -80,18 +80,19 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto) {
+    public WalkingDetailResponseDto getWalkingDetail(Long uid, Long dogId, String date) {
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
 
-        LocalDate diaryDate = ConvertDate.stringToDate(dto.getDiaryDate());
+        LocalDate diaryDate = ConvertDate.stringToDate(date);
 
-        Dog dog = dogRepository.findByIdAndUser(dto.getDogId(), user).orElseThrow(() -> new AuthException("권한이 없습니다."));
+        Dog dog = dogRepository.findByIdAndUser(dogId, user).orElseThrow(() -> new AuthException("권한이 없습니다."));
         Walking result = walkingRepository.findByDiaryDateBetweenAndDog(diaryDate, diaryDate, dog).orElseThrow(() -> new NoContentException("유효하지 않은 산책일지입니다."));
         return WalkingDetailResponseDto.of(result);
     }
 
     @Override
     public WalkingDetailResponseDto getWalkingDetailById(Long uid, Long id) {
+        log.info("uid = {}" , uid);
         User user = userRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Walking walking = walkingRepository.findById(id).orElseThrow(() -> new NoContentException("유효하지 않은 산책일지입니다."));
         if (!walking.getUser().equals(user)) {
@@ -108,7 +109,7 @@ public class DiaryServiceImpl implements DiaryService {
         if (!walking.getUser().equals(user)) {
             throw new AuthException("접근 권한이 없습니다.");
         }
-        walkingRepository.deleteById(id);
+        walkingRepository.delete(walking);
     }
 
     @Override
