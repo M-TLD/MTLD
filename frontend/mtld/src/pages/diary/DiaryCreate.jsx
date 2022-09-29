@@ -4,11 +4,18 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Paw from 'assets/paw_blue.png';
+import ImagePreview from 'assets/ImagePreview.png';
 import axios from 'axios';
-
+import ImageCarousel from 'components/walklog/ImageCarousel';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const StyledCreate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   .top {
     display: relative;
     margin-top: 2vh;
@@ -28,6 +35,25 @@ const StyledCreate = styled.div`
     position: absolute;
     right: 5px;
   }
+
+  .upload-btn {
+    display: none;
+  }
+
+  .imagedelete {
+    margin-left: 160px;
+    margin-bottom: 1vh;
+    font-family: 'GmarketSansMedium';
+    font-size: 12px;
+    color: #5c5c5c;
+  }
+
+  .inputbox {
+    height: 200px;
+    width: 250px;
+    border: none;
+    font-family: 'GmarketSansMedium';
+  }
 `;
 
 const PawImage = styled.img`
@@ -36,6 +62,7 @@ const PawImage = styled.img`
 `;
 
 function DiaryCreate() {
+  const navigate = useNavigate();
   // date: yyyy-mm-dd 형식
   const date = useSelector((state) => state.date.value);
 
@@ -48,27 +75,50 @@ function DiaryCreate() {
   // 이미지, 날짜, 텍스트값 POST
 
   const [textValue, setTextValue] = useState('');
+  const [fileURLValue, setFileURLValue] = useState('');
 
   const [Image, setImage] = useState([]);
+  const PreviewImage = [ImagePreview];
+  const [showImages, setShowImages] = useState([]);
   const fileInput = useRef(null);
+  // const ImageList = new Array();
 
   const formData = new FormData();
 
   const onLoadFile = (event) => {
-    if (event.target.files[0]) {
-      setImage([event.target.files[0]]);
-      // formData.append('image', [event.target.files[0]]);
-      // console.log('image:', formData.get('image'));
+    // 이미지 미리보기
+    const imageLists = event.target.files;
+    console.log('targetlist:', imageLists);
+    let imageUrlLists = [...showImages];
+    let imageUploadLists = [...Image];
+
+    for (let i = 0; i < imageLists.length; i += 1) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imageUrlLists.push(currentImageUrl);
     }
 
-    // 이미지 미리보기
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result);
-      }
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    for (let i = 0; i < imageLists.length; i += 1) {
+      imageUploadLists.push(imageLists[i]);
+    }
+
+    if (imageUrlLists.length > 5) {
+      imageUrlLists = imageUrlLists.slice(0, 5);
+    }
+
+    if (imageUploadLists.length > 5) {
+      imageUploadLists = imageUploadLists.slice(0, 5);
+    }
+
+    setShowImages(imageUrlLists);
+    setImage(imageUploadLists);
+  };
+  console.log('showImages', showImages);
+  console.log('imagelist:', Image);
+
+  const ResetImage = (e) => {
+    setShowImages([]);
+    setImage([]);
+    console.log(showImages);
   };
 
   const onTextChange = (e) => {
@@ -81,7 +131,11 @@ function DiaryCreate() {
     // console.log(record);
     const re = JSON.stringify(record);
 
-    formData.append('image', Image);
+    for (let i = 0; i < Image.length; i += 1) {
+      formData.append('image', Image[i]);
+    }
+
+    // formData.append('image', Image);
     formData.append(
       'record',
       new Blob([re], {
@@ -89,50 +143,31 @@ function DiaryCreate() {
       }),
     );
 
-    console.log('image:', formData.get('image'));
-    console.log('record:', formData.get('record'));
+    // console.log('image:', formData.get('image'));
+    // console.log('record:', formData.get('record'));
 
-    // for (const key of formData.keys()) {
-    //   console.log(`${key}: ${formData.get(key)}`);
-    // }
-    // for (const [name, value] of formData) {
-    //   alert(`${name} = ${value}`);
-    // }
-    const res = await axios.post('http://localhost:8080/api/diary/record', formData, {
+    for (const value of formData.values()) {
+      console.log('value', value);
+    }
+
+    const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/diary/record`, formData, {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
-        ContentType: 'multipart/form-data',
+        'content-type': 'multipart/form-data',
       },
     });
     console.log(res);
-
-    // console.log(formData.get('record').name.diaryDate);
+    if (res.status === 201) {
+      navigate('/diary-home');
+    }
   };
 
-  const newButton = () => {
-    console.log(JSON.stringify(formData.get('record')));
-  };
-
-  // console.log(formData.get('image'));
-  // console.log(JSON.stringify(formData));
-  // console.log(JSON.stringify(formData.get('record')));
-  // console.log(formData.get('record'));
-  // console.log(formData.get('record').name);)
-
-  // for (let key of formData.keys()) {
-  //   console.log(`${key}: ${formData.get(key)}`);
-  // }
-
-  // for (let key of formData.keys()) {
-  //   console.log(key);
-  // }
-  // for (var value of profileData.values()) {
-  //   console.log(value);
-  // }
   return (
     <StyledCreate>
       <div className="top">
-        <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} onClick={newButton} />
+        <NavLink to="/diary-home">
+          <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} />
+        </NavLink>
         <ImageOutlinedIcon
           id="photo"
           sx={{ color: '#F4C7AB' }}
@@ -140,8 +175,7 @@ function DiaryCreate() {
             fileInput.current.click();
           }}
         />
-        <img width="20px" src={Image} alt="" />
-        <input ref={fileInput} className="upload-btn" type="file" name="profile-image" id="profile" accept="image/*" onChange={onLoadFile} />
+
         <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} onClick={recordAppend} />
       </div>
       <br />
@@ -152,7 +186,23 @@ function DiaryCreate() {
       <div>
         <p>{newDate}</p>
       </div>
-      <input type="text" onChange={onTextChange} />
+      <input
+        ref={fileInput}
+        className="upload-btn"
+        type="file"
+        name="profile-image"
+        id="profile"
+        accept="image/*"
+        multiple="multiple"
+        onChange={onLoadFile}
+      />
+      <div className="imagedelete" role="button" onClick={ResetImage} onKeyDown={console.log()} tabIndex={0}>
+        이미지 다시 고르기
+      </div>
+      {showImages.length >= 1 ? <ImageCarousel ImageList={showImages.reverse()} /> : <ImageCarousel ImageList={PreviewImage} />}
+
+      <hr />
+      <textarea className="inputbox" type="text" onChange={onTextChange} placeholder="오늘의 일기를 적어보세요!" />
     </StyledCreate>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import styled from 'styled-components';
@@ -12,52 +12,49 @@ import PawYellow from 'assets/paw_yellow.png';
 import PawBlue from 'assets/paw_blue.png';
 
 const StyledCarousel = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 300px;
-  height: 330px;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  width: 260px;
+  height: 300px;
+  margin: 0;
 
-  // .swiper-slide {
-  //   /* Center slide text vertically */
-  //   display: -webkit-box;
-  //   display: -ms-flexbox;
-  //   display: -webkit-flex;
-  //   display: flex;
-  //   -webkit-box-pack: center;
-  //   -ms-flex-pack: center;
-  //   -webkit-justify-content: center;
-  //   justify-content: center;
-  //   -webkit-box-align: center;
-  //   -ms-flex-align: center;
-  //   -webkit-align-items: center;
-  //   align-items: center;
-  // }
+  .swiper-slide {
+    margin: 0;
+    height: 290px;
+    // /* Center slide text vertically */
+    // display: -webkit-box;
+    // display: -ms-flexbox;
+    // display: -webkit-flex;
+    // display: flex;
+    // -webkit-box-pack: center;
+    // -ms-flex-pack: center;
+    // -webkit-justify-content: center;
+    // justify-content: center;
+    // -webkit-box-align: center;
+    // -ms-flex-align: center;
+    // -webkit-align-items: center;
+  }
 
   .swiper-slide img {
-    border: 2px solid #
+    border: 5px solid #ffd98e;
     display: block;
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    overflow: hidden;
+    width: 250px;
+    height: 250px;
+    // object-fit: cover;
+    // overflow: hidden;
   }
 
   .swiper-wrapper {
-    height: 1000px;
     position: relative;
     display: flex;
   }
 
   .swiper-pagination {
     position: absolute;
-    top: 305px;
-    // background-color: black;
-  }
-
-  .swiper-pagination-bullet {
-    // display: block;
-    // position: absolute !important;
-    // top: 50px !important;
+    top: 270px;
+    height: 20px;
   }
 
   .swiper-pagination-bullet-active {
@@ -66,13 +63,18 @@ const StyledCarousel = styled.div`
 `;
 
 function ImageCarousel(props) {
-  const ImageList = [Paw, PawYellow, PawBlue];
+  const [ImageList, setImageList] = useState([]);
+  useEffect(() => {
+    setImageList(props.ImageList);
+  }, [props.ImageList]);
+  // console.log(ImageList);
+
   return (
     <StyledCarousel>
-      <Swiper pagination modules={[Pagination]} className="mySwiper">
-        {ImageList.map((image) => (
-          <SwiperSlide>
-            <img src={image} alt="" />
+      <Swiper pagination modules={[Pagination]} slidesPerView={1} className="mySwiper">
+        {ImageList.map((image, id) => (
+          <SwiperSlide key={id}>
+            <img src={image} alt="" style={{ marginRight: 0 }} />
           </SwiperSlide>
         ))}
       </Swiper>
