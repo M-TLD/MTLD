@@ -12,63 +12,87 @@ import PetFriendly from 'assets/location_main.png';
 import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
+import Arrow from 'assets/arrow.png';
 
 const StyledSwiper = styled(Swiper)`
-  margin: 15px;
+  margin-top: 30px;
+  position: relative;
+  .swiper-button-prev {
+    display: none;
+  }
+  .swiper-button-next {
+    width: 90px;
+    height: 100px;
+    background: url(${Arrow}) no-repeat!important;
+    position: absolute; 
+    right: 0;
+    top: 100px;
+  }
+  .swiper-button-next::after {
+    display: none;
+  }
+  @media screen and (min-width: 1356px) {
+    margin-top: 60px;
+  }
 `;
 
 const StyledSwiperSlide = styled(SwiperSlide)`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5px;
 `;
 
 const OurBabyDiv = styled.div`
-width: 150px;
-height: 150px;
-border-radius: 70%;
-border: 10px solid #ffeeb1;
-overflow: hidden;
-margin-bottom: 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 70%;
+  border: 10px solid #ffeeb1;
+  overflow: hidden;
+  margin-bottom: 20px;
 `;
 
 const OurBaby = styled.img`
-width: 100%;
-height: 100%;
-object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Welcome = styled.div`
-display: flex;
-color: #5c5c5c;
-font-size: 28px;
-margin-bottom: 12px;
+  display: flex;
+  color: #5c5c5c;
+  font-size: 28px;
+  margin-bottom: 12px;
 `;
 
 const BabyName = styled.span`
-color: #81e3d7;
-font-weight: 600;
+  color: #81e3d7;
+  font-weight: 600;
 `;
 
 const Alarm = styled.div`
-width: 330px;
-height: 90px;
-background-color: #eafed1;
-border-radius: 15px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-color: #5c5c5c;
-font-size: 18px;
+  width: 330px;
+  height: 90px;
+  background-color: #eafed1;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #5c5c5c;
+  font-size: 18px;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
 `;
 
-const Container = styled.div`
+const MenuDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  @media screen and (min-width: 1356px) {
+    margin-top: 60px;
+  }
 `;
 
 const MenuGroup = styled.div`
@@ -111,7 +135,7 @@ function Main() {
     <div>
       <StyledSwiper
         modules={[Navigation]}
-        spaceBetween={50}
+        // spaceBetween={}
         slidesPerView={1} // 한 슬라이드에 보여줄 갯수
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
@@ -154,7 +178,7 @@ function Main() {
         <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
         <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
       </StyledSwiper>
-      <Container>
+      <MenuDiv>
         <MenuGroup>
           <MenuItem>
             <StyledLink to="/survey-question">
@@ -205,7 +229,7 @@ function Main() {
             </StyledLink>
           </MenuItem>
         </MenuGroup>
-      </Container>
+      </MenuDiv>
     </div>
   );
 }
