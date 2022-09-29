@@ -1,6 +1,7 @@
 package com.mtld.backend.config;
 
 import com.mtld.backend.repository.news.NewsRepository;
+import com.mtld.backend.service.news.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -30,6 +31,9 @@ public class BatchConfig {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Autowired
+    private NewsService newsService;
+
     @Bean
     public Job job() {
         Job job = jobBuilderFactory.get("job")
@@ -45,6 +49,7 @@ public class BatchConfig {
                 .tasklet((contribution, chunkContext) -> {
                             log.info("Step");
                             newsRepository.deleteAll();
+                            newsService.saveNews();
                             return RepeatStatus.FINISHED;
                         }
                 ).build();
