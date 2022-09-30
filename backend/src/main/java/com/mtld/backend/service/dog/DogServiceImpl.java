@@ -126,12 +126,14 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @Transactional
     public void deleteDog(Long userId, Long dogId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
+
         dogRepository.delete(dog);
     }
 
