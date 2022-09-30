@@ -199,7 +199,16 @@ function DiaryCreate() {
       <div className="imagedelete" role="button" onClick={ResetImage} onKeyDown={console.log()} tabIndex={0}>
         이미지 다시 고르기
       </div>
-      {showImages.length >= 1 ? <ImageCarousel ImageList={showImages.reverse()} /> : <ImageCarousel ImageList={PreviewImage} />}
+      <div
+        role="button"
+        onKeyDown={console.log()}
+        tabIndex={0}
+        onClick={() => {
+          fileInput.current.click();
+        }}
+      >
+        {showImages.length >= 1 ? <ImageCarousel ImageList={showImages.reverse()} /> : <ImageCarousel ImageList={PreviewImage} />}
+      </div>
 
       <hr />
       <textarea className="inputbox" type="text" onChange={onTextChange} placeholder="오늘의 일기를 적어보세요!" />
