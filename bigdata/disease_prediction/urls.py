@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import disease_predict, load_data
+from .views import disease_predict
 
 urlpatterns=[
     path('',disease_predict),
