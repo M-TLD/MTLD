@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from 'components/auth/axiosConfig';
 import axios from 'axios';
-import { SatelliteAltOutlined } from '@mui/icons-material';
 
 const initialStateValue = {
   loading: false,

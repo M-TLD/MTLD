@@ -7,7 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axiosInstance from 'components/auth/axiosConfig';
 import { login } from 'app/user';
 import Spinner from 'components/common/Spinner';
-import { puppySelector } from 'app/puppy';
+import { fetchPuppyInfo, puppySelector } from 'app/puppy';
 
 const Wrap = styled.div`
   margin: 0;
@@ -80,14 +80,16 @@ const UserInfo = styled.div`
   }
 `;
 
-const PetInfo = styled.div``;
+const PetInfo = styled.div`
+  margin-bottom: 8vh;
+`;
 
 function MyPage() {
   const user = useSelector((state) => state.user.value);
-  const puppy = useSelector(puppySelector);
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const puppy = useSelector(puppySelector);
 
   useEffect(() => {
     axiosInstance
@@ -102,12 +104,43 @@ function MyPage() {
         console.log(err);
         navigate('/login');
       });
+    dispatch(fetchPuppyInfo());
   }, []);
 
-  if (isLoading) {
+  if (!puppy.puppyInfo) {
     return <Spinner />;
   }
 
+  if (puppy.puppyInfo.length === 3) {
+    return (
+      <Wrap>
+        <UserInfo>
+          <div className="userInfoDiv">
+            <div className="subDiv">
+              <h3>이메일</h3>
+              <span>{user.payload.email}</span>
+            </div>
+            <div className="subDiv">
+              <h3>닉네임</h3>
+              <span>{user.payload.name}</span>
+            </div>
+          </div>
+          <div className="userInfoLink">
+            <p>
+              <span className="editUserInfo">수정하기</span>
+              <span>|</span>
+              <span className="delete">탈퇴하기</span>
+            </p>
+          </div>
+        </UserInfo>
+        <PetInfo>
+          <h2 className="title">등록된 반려견</h2>
+          <RegisteredPet />
+          <p>3마리 이상은 등록할 수 없어요!😭</p>
+        </PetInfo>
+      </Wrap>
+    );
+  }
   return (
     <Wrap>
       <UserInfo>

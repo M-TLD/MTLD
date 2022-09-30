@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import bobi from 'assets/bobi.png';
-// import { addPuppyInfo } from 'app/puppy';
-import axiosInstance from 'components/auth/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPuppyInfo, puppySelector } from 'app/puppy';
+import { deletePuppyInfo, fetchPuppyInfo, puppySelector } from 'app/puppy';
 import Spinner from 'components/common/Spinner';
 
 const Wrap = styled.div`
@@ -65,13 +63,14 @@ const PuppyImage = styled.img`
 
 function RegisteredPet() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const puppy = useSelector(puppySelector);
 
   useEffect(() => {
     dispatch(fetchPuppyInfo());
   }, []);
 
-  if (!puppy.puppyInfo) {
+  if (!puppy.loading) {
     return <Spinner />;
   }
 
@@ -213,7 +212,15 @@ function RegisteredPet() {
               <p>{puppy.puppyInfo[2].birthdate}일 생</p>
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
-                <button type="button" style={{ color: '#F38181' }}>
+                <button
+                  type="button"
+                  style={{ color: '#F38181' }}
+                  onClick={() => {
+                    dispatch(deletePuppyInfo());
+                    window.alert('성공적으로 삭제되었습니다');
+                    navigate('/mypage');
+                  }}
+                >
                   삭제하기
                 </button>
               </div>
