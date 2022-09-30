@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
     const today = new Date();
     const parsedToday = today.getTime();
     const isExpired = accessTokenExp - parsedToday < 1;
-    console.log('isExpired?', isExpired);
+    console.log('is access token Expired?', isExpired);
 
     // 1. access token이 만료되지 않았을 경우: 그대로 리턴
     if (accessToken && !isExpired) {
@@ -69,22 +69,25 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-axiosInstance.interceptors.response.use(
-  (config) => {
-    console.log(config);
-    return config;
-  },
-  ({ config, request, response, ...err }) => {
-    const errMsg = 'Authorization Error';
-    return Promise.reject(
-      new Error({
-        config,
-        message: errMsg,
-        response,
-        ...err,
-      }),
-    );
-  },
-);
+// 받아온거에 반복적인 작업을 따로 설정 해 줄 필요가 있을 때
+// 콘솔 너무 많이 찍혀서 일단 코멘트아웃
+
+// axiosInstance.interceptors.response.use(
+//   (config) => {
+//     console.log(config);
+//     return config;
+//   },
+//   ({ config, request, response, ...err }) => {
+//     const errMsg = 'Authorization Error';
+//     return Promise.reject(
+//       new Error({
+//         config,
+//         message: errMsg,
+//         response,
+//         ...err,
+//       }),
+//     );
+//   },
+// );
 
 export default axiosInstance;

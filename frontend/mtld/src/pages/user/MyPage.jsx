@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import RegisteredPet from 'components/petinfo/RegisteredPet';
@@ -87,19 +87,20 @@ function MyPage() {
   const puppy = useSelector(puppySelector);
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
       .get('api/user')
       .then((res) => {
-        console.log('yes!');
         dispatch(login({ id: res.data.id, email: res.data.oauthId, name: res.data.name }));
-        console.log(res);
+        console.log('user information:', res);
         setLoading(false);
       })
       .catch((err) => {
-        console.log('fail');
+        console.log('login fail. go back to login page');
         console.log(err);
+        navigate('/login');
       });
   }, []);
 

@@ -75,10 +75,6 @@ function RegisteredPet() {
     return <Spinner />;
   }
 
-  console.log(puppy.puppyInfo);
-  console.log(puppy);
-  console.log(puppy.loading);
-
   if (puppy.puppyInfo.length === 1) {
     return (
       <Wrap>
