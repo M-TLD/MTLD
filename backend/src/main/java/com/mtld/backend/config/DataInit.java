@@ -1,7 +1,11 @@
 package com.mtld.backend.config;
 
 import com.mtld.backend.entity.dog.Breed;
+import com.mtld.backend.entity.medicine.Medicine;
+import com.mtld.backend.entity.vaccine.Vaccine;
 import com.mtld.backend.repository.dog.BreedRepository;
+import com.mtld.backend.repository.medicine.MedicineRepository;
+import com.mtld.backend.repository.vaccine.VaccineRepositpry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInit {
     private final BreedRepository breedRepository;
+
+    private final MedicineRepository medicineRepository;
+
+    private final VaccineRepositpry vaccineRepositpry;
 
     @PostConstruct
     public void init() {
@@ -197,6 +205,22 @@ public class DataInit {
             breeds.add(new Breed("000134", "화이트테리어"));
             breeds.add(new Breed("000111", "휘펫"));
             breedRepository.saveAll(breeds);
+        }
+
+        List<Medicine> medicines = medicineRepository.findAll();
+        if (medicines.size() == 0) {
+            medicines.add(new Medicine("심장사상충약"));
+            medicines.add(new Medicine("진드기약"));
+            medicines.add(new Medicine("구충제"));
+            medicineRepository.saveAll(medicines);
+        }
+        List<Vaccine> vaccines = vaccineRepositpry.findAll();
+        if (vaccines.size() == 0) {
+            vaccines.add(new Vaccine("DHPPL"));
+            vaccines.add(new Vaccine("코로나"));
+            vaccines.add(new Vaccine("켄넬코프"));
+            vaccines.add(new Vaccine("광견병"));
+            vaccineRepositpry.saveAll(vaccines);
         }
     }
 }

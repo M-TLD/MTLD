@@ -35,7 +35,7 @@ public class TakingMedicineController {
     private final MedicineService medicineService;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllVaccine() {
+    public ResponseEntity<?> getAllMedicine() {
         List<MedicineDto> medicineDtoList = medicineService.getAllVaccine();
         return ResponseEntity.status(HttpStatus.OK).body(medicineDtoList);
     }
