@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true;
@@ -44,6 +44,10 @@ spring:
   redis:
     host: j7a106.p.ssafy.io
     port: 6379
+
+  batch:
+    initialize-schema: always
+    job.enabled: false
 
 
 logging.level:

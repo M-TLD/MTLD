@@ -84,6 +84,7 @@ const TabMenu = styled.ul`
 
 function WalkLogResult() {
   const date = useSelector((state) => state.date.value);
+  // console.log('walklog:', date);
 
   const year = date.substr(0, 4);
   const month = date.substr(5, 2);
