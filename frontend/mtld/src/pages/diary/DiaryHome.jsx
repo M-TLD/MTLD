@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import CalenderView from 'components/common/CalendarView';
 import WalkLogCreate from 'components/walklog/WalkLogCreate';
 import WalkLogResult from 'components/walklog/WalkLogResult';
@@ -17,9 +19,13 @@ const StyledDiaryHome = styled.div`
     align-items: center;
     // justify-content: center;
   }
+
+  .click {
+    color: #ffffff;
+  }
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   width: 330px;
   height: 5vh;
   text-decoration: none;
@@ -40,6 +46,24 @@ const StyledLink = styled(Link)`
 `;
 
 function DiaryHome() {
+  const date = useSelector((state) => state.date.value);
+
+  const [diaryData, setDiaryData] = useState(['1900-01-01']);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        if (data.recordDateList !== undefined) {
+          setDiaryData(data.recordDateList);
+        }
+      });
+  }, []);
+
   return (
     <StyledDiaryHome>
       <CalenderView />
@@ -54,9 +78,21 @@ function DiaryHome() {
       {/* 다이어리 */}
       {/* 해당하는 값이 없을 경우 (status 이용): 다이어리 작성하러 가기 */}
       {/* 해당하는 값이 있는 경우: 다이어리 디테일 (오늘의 다이어리) */}
-      <StyledLink to="/diary-create">
-        <div className="content">다이어리 작성하러 가기</div>
-      </StyledLink>
+      {diaryData.length > 0 && diaryData.includes(date) ? (
+        <StyledLink to={`/diary/${date}`}>
+          <div className="content">
+            <span>다이어리 확인하기! </span>
+            <span className="click">Click</span>
+          </div>
+        </StyledLink>
+      ) : (
+        <StyledLink to="/diary-create">
+          <div className="content">
+            <span>다이어리 작성하기! </span>
+            <span className="click">Click</span>
+          </div>
+        </StyledLink>
+      )}
     </StyledDiaryHome>
   );
 }
