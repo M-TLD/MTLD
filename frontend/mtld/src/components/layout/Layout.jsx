@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Header from './Header';
 
 const StyledMain = styled.main`
-  padding-top: 8vh;
+  padding-top: 7vh;
   padding-bottom: 8vh;
   z-index: 1;
 `;

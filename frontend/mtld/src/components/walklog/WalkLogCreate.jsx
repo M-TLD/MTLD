@@ -1,25 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-// import CalenderView from 'components/common/CalendarView';
+import { useSelector } from 'react-redux';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 const StyledWalkLog = styled.div`
-  .div {
-    border: 2px solid #e5e5e5;
-    border-radius: 5px;
-    flex-direction: column;
-    box-shadow: 4px 4px #e6e4e4;
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-    color: #5c5c5c;
-    width: 350px; // 캘린더 기본 너비와 일치시킴
-  }
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+  flex-direction: column;
+  box-shadow: 4px 4px #e6e4e4;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  color: #5c5c5c;
+  width: 330px; // 캘린더 기본 너비:350px
 
   .title {
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1vh;
+    margin-right: 1vh;
   }
 
   .hr {
-    width: 350px;
+    width: 330px;
     background-color: #a4a4a4;
     height: 0.5px;
   }
@@ -31,19 +34,12 @@ const StyledWalkLog = styled.div`
   }
 
   .form {
+    display: flex;
+    justify-content: center;
     flex-direction: row;
     margin-top: 1vh;
     margin-bottom: 1vh;
     font-size: 0.9rem;
-  }
-
-  .time {
-    float: left;
-    margin-right: 1.5vh;
-  }
-
-  .distance {
-    float: left;
   }
 
   .input {
@@ -54,32 +50,39 @@ const StyledWalkLog = styled.div`
     border-bottom-width: 0.3vh;
     border-color: #a4a4a4;
   }
+
+  .time {
+    margin-right: 20px;
+  }
 `;
 
-function WalkLogCreate(props) {
-  // console.log(props.value);
-  const selectedYear = props.value.getFullYear();
-  const selectedMonth = props.value.getMonth() + 1;
-  const selectedDate = props.value.getDate();
+function WalkLogCreate() {
+  const date = useSelector((state) => state.date.value);
 
-  const date = `${selectedYear}년 ${selectedMonth}월 ${selectedDate}일`;
+  const year = date.substr(0, 4);
+  const month = date.substr(5, 2);
+  const day = date.substr(8, 2);
+
+  const newDate = `${year}년 ${month}월 ${day}일`;
 
   return (
     <StyledWalkLog>
-      <div className="div">
-        <div className="title">산책일지</div>
-        <hr className="hr" />
-        <p className="text">{date}</p>
-        <p className="text">오늘 얼만큼 산책했나요?</p>
-        <div className="form">
-          <div className="time">
-            <input className="input" type="int" />
-            <span> 시간 </span>
-          </div>
-          <div className="distance">
-            <input className="input" type="int" />
-            <span> km</span>
-          </div>
+      <div className="title">
+        <span>산책일지</span>
+        {/* 체크 버튼 클릭시 */}
+        <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
+      </div>
+      <hr className="hr" />
+      <p className="text">{newDate}</p>
+      <p className="text">오늘 얼만큼 산책했나요?</p>
+      <div className="form">
+        <div className="time">
+          <input className="input" type="int" />
+          <span> 시간 </span>
+        </div>
+        <div className="distance">
+          <input className="input" type="int" />
+          <span> km</span>
         </div>
       </div>
     </StyledWalkLog>

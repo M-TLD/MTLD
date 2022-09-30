@@ -1,6 +1,6 @@
 package com.mtld.backend.repository.diary;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.dog.Dog;

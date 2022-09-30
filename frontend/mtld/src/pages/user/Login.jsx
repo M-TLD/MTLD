@@ -11,7 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  margin-top: -25%;
 `;
 
 const Logo = styled.img`
@@ -92,7 +91,7 @@ function Login() {
       <Desktop>
         <DesktopWrap>
           <DesktopLogo src={mtldLogo} />
-          <a href="http://localhost:3000/">
+          <a href={KAKAO_AUTH_URI}>
             <DesktopKakaoBtn src={kakaoLogin} />
           </a>
         </DesktopWrap>

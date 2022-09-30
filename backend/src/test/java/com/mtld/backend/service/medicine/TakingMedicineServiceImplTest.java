@@ -1,17 +1,15 @@
 package com.mtld.backend.service.medicine;
 
 import com.mtld.backend.dto.dog.DogRequestDto;
-import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.medicine.TakingMedicineRequestDto;
 import com.mtld.backend.dto.medicine.TakingMedicineResponseDto;
 import com.mtld.backend.dto.medicine.TakingMedicineUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.entity.dog.Breed;
 import com.mtld.backend.entity.dog.Dog;
 import com.mtld.backend.entity.dog.Gender;
 import com.mtld.backend.entity.medicine.Medicine;
-import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.repository.dog.BreedRepository;
 import com.mtld.backend.repository.dog.DogRepository;
 import com.mtld.backend.repository.medicine.MedicineRepository;
@@ -26,9 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -52,10 +47,10 @@ class TakingMedicineServiceImplTest {
         userRepository.save(User.builder().name("테스터").oauthId("test@gmail.com").platform("KAKAO").roleType(RoleType.USER).build());
         User user = userRepository.findByOauthId("test@gmail.com").get();
         // 반려견 품종 등록
-        breedRepository.save(new Breed("말티즈"));
+        breedRepository.save(new Breed("000046", "잉글리쉬 세터"));
         // 반려견 등록
-        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).breedId(breedRepository.findAll().get(0).getId()).build();
-        dogService.registerDog(user.getId(), dogRequestDto);
+        DogRequestDto dogRequestDto = DogRequestDto.builder().name("바비").birthdate("2020-02-02").gender(Gender.MALE).weight(20.9).neuter(true).code(breedRepository.findAll().get(0).getCode()).build();
+        dogService.registerDog(user.getId(), dogRequestDto, null);
         // 약 등록
         medicineRepository.save(new Medicine("약1"));
         medicineRepository.save(new Medicine("약2"));

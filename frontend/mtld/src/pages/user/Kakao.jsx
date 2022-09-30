@@ -29,7 +29,7 @@ function Kakao() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    axios({ method: 'GET', url: `http://localhost:8080/login/oauth2/kakao?code=${kakaoCode}` })
+    axios({ method: 'GET', url: `${process.env.REACT_APP_BASE_URL}/login/oauth2/kakao?code=${kakaoCode}` })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

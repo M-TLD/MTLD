@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calender from 'react-calendar';
 import styled from 'styled-components';
-import WalkLogCreate from 'components/walklog/WalkLogCreate';
-import WalkLogResult from 'components/walklog/WalkLogResult';
+import axios from 'axios';
+import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { update } from 'app/date';
+
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
+import Event from '@mui/icons-material/Event';
 
 const StyledCalender = styled.div`
   .div {
@@ -135,11 +140,52 @@ const StyledCalender = styled.div`
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
+
+  .diaryicon {
+    width: 15px;
+    margin: 0;
+    color: #a0cd95;
+  }
 `;
 
 function CalenderView() {
+  const date = useSelector((state) => state.date.value);
+  const dispatch = useDispatch();
+  // console.log('reducer', date);
+
   const [value, onChange] = useState(new Date());
   // console.log(value);
+
+  const selectedYear = value.getFullYear();
+  const selectedMonth = String(value.getMonth() + 1).padStart(2, '0');
+  const selectedDate = String(value.getDate()).padStart(2, '0');
+
+  const dateValue = `${selectedYear}-${selectedMonth}-${selectedDate}`;
+  // console.log(dateValue);
+
+  useEffect(() => {
+    dispatch(update(dateValue));
+  });
+
+  // console.log('reduced', date);
+
+  const [diaryData, setDiaryData] = useState(['1900-01-01']);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        console.log();
+        if (data.recordDateList !== undefined) {
+          setDiaryData(data.recordDateList);
+        }
+      });
+  }, []);
+  console.log(diaryData);
 
   return (
     <StyledCalender>
@@ -149,9 +195,18 @@ function CalenderView() {
           value={value}
           formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })} // 날짜에서 '일' 글자 제외
           locale="eng-US"
+          tileContent={({ date, view }) => {
+            if (diaryData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+              return (
+                <div className="flex justify-center items-center absoluteDiv">
+                  <div>
+                    <EventNoteRoundedIcon className="diaryicon" />
+                  </div>
+                </div>
+              );
+            }
+          }}
         />
-        <WalkLogCreate value={value} />
-        <WalkLogResult value={value} />
       </div>
     </StyledCalender>
   );

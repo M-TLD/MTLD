@@ -4,6 +4,7 @@ import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.*;
 import com.mtld.backend.entity.medicine.TakingMedicine;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.vaccine.Vaccination;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -85,7 +86,7 @@ public class Dog extends BaseEntity {
         this.weight = dogUpdateRequestDto.getWeight();
         if (!this.neuter && dogUpdateRequestDto.isNeuter()) withdrawNeuter();
         writeDisease(dogUpdateRequestDto.getDisease());
-        if(this.fileURL != dogUpdateRequestDto.getFileURL())
+        if (!this.fileURL.equals(dogUpdateRequestDto.getFileURL()))
             uploadFile(dogUpdateRequestDto.getFileURL());
     }
 }

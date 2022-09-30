@@ -1,7 +1,16 @@
 import React from 'react';
+import QualifiedTestResult from 'components/adoption/QualifiedTestResult';
+import DisqualifiedTestResult from 'components/adoption/DisqualifiedTestResult';
+import { useSelector } from 'react-redux';
 
 function AdoptionResult() {
-  return <div>Adoption Result</div>;
+  const score = useSelector((state) => state.score.value);
+  console.log('total score:', score);
+
+  if (score >= 80) {
+    return <QualifiedTestResult />;
+  }
+  return <DisqualifiedTestResult />;
 }
 
 export default AdoptionResult;

@@ -1,6 +1,6 @@
 package com.mtld.backend.dto.user;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

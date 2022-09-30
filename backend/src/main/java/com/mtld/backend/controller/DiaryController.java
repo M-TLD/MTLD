@@ -70,9 +70,11 @@ public class DiaryController {
         return ResponseEntity.status(OK).body(result);
     }
 
-    @GetMapping("/walking/date/{date}")
-    public ResponseEntity<?> walkingDetail(@PathVariable(value = "date") @Valid WalkingDetailRequestDto requestDto) {
-        WalkingDetailResponseDto result = diaryService.getWalkingDetail(userService.getMyInfoSecret().getId(), requestDto);
+    @GetMapping("/walking/date")
+    public ResponseEntity<?> walkingDetail(@RequestParam("dogId") Long dogId, @RequestParam("date") String date) {
+        log.info("dogId = {}", dogId);
+        log.info("date = {}", date);
+        WalkingDetailResponseDto result = diaryService.getWalkingDetail(userService.getMyInfoSecret().getId(), dogId, date);
         return ResponseEntity.status(OK).body(result);
     }
 
