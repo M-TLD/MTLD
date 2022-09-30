@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -49,28 +50,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Slf4j
 class DiaryControllerTest {
+
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RecordRepository recordRepository;
+
     @Autowired
     private WalkingRepository walkingRepository;
+
     @Autowired
     private DogRepository dogRepository;
+
     @Autowired
     private BreedRepository breedRepository;
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
     private String access_token;
+
     private Dog dog;
+
     private User user;
 
     @BeforeEach
-    public void before() throws Exception {
-        dogRepository.deleteAll();
-        userRepository.deleteAll();
+    public void before() {
         String oauthId = "foo@test.com";
         String platform = "platform";
         String name = "홍길동";
@@ -117,6 +126,7 @@ class DiaryControllerTest {
                 .andReturn().getRequest();
 
     }
+
     @Test
     @DisplayName("id로 다이어리(일지) 조회")
     void recordDetailById() throws Exception {
@@ -126,9 +136,13 @@ class DiaryControllerTest {
                 .user(user)
                 .diaryDate(date)
                 .build());
+
+        String expectByMainText = "$.[?(@.mainText == '%s')]";
+
         mvc.perform(get("/api/diary/record/" + record.getId())
-                        .header("Authorization", "Bearer " + access_token))
-                .andExpect(status().isOk());
+                .header("Authorization", "Bearer " + access_token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(expectByMainText, "날씨가 좋아서 바비랑 산책하고 왔어요.").exists());
     }
 
     @Test
@@ -140,9 +154,13 @@ class DiaryControllerTest {
                 .user(user)
                 .diaryDate(date)
                 .build());
+
+        String expectByMainText = "$.[?(@.mainText == '%s')]";
+
         mvc.perform(get("/api/diary/record/date/" + "2022-09-19")
-                        .header("Authorization", "Bearer " + access_token))
-                .andExpect(status().isOk());
+                .header("Authorization", "Bearer " + access_token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(expectByMainText, "날씨가 좋아서 바비랑 산책하고 왔어요.").exists());
     }
 
     @Test
@@ -167,7 +185,7 @@ class DiaryControllerTest {
 
         // record 삭제 api 호출
         mvc.perform(delete("/api/diary/record/" + record.getId())
-                        .header("Authorization", "Bearer " + access_token))
+                .header("Authorization", "Bearer " + access_token))
                 .andExpect(status().isOk());
 
         // 삭제 후 record 개수 1개
@@ -186,9 +204,14 @@ class DiaryControllerTest {
                 .dog(dog)
                 .build());
 
+        String expectByDistance = "$.[?(@.distance == '%s')]";
+        String expectByTime = "$.[?(@.time == '%s')]";
+
         mvc.perform(get("/api/diary/walking/" + walking.getId())
-                        .header("Authorization", "Bearer " + access_token))
-                .andExpect(status().isOk());
+                .header("Authorization", "Bearer " + access_token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(expectByDistance, "2.3").exists())
+                .andExpect(jsonPath(expectByTime, "1.5").exists());
     }
 
     @Test
@@ -198,9 +221,9 @@ class DiaryControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String content = objectMapper.writeValueAsString(requestDto);
         mvc.perform(post("/api/diary/walking")
-                        .header("Authorization", "Bearer " + access_token)
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .header("Authorization", "Bearer " + access_token)
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -220,10 +243,15 @@ class DiaryControllerTest {
         params.add("dogId", Long.toString(walking.getDog().getId()));
         params.add("date", "2022-09-19");
 
+        String expectByDistance = "$.[?(@.distance == '%s')]";
+        String expectByTime = "$.[?(@.time == '%s')]";
+
         mvc.perform(get("/api/diary/walking/date")
-                        .queryParams(params)
-                        .header("Authorization", "Bearer " + access_token))
-                .andExpect(status().isOk());
+                .queryParams(params)
+                .header("Authorization", "Bearer " + access_token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(expectByDistance, "2.3").exists())
+                .andExpect(jsonPath(expectByTime, "1.5").exists());
     }
 
     @Test
@@ -252,7 +280,7 @@ class DiaryControllerTest {
 
         // record 삭제 api 호출
         mvc.perform(delete("/api/diary/walking/" + walking1.getId())
-                        .header("Authorization", "Bearer " + access_token))
+                .header("Authorization", "Bearer " + access_token))
                 .andExpect(status().isOk());
 
         // 삭제 후 record 개수 1개
@@ -263,7 +291,7 @@ class DiaryControllerTest {
     @DisplayName("다이어리 일지와 산책 작성한 날짜 모두 조회")
     void allDiaryDate() throws Exception {
         mvc.perform(get("/api/diary")
-                        .header("Authorization", "Bearer " + access_token))
+                .header("Authorization", "Bearer " + access_token))
                 .andExpect(status().isOk());
     }
 }
