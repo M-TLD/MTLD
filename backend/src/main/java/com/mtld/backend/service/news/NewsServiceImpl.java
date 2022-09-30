@@ -35,17 +35,17 @@ public class NewsServiceImpl implements NewsService {
         Elements listElement = doc.select("ul.art_list_all > li");
         List<News> list = new ArrayList<>();
         for (org.jsoup.nodes.Element element : listElement) {
-            String link = "http://www.cabn.kr/news/" + element.select("a").attr("href");
+            String link = "//www.cabn.kr/news/" + element.select("a").attr("href");
             String title = element.select("a > h2").text();
             String summary = element.select("a > p").text();
             String writer = element.select("a > ul > li.name").text();
             String date = element.select("a > ul > li.date").text();
+            String image = element.select("img").attr("src");
 
-            Document detailDoc = Jsoup.connect(link).get();
+            Document detailDoc = Jsoup.connect("http:"+ link).get();
             Elements detail = detailDoc.select("div.smartOutput");
 
             String main = detail.text();
-            String image = "http://www.cabn.kr" + detail.select("img").attr("src");
 
             list.add(new News(title, link, summary, writer, date, image, MEDIA, main));
         }
