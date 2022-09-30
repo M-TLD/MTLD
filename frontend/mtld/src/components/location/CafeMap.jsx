@@ -107,9 +107,6 @@ function RestaurantMap({ searchPlace, flag }) {
             setMap(kakaoMap);
           } else if (flag === true) {
             console.log('버튼 눌렀을 때');
-            // dummy.map(context, idx) => {
-
-            // }
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('반려견동반카페', placeSearchCB, {
@@ -175,7 +172,6 @@ function RestaurantMap({ searchPlace, flag }) {
               // console.log('타입 = ', typeof (place));
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
-                // const imgUrl = content.image;
                 const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
                   if (contentImg === 0) {
@@ -184,14 +180,11 @@ function RestaurantMap({ searchPlace, flag }) {
                   } else {
                     place.img = content.img;
                   }
-                  // place.img = content.image;
-                  // console.log(typeof (imgUrl));
-                  // console.log(imgUrl.startswith('https'));
                   console.log(typeof (test));
                 }
               });
               if (place.img === undefined) {
-                place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
+                place.img = 'https://images.unsplash.com/photo-1561974358-907b1a0839a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=783&q=80';
               }
               // console.log('place = ', place);
               kakao.maps.event.addListener(marker, 'click', () => {
@@ -264,16 +257,10 @@ function RestaurantMap({ searchPlace, flag }) {
                   } else {
                     place.img = content.img;
                   }
-                  // if (imgUrl.startsWith('https://s3')) {
-                  //   place.img = content.img;
-                  //   console.log('imageUrl = ', content.image);
-                  // } else {
-                  //   place.img = content.image;
-                  // }
                 }
               });
               if (place.img === undefined) {
-                place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
+                place.img = 'https://images.unsplash.com/photo-1561974358-907b1a0839a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=783&q=80';
               }
               console.log('place = ', place);
               // 마커 누르면 인포윈도우에 장소명 나옴
