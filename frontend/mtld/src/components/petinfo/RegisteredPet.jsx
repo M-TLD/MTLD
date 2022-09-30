@@ -4,6 +4,8 @@ import bobi from 'assets/bobi.png';
 // import { addPuppyInfo } from 'app/puppy';
 import axiosInstance from 'components/auth/axiosConfig';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchPuppyInfo, puppySelector } from 'app/puppy';
+import Spinner from 'components/common/Spinner';
 
 const Wrap = styled.div`
   margin: 0;
@@ -24,6 +26,10 @@ const PuppyInfo = styled.div`
     text-align: left;
     margin: 0;
     padding-bottom: 2vh;
+  }
+
+  .name-gender {
+    display: flex;
   }
 
   p {
@@ -58,26 +64,169 @@ const PuppyImage = styled.img`
 `;
 
 function RegisteredPet() {
-  return (
-    <Wrap>
-      <PuppyInfo>
-        <div className="puppyImage">
-          <PuppyImage src={bobi} alt="" />
-        </div>
-        <div className="puppyInfo">
-          <h2>보비 ♀</h2>
-          <p>래브라도 리트리버</p>
-          <p>2020년 9월 25일 생</p>
-          <div className="buttonDiv">
-            <button type="button">세부정보</button>
-            <button type="button" style={{ color: '#F38181' }}>
-              삭제하기
-            </button>
+  const dispatch = useDispatch();
+  const puppy = useSelector(puppySelector);
+
+  useEffect(() => {
+    dispatch(fetchPuppyInfo());
+  }, []);
+
+  if (!puppy.puppyInfo) {
+    return <Spinner />;
+  }
+
+  console.log(puppy.puppyInfo);
+  console.log(puppy);
+  console.log(puppy.loading);
+
+  if (puppy.puppyInfo.length === 1) {
+    return (
+      <Wrap>
+        <PuppyInfo>
+          <div className="puppyImage">
+            <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
           </div>
-        </div>
-      </PuppyInfo>
-    </Wrap>
-  );
+          <div className="puppyInfo">
+            <div className="name-gender">
+              <h2>{puppy.puppyInfo[0].name}</h2>
+              <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+            </div>
+            <p>{puppy.puppyInfo[0].breedName}</p>
+            {/* 날짜 파싱은 나중에... ^^...  */}
+            <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+            <div className="buttonDiv">
+              <button type="button">세부정보</button>
+              <button type="button" style={{ color: '#F38181' }}>
+                삭제하기
+              </button>
+            </div>
+          </div>
+        </PuppyInfo>
+      </Wrap>
+    );
+  }
+  if (puppy.puppyInfo.length === 2) {
+    return (
+      <div>
+        <Wrap>
+          <PuppyInfo>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+            </div>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[0].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[0].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <button type="button">세부정보</button>
+                <button type="button" style={{ color: '#F38181' }}>
+                  삭제하기
+                </button>
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+            </div>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[1].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[1].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[1].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <button type="button">세부정보</button>
+                <button type="button" style={{ color: '#F38181' }}>
+                  삭제하기
+                </button>
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+      </div>
+    );
+  }
+  if (puppy.puppyInfo.length === 3) {
+    return (
+      <div>
+        <Wrap>
+          <PuppyInfo>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+            </div>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[0].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[0].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <button type="button">세부정보</button>
+                <button type="button" style={{ color: '#F38181' }}>
+                  삭제하기
+                </button>
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+            </div>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[1].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[1].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[1].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <button type="button">세부정보</button>
+                <button type="button" style={{ color: '#F38181' }}>
+                  삭제하기
+                </button>
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[2].fileURL} alt="" />
+            </div>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[2].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[2].gender}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[2].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[2].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <button type="button">세부정보</button>
+                <button type="button" style={{ color: '#F38181' }}>
+                  삭제하기
+                </button>
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+      </div>
+    );
+  }
 }
 
 export default RegisteredPet;

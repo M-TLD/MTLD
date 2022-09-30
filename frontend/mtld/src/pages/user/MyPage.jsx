@@ -7,6 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import axiosInstance from 'components/auth/axiosConfig';
 import { login } from 'app/user';
 import Spinner from 'components/common/Spinner';
+import { puppySelector } from 'app/puppy';
 
 const Wrap = styled.div`
   margin: 0;
@@ -83,6 +84,7 @@ const PetInfo = styled.div``;
 
 function MyPage() {
   const user = useSelector((state) => state.user.value);
+  const puppy = useSelector(puppySelector);
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
 

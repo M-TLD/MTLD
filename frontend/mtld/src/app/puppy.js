@@ -1,8 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from 'components/auth/axiosConfig';
 import axios from 'axios';
+import { SatelliteAltOutlined } from '@mui/icons-material';
 
-const initialStateValue = {};
+const initialStateValue = {
+  loading: false,
+};
+
+export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
+  try {
+    const res = await axiosInstance.get('/api/user/dogs').then((res) => {
+      console.log(res.data[0]);
+      return res;
+    });
+    return res;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
 
 export const puppySlice = createSlice({
   name: 'puppy',
@@ -51,7 +66,18 @@ export const puppySlice = createSlice({
         });
     },
     getPuppyInfo: (state, action) => {
-      state.value = action.state;
+      // axiosInstance
+      //   .get('/api/user/dogs')
+      //   .then((res) => {
+      //     console.log('my dog info: ', res);
+      //     const num = res.data.length;
+      //     state = res.data[num - 1];
+      //     console.log('succesfully fetched my pet');
+      //   })
+      //   .catch((err) => {
+      //     console.log('fetching my dog info fail');
+      //     console.log(err);
+      //   });
     },
     editPuppyInfo: (state, action) => {
       const { id, name, birthdate, gender, weight, neuter, disease } = action.payload;
@@ -74,7 +100,33 @@ export const puppySlice = createSlice({
       return null;
     },
   },
+  extraReducers: {
+    [fetchPuppyInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('pending');
+    },
+    [fetchPuppyInfo.fulfilled]: (state, action) => {
+      state.puppyInfo = action.payload.data;
+      for (let i = 0; i < state.puppyInfo.length; i += 1) {
+        if (state.puppyInfo[i].gender === 'FEMALE') {
+          state.puppyInfo[i].gender = '♀';
+        } else if (state.puppyInfo[i].gender === 'MALE') {
+          state.puppyInfo[i].gender = '♂';
+        }
+      }
+      state.loading = true;
+      // console.log(action.payload.data[0]);
+      // console.log(state.puppyInfo);
+      console.log('fulfilled');
+    },
+    [fetchPuppyInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('rejected');
+    },
+  },
 });
 
 export const { addPuppyInfo, getPuppyInfo, editPuppyInfo, deletePuppyInfo } = puppySlice.actions;
+export const puppySelector = (state) => state.puppy;
 export default puppySlice.reducer;
