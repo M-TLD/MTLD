@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import dummy from 'data/RestaurantData.json';
+import dummy from 'data/RestaurantDataFinal.json';
 
 const Container = styled.div`
   display: flex;
@@ -171,18 +171,29 @@ function RestaurantMap({ searchPlace, flag }) {
                 image: markerImage,
               });
 
-              console.log('place = ', place);
-              console.log('타입 = ', typeof (place));
+              // console.log('place = ', place);
+              // console.log('타입 = ', typeof (place));
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
+                // const imgUrl = content.image;
+                const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
-                  place.img = content.image;
+                  if (contentImg === 0) {
+                    console.log('0이야');
+                    place.img = content.image;
+                  } else {
+                    place.img = content.img;
+                  }
+                  // place.img = content.image;
+                  // console.log(typeof (imgUrl));
+                  // console.log(imgUrl.startswith('https'));
+                  console.log(typeof (test));
                 }
               });
               if (place.img === undefined) {
                 place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
               }
-              console.log('place = ', place);
+              // console.log('place = ', place);
               kakao.maps.event.addListener(marker, 'click', () => {
                 infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
                 infowindow.open(map, marker);
@@ -235,7 +246,7 @@ function RestaurantMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5693/5693993.png';
               const imageSize = new kakao.maps.Size(30, 32);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
@@ -245,8 +256,20 @@ function RestaurantMap({ searchPlace, flag }) {
               });
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
+                const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
-                  place.img = content.image;
+                  if (contentImg === 0) {
+                    console.log('0이야');
+                    place.img = content.image;
+                  } else {
+                    place.img = content.img;
+                  }
+                  // if (imgUrl.startsWith('https://s3')) {
+                  //   place.img = content.img;
+                  //   console.log('imageUrl = ', content.image);
+                  // } else {
+                  //   place.img = content.image;
+                  // }
                 }
               });
               if (place.img === undefined) {
