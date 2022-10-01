@@ -1,5 +1,5 @@
 import { React, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -14,10 +14,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import axiosInstance from 'components/auth/axiosConfig';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPuppyInfo } from 'app/puppy';
+import { registerPuppyInfo } from 'app/puppy';
 import puppyface from 'assets/puppyface.png';
+import { isFulfilled } from '@reduxjs/toolkit';
 
 const Wrap = styled.div`
   display: flex;
@@ -95,8 +95,7 @@ const RegisterButton = styled.button`
 
 function PetInfoCreate() {
   const dispatch = useDispatch();
-
-  // const formData = new FormData();
+  const navigate = useNavigate();
 
   const [dateValue, setDateValue] = useState(dayjs('2014-08-18T21:11:54'));
   const [birthdateValue, setBirthdateValue] = useState('');
@@ -180,6 +179,16 @@ function PetInfoCreate() {
     };
     reader.readAsDataURL(event.target.files[0]);
     console.log(reader);
+  };
+
+  const registerButton = async () => {
+    let action = '';
+    action = await dispatch(registerPuppyInfo([fileURLValue, parsedData]));
+    if (isFulfilled(action)) {
+      console.log('coming through?');
+      const dogId = action.payload;
+      navigate(`/pet-info-detail/${dogId}`);
+    }
   };
 
   return (
@@ -349,15 +358,7 @@ function PetInfoCreate() {
           </Box>
         </RadioWrap>
       </PetInfoInput>
-      <Link to="/mypage">
-        <RegisterButton
-          onClick={() => {
-            dispatch(addPuppyInfo([fileURLValue, parsedData]));
-          }}
-        >
-          등록하기
-        </RegisterButton>
-      </Link>
+      <RegisterButton onClick={registerButton}>등록하기</RegisterButton>
     </Wrap>
   );
 }
