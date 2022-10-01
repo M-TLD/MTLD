@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { update } from 'app/date';
 
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
-import Event from '@mui/icons-material/Event';
+import PetsIcon from '@mui/icons-material/Pets';
 
 const StyledCalender = styled.div`
   .div {
@@ -143,8 +143,16 @@ const StyledCalender = styled.div`
 
   .diaryicon {
     width: 15px;
-    margin: 0;
+    margin-right: 0.2vh;
+    margin-left: 0.2vh;
     color: #a0cd95;
+  }
+
+  .peticon {
+    width: 15px;
+    margin-right: 0.2vh;
+    margin-left: 0.2vh;
+    color: #5da2eb;
   }
 `;
 
@@ -170,6 +178,7 @@ function CalenderView() {
   // console.log('reduced', date);
 
   const [diaryData, setDiaryData] = useState(['1900-01-01']);
+  const [walkingData, setWalkingData] = useState([]);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
@@ -179,13 +188,17 @@ function CalenderView() {
       })
       .then((res) => res.data)
       .then((data) => {
-        console.log();
+        console.log(data);
         if (data.recordDateList !== undefined) {
           setDiaryData(data.recordDateList);
+        }
+        if (data.walkingDateList !== undefined) {
+          setWalkingData(data.walkingDateList);
         }
       });
   }, []);
   console.log(diaryData);
+  console.log(walkingData);
 
   return (
     <StyledCalender>
@@ -196,15 +209,14 @@ function CalenderView() {
           formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })} // 날짜에서 '일' 글자 제외
           locale="eng-US"
           tileContent={({ date, view }) => {
+            const html = [];
             if (diaryData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
-              return (
-                <div className="flex justify-center items-center absoluteDiv">
-                  <div>
-                    <EventNoteRoundedIcon className="diaryicon" />
-                  </div>
-                </div>
-              );
+              html.push(<EventNoteRoundedIcon className="diaryicon" />);
             }
+            if (walkingData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+              html.push(<PetsIcon className="peticon" />);
+            }
+            return <div className="flex justify-center items-center absoluteDiv">{html}</div>;
           }}
         />
       </div>

@@ -41,6 +41,8 @@ const StyledDetail = styled.div`
   }
 
   .mainText {
+    font-size: 13px;
+    margin-top: 0;
     margin-right: 3vh;
     margin-left: 3vh;
   }
@@ -107,7 +109,6 @@ function DiaryDetail() {
           <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} />
         </NavLink>
         <DeleteModal submit={deleteButton} />
-        <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
       </div>
       <br />
       <div>
