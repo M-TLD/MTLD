@@ -43,9 +43,9 @@ public class DogController {
                                          @RequestPart(value = "image", required = false) MultipartFile multipartFile) {
         log.info("dogRequestDto = {}", dogRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
-        dogService.registerDog(userId, dogRequestDto, multipartFile);
+        Long dogId = dogService.registerDog(userId, dogRequestDto, multipartFile);
 
-        return ResponseEntity.status(CREATED).build();
+        return ResponseEntity.status(CREATED).body(dogId);
 
     }
 
