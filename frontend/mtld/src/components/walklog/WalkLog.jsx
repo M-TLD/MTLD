@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import DogWalk from 'assets/dogwalk.png';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import DeleteModal from 'components/common/DeleteModal';
 
 const StyledWalkLog = styled.div`
   border: 2px solid #e5e5e5;
@@ -116,6 +117,10 @@ const StyledWalkLog = styled.div`
   #close {
     margin-left: 300px;
   }
+
+  #delete {
+    margin-left: 300px;
+  }
 `;
 
 const TabMenu = styled.ul`
@@ -142,6 +147,10 @@ const TabMenu = styled.ul`
     padding-left: 1vh;
     color: #81e3d7;
   }
+
+  .submenu-focused:hover {
+    cursor: pointer;
+  }
 `;
 
 function WalkLog() {
@@ -162,6 +171,8 @@ function WalkLog() {
 
   const [printTime, setPrintTime] = useState(0);
   const [printDistance, setPrintDistance] = useState(0);
+
+  const [logId, setLogId] = useState(0);
 
   const nameArr = [];
 
@@ -196,6 +207,7 @@ function WalkLog() {
         console.log(res);
         setPrintTime(res.data.time);
         setPrintDistance(res.data.distance);
+        setLogId(res.data.id);
       });
   }
 
@@ -235,6 +247,19 @@ function WalkLog() {
     }
   };
 
+  const deleteButton = async () => {
+    const res = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/diary/walking/${logId}`, {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+      },
+    });
+    console.log(res);
+    if (res.status === 200) {
+      navigate('/diary-home');
+    }
+    console.log('delete!');
+  };
+
   // [0]: 입력 form, [1]: 결과 출력
   const contentArr = [
     {
@@ -258,7 +283,9 @@ function WalkLog() {
     {
       content: (
         <div className="result">
-          <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} />
+          <div className="deletebutton">
+            <DeleteModal submit={deleteButton} id="delete" />
+          </div>
           <div className="result-item">
             <div className="item">시간</div>
             <div className="value">{printTime}시간</div>
