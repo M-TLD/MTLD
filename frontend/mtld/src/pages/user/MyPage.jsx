@@ -35,7 +35,7 @@ const UserInfo = styled.div`
   justify-content: flex-start;
   text-align: left;
   width: 100vw;
-  height: 18vh;
+  height: 17vh;
   background-color: #fff4cb;
 
   h3 {
@@ -45,14 +45,14 @@ const UserInfo = styled.div`
   }
 
   .userInfoDiv {
-    padding-top: 3vh;
-    padding-left: 3vh;
+    padding: 5vh 3vh;
   }
 
   .subDiv {
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-top: 1vh;
   }
 
   span {
@@ -72,11 +72,6 @@ const UserInfo = styled.div`
 
   .editUserInfo {
     color: #5c5c5c;
-  }
-
-  .userInfoLink {
-    padding-top: 3vh;
-    padding-left: 3vh;
   }
 `;
 
@@ -105,6 +100,7 @@ function MyPage() {
         navigate('/login');
       });
     dispatch(fetchPuppyInfo());
+    console.log('hello');
   }, []);
 
   if (!puppy.puppyInfo) {
@@ -124,13 +120,6 @@ function MyPage() {
               <h3>닉네임</h3>
               <span>{user.payload.name}</span>
             </div>
-          </div>
-          <div className="userInfoLink">
-            <p>
-              <span className="editUserInfo">수정하기</span>
-              <span>|</span>
-              <span className="delete">탈퇴하기</span>
-            </p>
           </div>
         </UserInfo>
         <PetInfo>
@@ -153,13 +142,6 @@ function MyPage() {
             <h3>닉네임</h3>
             <span>{user.payload.name}</span>
           </div>
-        </div>
-        <div className="userInfoLink">
-          <p>
-            <span className="editUserInfo">수정하기</span>
-            <span>|</span>
-            <span className="delete">탈퇴하기</span>
-          </p>
         </div>
       </UserInfo>
       <PetInfo>
