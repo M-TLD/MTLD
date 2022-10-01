@@ -128,7 +128,9 @@ function RegisteredPet() {
               {/* 날짜 파싱은 나중에... ^^...  */}
               <p>{puppy.puppyInfo[0].birthdate}일 생</p>
               <div className="buttonDiv">
-                <button type="button">세부정보</button>
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
                 <button
                   onClick={() => {
                     deleteButton(puppy.puppyInfo[0].id);
@@ -156,7 +158,9 @@ function RegisteredPet() {
               {/* 날짜 파싱은 나중에... ^^...  */}
               <p>{puppy.puppyInfo[1].birthdate}일 생</p>
               <div className="buttonDiv">
-                <button type="button">세부정보</button>
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
                 <button
                   onClick={() => {
                     deleteButton(puppy.puppyInfo[1].id);
@@ -190,7 +194,9 @@ function RegisteredPet() {
               {/* 날짜 파싱은 나중에... ^^...  */}
               <p>{puppy.puppyInfo[0].birthdate}일 생</p>
               <div className="buttonDiv">
-                <button type="button">세부정보</button>
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
                 <button
                   onClick={() => {
                     deleteButton(puppy.puppyInfo[0].id);
@@ -218,7 +224,9 @@ function RegisteredPet() {
               {/* 날짜 파싱은 나중에... ^^...  */}
               <p>{puppy.puppyInfo[1].birthdate}일 생</p>
               <div className="buttonDiv">
-                <button type="button">세부정보</button>
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
                 <button
                   onClick={() => {
                     deleteButton(puppy.puppyInfo[1].id);
@@ -246,7 +254,9 @@ function RegisteredPet() {
               {/* 날짜 파싱은 나중에... ^^...  */}
               <p>{puppy.puppyInfo[2].birthdate}일 생</p>
               <div className="buttonDiv">
-                <button type="button">세부정보</button>
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[2].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
                 <button
                   onClick={() => {
                     deleteButton(puppy.puppyInfo[2].id);
