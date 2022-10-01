@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
@@ -31,9 +31,17 @@ const StyledCreate = styled.div`
     right: 30px;
   }
 
+  #photo:hover {
+    cursor: pointer;
+  }
+
   #check {
     position: absolute;
     right: 5px;
+  }
+
+  #check:hover {
+    cursor: pointer;
   }
 
   .upload-btn {
@@ -48,11 +56,26 @@ const StyledCreate = styled.div`
     color: #5c5c5c;
   }
 
+  .imagepreview:hover {
+    cursor: pointer;
+  }
+
+  .imagedelete:hover {
+    cursor: pointer;
+  }
+
   .inputbox {
     height: 200px;
     width: 250px;
     border: none;
     font-family: 'GmarketSansMedium';
+  }
+
+  .walkingpaw {
+    display: flex;
+    align-items: center;
+    font-family: UhBeeStrawberry;
+    font-weight: bold;
   }
 `;
 
@@ -75,7 +98,6 @@ function DiaryCreate() {
   // 이미지, 날짜, 텍스트값 POST
 
   const [textValue, setTextValue] = useState('');
-  const [fileURLValue, setFileURLValue] = useState('');
 
   const [Image, setImage] = useState([]);
   const PreviewImage = [ImagePreview];
@@ -162,6 +184,23 @@ function DiaryCreate() {
     }
   };
 
+  const [walkingData, setWalkingData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        if (data.walkingDateList !== undefined) {
+          setWalkingData(data.walkingDateList);
+        }
+      });
+  }, []);
+  console.log(walkingData);
+
   return (
     <StyledCreate>
       <div className="top">
@@ -180,8 +219,14 @@ function DiaryCreate() {
       </div>
       <br />
       <div>
-        {/* 해당 날짜에 산책 기록이 있으면 발자국 표시 */}
-        <PawImage src={Paw} />
+        {walkingData.includes(date) ? (
+          <div className="walkingpaw">
+            <PawImage src={Paw} /> <span>산책을 완료한 날이에요!</span>
+          </div>
+        ) : (
+          <p>산책을 하지 않은 날이에요! 😥</p>
+        )}
+        <br />
       </div>
       <div>
         <p>{newDate}</p>
@@ -206,6 +251,7 @@ function DiaryCreate() {
         onClick={() => {
           fileInput.current.click();
         }}
+        className="imagepreview"
       >
         {showImages.length >= 1 ? <ImageCarousel ImageList={showImages.reverse()} /> : <ImageCarousel ImageList={PreviewImage} />}
       </div>
