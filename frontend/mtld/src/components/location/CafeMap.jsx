@@ -180,7 +180,6 @@ function RestaurantMap({ searchPlace, flag }) {
                   } else {
                     place.img = content.img;
                   }
-                  console.log(typeof (test));
                 }
               });
               if (place.img === undefined) {

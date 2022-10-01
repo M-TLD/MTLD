@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import dummy from 'data/RestaurantData.json';
+import dummy from 'data/RestaurantDataFinal.json';
 
 const Container = styled.div`
   display: flex;
@@ -175,8 +175,14 @@ function RestaurantMap({ searchPlace, flag }) {
               console.log('타입 = ', typeof (place));
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
+                const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
-                  place.img = content.image;
+                  if (contentImg === 0) {
+                    console.log('0이야');
+                    place.img = content.image;
+                  } else {
+                    place.img = content.img;
+                  }
                 }
               });
               if (place.img === undefined) {
@@ -255,8 +261,14 @@ function RestaurantMap({ searchPlace, flag }) {
               });
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
+                const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
-                  place.img = content.image;
+                  if (contentImg === 0) {
+                    console.log('0이야');
+                    place.img = content.image;
+                  } else {
+                    place.img = content.img;
+                  }
                 }
               });
               if (place.img === undefined) {
