@@ -100,10 +100,10 @@ function DeleteModal(props) {
     });
   }
   return (
-    <div className="NoticeModal" style={{ position: 'absolute', top: '8vh', right: '1px' }}>
+    <div className="NoticeModal">
       <ModalProvider backgroundComponent={FadingBackground}>
         <div>
-          <Atag onClick={toggleModal}>
+          <Atag onClick={toggleModal} style={{ padding: 0 }}>
             <DeleteRoundedIcon id="delete" sx={{ color: '#F4C7AB', width: '30px' }} />
           </Atag>
           <StyledModal

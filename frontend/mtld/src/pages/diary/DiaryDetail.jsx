@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Paw from 'assets/paw_blue.png';
 import axios from 'axios';
 import DeleteModal from 'components/common/DeleteModal';
@@ -41,14 +40,23 @@ const StyledDetail = styled.div`
   }
 
   .mainText {
+    font-size: 13px;
+    margin-top: 0;
     margin-right: 3vh;
     margin-left: 3vh;
+  }
+
+  .walkingpaw {
+    display: flex;
+    align-items: center;
+    font-family: UhBeeStrawberry;
+    font-weight: bold;
   }
 `;
 
 const PawImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 `;
 
 function DiaryDetail() {
@@ -86,6 +94,23 @@ function DiaryDetail() {
 
   const newDate = `${year}년 ${month}월 ${day}일`;
 
+  const [walkingData, setWalkingData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        if (data.walkingDateList !== undefined) {
+          setWalkingData(data.walkingDateList);
+        }
+      });
+  }, []);
+  console.log(walkingData);
+
   // 다이어리 삭제 (모달창에서 '예' 버튼 클릭 시 작동)
   const deleteButton = async () => {
     const res = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/diary/record/${diaryData.id}`, {
@@ -93,7 +118,6 @@ function DiaryDetail() {
         Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
       },
     });
-    console.log(res);
     if (res.status === 200) {
       navigate('/diary-home');
     }
@@ -107,12 +131,17 @@ function DiaryDetail() {
           <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} />
         </NavLink>
         <DeleteModal submit={deleteButton} />
-        <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
       </div>
       <br />
       <div>
-        {/* 해당 날짜에 산책 기록이 있으면 발자국 표시 */}
-        <PawImage src={Paw} />
+        {walkingData.includes(date) ? (
+          <div className="walkingpaw">
+            <PawImage src={Paw} /> <span>산책을 완료한 날이에요!</span>
+          </div>
+        ) : (
+          <p>산책을 하지 않은 날이에요! 😥</p>
+        )}
+        <br />
         <p className="date">{newDate}</p>
       </div>
       {images.length > 0 ? <ImageCarousel ImageList={images} /> : ''}

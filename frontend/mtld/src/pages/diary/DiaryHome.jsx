@@ -4,8 +4,7 @@ import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CalenderView from 'components/common/CalendarView';
-import WalkLogCreate from 'components/walklog/WalkLogCreate';
-import WalkLogResult from 'components/walklog/WalkLogResult';
+import WalkLog from 'components/walklog/WalkLog';
 
 const StyledDiaryHome = styled.div`
   display: flex;
@@ -69,10 +68,7 @@ function DiaryHome() {
       <CalenderView />
 
       <div className="walklog">
-        {/* 산책일지 */}
-        {/* 해당하는 값이 있는 경우: Result, 없는 경우: Create */}
-        {/* <WalkLogCreate /> */}
-        <WalkLogResult />
+        <WalkLog />
       </div>
 
       {/* 다이어리 */}
