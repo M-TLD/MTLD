@@ -1,19 +1,37 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from 'components/auth/axiosConfig';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const initialStateValue = {
+  puppyInfo: [],
   loading: false,
 };
 
 export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
   try {
     const res = await axiosInstance.get('/api/user/dogs').then((res) => {
-      console.log(res.data[0]);
+      console.log('dog info:', res.data);
       return res;
     });
     return res;
   } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const deletePuppyInfo = createAsyncThunk('puppy/deletePuppyInfo', async (thunkAPI) => {
+  const dogId = thunkAPI;
+  console.log(dogId);
+  console.log(initialStateValue);
+  try {
+    const res = await axiosInstance.delete(`/api/dogs/${dogId}`).then((res) => {
+      console.log('deleted?', res);
+      return res;
+    });
+    return res;
+  } catch (err) {
+    // console.log(err);
     return thunkAPI.rejectWithValue(err);
   }
 });
@@ -26,7 +44,6 @@ export const puppySlice = createSlice({
   reducers: {
     addPuppyInfo: (state, action) => {
       // actions 내에는 payload, type이 존재
-
       const dogFormData = new FormData();
       const dogInfo = JSON.stringify(action.payload[1]);
       dogFormData.append('image', action.payload[0]);
@@ -64,20 +81,6 @@ export const puppySlice = createSlice({
           console.log('puppy registration fail');
         });
     },
-    getPuppyInfo: (state, action) => {
-      // axiosInstance
-      //   .get('/api/user/dogs')
-      //   .then((res) => {
-      //     console.log('my dog info: ', res);
-      //     const num = res.data.length;
-      //     state = res.data[num - 1];
-      //     console.log('succesfully fetched my pet');
-      //   })
-      //   .catch((err) => {
-      //     console.log('fetching my dog info fail');
-      //     console.log(err);
-      //   });
-    },
     editPuppyInfo: (state, action) => {
       const { id, name, birthdate, gender, weight, neuter, disease } = action.payload;
       const existingPuppy = state.find((puppy) => puppy.id === id);
@@ -91,15 +94,14 @@ export const puppySlice = createSlice({
       }
     },
     deletePuppyInfo: (state, action) => {
+      console.log(state.puppy);
       const { id } = action.payload;
-      const existingPuppy = state.find((puppy) => puppy.id === id);
-      if (existingPuppy) {
-        return state.filter((puppy) => puppy.id !== id);
-      }
-      return null;
+      console.log(id);
+      state.puppy = state.puppy.filter((item) => item.id !== id);
     },
   },
   extraReducers: {
+    //  GET
     [fetchPuppyInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
@@ -116,16 +118,32 @@ export const puppySlice = createSlice({
       }
       state.loading = true;
       // console.log(action.payload.data[0]);
-      // console.log(state.puppyInfo);
+      console.log('puppy info redux store:', state.puppyInfo);
       console.log('fulfilled');
     },
     [fetchPuppyInfo.rejected]: (state) => {
       state.loading = false;
       console.log('rejected');
     },
+
+    // DELETE
+    [deletePuppyInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('pending');
+    },
+    [deletePuppyInfo.fulfilled]: (state, action) => {
+      state.loading = true;
+      console.log(action);
+      console.log(action.payload);
+    },
+    [deletePuppyInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('rejected');
+    },
   },
 });
 
-export const { addPuppyInfo, getPuppyInfo, editPuppyInfo, deletePuppyInfo } = puppySlice.actions;
+export const { addPuppyInfo, getPuppyInfo, editPuppyInfo } = puppySlice.actions;
 export const puppySelector = (state) => state.puppy;
 export default puppySlice.reducer;

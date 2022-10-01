@@ -1,4 +1,5 @@
 import { React, useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -348,15 +349,15 @@ function PetInfoCreate() {
           </Box>
         </RadioWrap>
       </PetInfoInput>
-      <RegisterButton
-        onClick={() => {
-          // console.log(parsedData);
-          dispatch(addPuppyInfo([fileURLValue, parsedData]));
-          // axiosRequest();
-        }}
-      >
-        등록하기
-      </RegisterButton>
+      <Link to="/mypage">
+        <RegisterButton
+          onClick={() => {
+            dispatch(addPuppyInfo([fileURLValue, parsedData]));
+          }}
+        >
+          등록하기
+        </RegisterButton>
+      </Link>
     </Wrap>
   );
 }

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import DeleteModal from 'components/common/DeleteModal';
 import { deletePuppyInfo, fetchPuppyInfo, puppySelector } from 'app/puppy';
 import Spinner from 'components/common/Spinner';
 
@@ -65,6 +66,7 @@ function RegisteredPet() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const puppy = useSelector(puppySelector);
+  const [myPage, setMyPage] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPuppyInfo());
@@ -90,10 +92,21 @@ function RegisteredPet() {
             {/* 날짜 파싱은 나중에... ^^...  */}
             <p>{puppy.puppyInfo[0].birthdate}일 생</p>
             <div className="buttonDiv">
-              <button type="button">세부정보</button>
-              <button type="button" style={{ color: '#F38181' }}>
-                삭제하기
-              </button>
+              <Link to="/pet-info-detail">
+                <button type="button">세부정보</button>
+              </Link>
+              <Link to="/mypage">
+                <button
+                  onClick={() => {
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
+                    alert('삭제되었습니다');
+                  }}
+                  type="button"
+                  style={{ color: '#F38181' }}
+                >
+                  삭제하기
+                </button>
+              </Link>
             </div>
           </div>
         </PuppyInfo>
@@ -118,7 +131,15 @@ function RegisteredPet() {
               <p>{puppy.puppyInfo[0].birthdate}일 생</p>
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
-                <button type="button" style={{ color: '#F38181' }}>
+                <button
+                  onClick={() => {
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
+                    window.alert('성공적으로 삭제되었습니다');
+                    navigate('/mypage');
+                  }}
+                  type="button"
+                  style={{ color: '#F38181' }}
+                >
                   삭제하기
                 </button>
               </div>
@@ -140,7 +161,15 @@ function RegisteredPet() {
               <p>{puppy.puppyInfo[1].birthdate}일 생</p>
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
-                <button type="button" style={{ color: '#F38181' }}>
+                <button
+                  onClick={() => {
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[1].id));
+                    window.alert('성공적으로 삭제되었습니다');
+                    navigate('/mypage');
+                  }}
+                  type="button"
+                  style={{ color: '#F38181' }}
+                >
                   삭제하기
                 </button>
               </div>
@@ -168,7 +197,15 @@ function RegisteredPet() {
               <p>{puppy.puppyInfo[0].birthdate}일 생</p>
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
-                <button type="button" style={{ color: '#F38181' }}>
+                <button
+                  onClick={() => {
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
+                    window.alert('성공적으로 삭제되었습니다');
+                    navigate('/mypage');
+                  }}
+                  type="button"
+                  style={{ color: '#F38181' }}
+                >
                   삭제하기
                 </button>
               </div>
@@ -190,7 +227,15 @@ function RegisteredPet() {
               <p>{puppy.puppyInfo[1].birthdate}일 생</p>
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
-                <button type="button" style={{ color: '#F38181' }}>
+                <button
+                  onClick={() => {
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[1].id));
+                    window.alert('성공적으로 삭제되었습니다');
+                    navigate('/mypage');
+                  }}
+                  type="button"
+                  style={{ color: '#F38181' }}
+                >
                   삭제하기
                 </button>
               </div>
@@ -216,7 +261,7 @@ function RegisteredPet() {
                   type="button"
                   style={{ color: '#F38181' }}
                   onClick={() => {
-                    dispatch(deletePuppyInfo());
+                    dispatch(deletePuppyInfo(puppy.puppyInfo[2].id));
                     window.alert('성공적으로 삭제되었습니다');
                     navigate('/mypage');
                   }}
