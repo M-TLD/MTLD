@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Logo from 'assets/mung.png';
 import Paw from 'assets/paw_yellow.png';
@@ -80,20 +80,22 @@ function Header() {
   const dispatch = useDispatch();
   const locationNow = useLocation();
   const puppy = useSelector(puppySelector);
+  const [isLoading, setLoading] = useState(true);
 
   const [expand, setExpand] = React.useState(false);
   const toggleAccordion = () => {
     setExpand((prev) => !prev);
   };
 
-  useEffect(() => {
-    dispatch(fetchPuppyInfo());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchPuppyInfo());
+  // }, []);
 
   if (locationNow.pathname === '/login') return null;
-  if (!puppy.puppyInfo) {
-    return <div>loading...</div>;
-  }
+  // if (!puppy.puppyInfo) {
+  //   return <div>loading...</div>;
+  // }
+  // if (puppy.puppyInfo) {
   return (
     <StyledHeader>
       <Accordion expanded={expand} sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}>
@@ -106,10 +108,10 @@ function Header() {
         </AccordionSummary>
         <AccordionDetails>
           <div className="menuDiv">
-            <div className="userDiv">
-              <Avatar src={puppy.puppyInfo[0].fileURL} sx={{ height: '7vh', width: '7vh' }} />
-              <p className="name">{puppy.puppyInfo[0].name}</p>
-            </div>
+            {/* <div className="userDiv">
+                <Avatar src={puppy.puppyInfo[0].fileURL} sx={{ height: '7vh', width: '7vh' }} />
+                <p className="name">{puppy.puppyInfo[0].name}</p>
+              </div> */}
             <div className="userInfoDiv">
               <a href="/mypage">마이페이지</a>
               <div
@@ -134,5 +136,6 @@ function Header() {
     </StyledHeader>
   );
 }
+// }
 
 export default Header;

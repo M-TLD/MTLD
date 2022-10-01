@@ -103,11 +103,11 @@ function MyPage() {
     console.log('hello');
   }, []);
 
-  if (!puppy.puppyInfo) {
+  if (!puppy.puppyInfo || isLoading) {
     return <Spinner />;
   }
 
-  if (puppy.puppyInfo.length === 3) {
+  if (puppy.puppyInfo.length === 3 && isLoading) {
     return (
       <Wrap>
         <UserInfo>
