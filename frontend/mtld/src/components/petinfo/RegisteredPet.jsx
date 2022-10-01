@@ -41,13 +41,12 @@ const PuppyInfo = styled.div`
     display: flex;
     width: 100%;
     margin-top: 1vh;
+    gap: 1vw;
   }
 
   button {
-    width: 100%;
     border-radius: 5px;
     height: 1.5rem;
-    margin-right: 1vw;
     border: none;
     background-color: #ffeeb1;
   }
@@ -66,11 +65,14 @@ function RegisteredPet() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const puppy = useSelector(puppySelector);
-  const [myPage, setMyPage] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPuppyInfo());
   }, []);
+
+  const deleteButton = async (puppyId) => {
+    const action = await dispatch(deletePuppyInfo(puppyId));
+  };
 
   if (!puppy.loading) {
     return <Spinner />;
@@ -89,24 +91,20 @@ function RegisteredPet() {
               <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
             </div>
             <p>{puppy.puppyInfo[0].breedName}</p>
-            {/* 날짜 파싱은 나중에... ^^...  */}
             <p>{puppy.puppyInfo[0].birthdate}일 생</p>
             <div className="buttonDiv">
-              <Link to="/pet-info-detail">
+              <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
                 <button type="button">세부정보</button>
               </Link>
-              <Link to="/mypage">
-                <button
-                  onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
-                    alert('삭제되었습니다');
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
-              </Link>
+              <button
+                onClick={() => {
+                  deleteButton(puppy.puppyInfo[0].id);
+                }}
+                type="button"
+                style={{ color: '#F38181' }}
+              >
+                삭제하기
+              </button>
             </div>
           </div>
         </PuppyInfo>
@@ -133,9 +131,7 @@ function RegisteredPet() {
                 <button type="button">세부정보</button>
                 <button
                   onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
-                    window.alert('성공적으로 삭제되었습니다');
-                    navigate('/mypage');
+                    deleteButton(puppy.puppyInfo[0].id);
                   }}
                   type="button"
                   style={{ color: '#F38181' }}
@@ -163,9 +159,7 @@ function RegisteredPet() {
                 <button type="button">세부정보</button>
                 <button
                   onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[1].id));
-                    window.alert('성공적으로 삭제되었습니다');
-                    navigate('/mypage');
+                    deleteButton(puppy.puppyInfo[1].id);
                   }}
                   type="button"
                   style={{ color: '#F38181' }}
@@ -199,9 +193,7 @@ function RegisteredPet() {
                 <button type="button">세부정보</button>
                 <button
                   onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[0].id));
-                    window.alert('성공적으로 삭제되었습니다');
-                    navigate('/mypage');
+                    deleteButton(puppy.puppyInfo[0].id);
                   }}
                   type="button"
                   style={{ color: '#F38181' }}
@@ -229,9 +221,7 @@ function RegisteredPet() {
                 <button type="button">세부정보</button>
                 <button
                   onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[1].id));
-                    window.alert('성공적으로 삭제되었습니다');
-                    navigate('/mypage');
+                    deleteButton(puppy.puppyInfo[1].id);
                   }}
                   type="button"
                   style={{ color: '#F38181' }}
@@ -258,13 +248,11 @@ function RegisteredPet() {
               <div className="buttonDiv">
                 <button type="button">세부정보</button>
                 <button
+                  onClick={() => {
+                    deleteButton(puppy.puppyInfo[2].id);
+                  }}
                   type="button"
                   style={{ color: '#F38181' }}
-                  onClick={() => {
-                    dispatch(deletePuppyInfo(puppy.puppyInfo[2].id));
-                    window.alert('성공적으로 삭제되었습니다');
-                    navigate('/mypage');
-                  }}
                 >
                   삭제하기
                 </button>
