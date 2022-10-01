@@ -61,6 +61,18 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
   }
 });
 
+export const fetchPupInfo = createAsyncThunk('puppy/fetchPupInfo', async (thunkAPI) => {
+  try {
+    const res = await axiosInstance.get(`/api/dogs/${thunkAPI}`).then((res) => {
+      console.log('pup info:', res.data);
+      return res;
+    });
+    return res;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const deletePuppyInfo = createAsyncThunk('puppy/deletePuppyInfo', async (thunkAPI) => {
   const dogId = thunkAPI;
   console.log(dogId);
@@ -134,6 +146,27 @@ export const puppySlice = createSlice({
       console.log('fetching fulfilled');
     },
     [fetchPuppyInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('fetching rejected');
+    },
+
+    [fetchPupInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('fetching pending');
+    },
+    [fetchPupInfo.fulfilled]: (state, action) => {
+      state.puppyInfo = action.payload.data;
+      if (state.puppyInfo.gender === 'FEMALE') {
+        state.puppyInfo.gender = '♀';
+      } else if (state.puppyInfo.gender === 'MALE') {
+        state.puppyInfo.gender = '♂';
+      }
+      console.log(state.puppyInfo);
+      state.loading = true;
+      console.log('fetching fulfilled');
+    },
+    [fetchPupInfo.rejected]: (state) => {
       state.loading = false;
       console.log('fetching rejected');
     },
