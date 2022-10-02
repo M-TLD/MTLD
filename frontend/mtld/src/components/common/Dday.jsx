@@ -24,7 +24,7 @@ const Wrap = styled.div`
 
 function Dday() {
   const puppy = useSelector(puppySelector);
-  const [dateInput, setDateInput] = useState(`${puppy.puppyInfo.birthdate}T00:00:00`);
+  const [dateInput, setDateInput] = useState(`${puppy.pupInfo.birthdate}T00:00:00`);
   const [dDayCounter, setDdayCounter] = useState(0);
 
   const handleChange = (newValue) => {

@@ -5,6 +5,7 @@ import axios from 'axios';
 const initialStateValue = {
   loading: false,
   puppyInfo: [],
+  pupInfo: {},
 };
 export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (thunkAPI) => {
   const dogFormData = new FormData();
@@ -50,6 +51,7 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
 });
 
 export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
+  console.log('호출?');
   try {
     const res = await axiosInstance.get('/api/user/dogs').then((res) => {
       console.log('dog info:', res.data);
@@ -57,6 +59,7 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
     });
     return res;
   } catch (err) {
+    console.log('에러! ');
     return thunkAPI.rejectWithValue(err);
   }
 });
@@ -116,9 +119,7 @@ export const puppySlice = createSlice({
     },
     [registerPuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      state.puppyInfo = action.payload;
       console.log(action.payload); // dogId
-      console.log(state.puppyInfo); // dogId
       console.log('register fulfilled');
     },
     [registerPuppyInfo.rejected]: (state) => {
@@ -133,6 +134,7 @@ export const puppySlice = createSlice({
     },
     [fetchPuppyInfo.fulfilled]: (state, action) => {
       state.puppyInfo = action.payload.data;
+      console.log(action.payload.data);
       for (let i = 0; i < state.puppyInfo.length; i += 1) {
         if (state.puppyInfo[i].gender === 'FEMALE') {
           state.puppyInfo[i].gender = '♀';
@@ -156,13 +158,14 @@ export const puppySlice = createSlice({
       console.log('fetching pending');
     },
     [fetchPupInfo.fulfilled]: (state, action) => {
-      state.puppyInfo = action.payload.data;
-      if (state.puppyInfo.gender === 'FEMALE') {
-        state.puppyInfo.gender = '♀';
-      } else if (state.puppyInfo.gender === 'MALE') {
-        state.puppyInfo.gender = '♂';
+      // console.log(typeof state.puppyInfo); // object
+      state.pupInfo = action.payload.data;
+      if (state.pupInfo.gender === 'FEMALE') {
+        state.pupInfo.gender = '♀';
+      } else if (state.pupInfo.gender === 'MALE') {
+        state.pupInfo.gender = '♂';
       }
-      console.log(state.puppyInfo);
+      console.log(state.pupInfo);
       state.loading = true;
       console.log('fetching fulfilled');
     },
