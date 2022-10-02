@@ -93,7 +93,7 @@ function App() {
                 <Route path="/" element={<Main />} exact />
                 <Route path="/mypage" element={<MyPage />} exact />
                 <Route path="/pet-info-create" element={<PetInfoCreate />} exact />
-                <Route path="/pet-info-detail" element={<PetInfoDetail />} exact />
+                <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} exact />
                 <Route path="/pet-medical-card" element={<PetMedicalCard />} exact />
                 <Route path="/adoption-home" element={<AdoptionHome />} exact />
                 <Route path="/adoption-result" element={<AdoptionResult />} exact />

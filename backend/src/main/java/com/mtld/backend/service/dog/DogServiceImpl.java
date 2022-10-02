@@ -74,9 +74,9 @@ public class DogServiceImpl implements DogService {
 
     @Override
     @Transactional
-    public void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile image) {
+    public Long registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile image) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        if (dogRepository.findByUser(user).size() > 3)
+        if (dogRepository.findByUser(user).size() >= 3)
             throw new BadRequestException("반려견을 3마리 이상 등록할 수 없습니다.");
         Breed breed = breedRepository.findByCode(dogRequestDto.getCode()).orElseThrow(() -> new BadRequestException("유효하지 않은 품종입니다."));
         Dog dog = Dog.builder()
@@ -90,8 +90,7 @@ public class DogServiceImpl implements DogService {
         dog.writeDisease(dogRequestDto.getDisease());
 
         if (image.isEmpty()) {
-            dogRepository.save(dog);
-            return;
+            return dogRepository.save(dog).getId();
         }
 
         String originName = image.getOriginalFilename();
@@ -111,7 +110,7 @@ public class DogServiceImpl implements DogService {
         } catch (IOException e) {
             throw new IllegalStateException("파일(이미지) 업로드에 실패했습니다.");
         }
-        dogRepository.save(dog);
+        return dogRepository.save(dog).getId();
     }
 
     @Override

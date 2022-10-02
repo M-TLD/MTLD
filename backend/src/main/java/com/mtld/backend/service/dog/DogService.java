@@ -23,7 +23,7 @@ public interface DogService {
 
     DogResponseDetailDto getDogById(Long uid, Long id);
 
-    void registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile file);
+    Long registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile file);
 
     void updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto);
 
