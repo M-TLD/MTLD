@@ -47,10 +47,10 @@ public class Dog extends BaseEntity {
     @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    @OneToMany(mappedBy = "dog")
+    @OneToMany(mappedBy = "dog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TakingMedicine> takingMedicines = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dog")
+    @OneToMany(mappedBy = "dog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vaccination> vaccinations = new ArrayList<>();
 
     @ManyToOne
