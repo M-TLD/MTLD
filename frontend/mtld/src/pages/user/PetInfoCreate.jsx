@@ -97,7 +97,7 @@ function PetInfoCreate() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [dateValue, setDateValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const [dateValue, setDateValue] = useState(dayjs('2022-10-07T00:00:00'));
   const [birthdateValue, setBirthdateValue] = useState('');
   const [breedIdValue, setBreedIdValue] = useState(1);
   const [diseaseValue, setDiseaseValue] = useState('');
@@ -185,7 +185,6 @@ function PetInfoCreate() {
     let action = '';
     action = await dispatch(registerPuppyInfo([fileURLValue, parsedData]));
     if (isFulfilled(action)) {
-      console.log('coming through?');
       const dogId = action.payload;
       navigate(`/pet-info-detail/${dogId}`);
     }
