@@ -18,14 +18,6 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
     }),
   );
 
-  // formData 제대로 들어오는지 확인 로그
-  // console.log(dogFormData.get('dog'));
-  // console.log(dogFormData.get('image'));
-
-  // for (const value of dogFormData.values()) {
-  //   console.log(value);
-  // }
-
   const accessToken = window.localStorage.getItem('accessToken');
 
   let dogId = '';
@@ -51,7 +43,6 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
 });
 
 export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
-  console.log('호출?');
   try {
     const res = await axiosInstance.get('/api/user/dogs').then((res) => {
       console.log('dog info:', res.data);
@@ -59,7 +50,6 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
     });
     return res;
   } catch (err) {
-    console.log('에러! ');
     return thunkAPI.rejectWithValue(err);
   }
 });
@@ -134,7 +124,7 @@ export const puppySlice = createSlice({
     },
     [fetchPuppyInfo.fulfilled]: (state, action) => {
       state.puppyInfo = action.payload.data;
-      console.log(action.payload.data);
+      // console.log(action.payload.data);
       for (let i = 0; i < state.puppyInfo.length; i += 1) {
         if (state.puppyInfo[i].gender === 'FEMALE') {
           state.puppyInfo[i].gender = '♀';
@@ -144,8 +134,8 @@ export const puppySlice = createSlice({
       }
       state.loading = true;
       // console.log(action.payload.data[0]);
-      console.log('puppy info redux store:', state.puppyInfo);
-      console.log('fetching fulfilled');
+      // console.log('puppy info redux store:', state.puppyInfo);
+      // console.log('fetching fulfilled');
     },
     [fetchPuppyInfo.rejected]: (state) => {
       state.loading = false;
@@ -165,9 +155,9 @@ export const puppySlice = createSlice({
       } else if (state.pupInfo.gender === 'MALE') {
         state.pupInfo.gender = '♂';
       }
-      console.log(state.pupInfo);
+      // console.log(state.pupInfo);
       state.loading = true;
-      console.log('fetching fulfilled');
+      // console.log('fetching fulfilled');
     },
     [fetchPupInfo.rejected]: (state) => {
       state.loading = false;
