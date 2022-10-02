@@ -6,22 +6,25 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { useSelector } from 'react-redux';
+import { puppySelector } from 'app/puppy';
 
 const Wrap = styled.div`
-font-size: 90%;
-font-weight: 90;
+  font-size: 90%;
+  font-weight: 90;
 
-form {
-  display: none;
-}
+  form {
+    display: none;
+  }
 
-p {
-  color: #BFC3C7;
-}
+  p {
+    color: #bfc3c7;
+  }
 `;
 
 function Dday() {
-  const [dateInput, setDateInput] = useState(dayjs('2022-12-04T00:00:00'));
+  const puppy = useSelector(puppySelector);
+  const [dateInput, setDateInput] = useState(`${puppy.puppyInfo.birthdate}T00:00:00`);
   const [dDayCounter, setDdayCounter] = useState(0);
 
   const handleChange = (newValue) => {
@@ -41,16 +44,14 @@ function Dday() {
     const dday = new Date(dateInput);
 
     // 디데이 카운터
-    setDdayCounter(Math.ceil(((dday - parsedToday) / 86400000)));
+    setDdayCounter(Math.ceil((dday - parsedToday) / 86400000));
   });
 
   return (
     <Wrap>
       <p>
         🥳
-        {dDayCounter}
-        {' '}
-        일 남았어요!
+        {dDayCounter} 일 남았어요!
       </p>
       <LocalizationProvider dateAdapter={AdapterDayjs} className="test">
         <DatePicker
@@ -68,7 +69,15 @@ function Dday() {
               noValidate
               autoComplete="off"
             >
-              <TextField ref={inputRef} {...inputProps} id="date" label="생년월일/입양일" variant="standard" InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }} InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }} />
+              <TextField
+                ref={inputRef}
+                {...inputProps}
+                id="date"
+                label="생년월일/입양일"
+                variant="standard"
+                InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+              />
             </Box>
           )}
         />

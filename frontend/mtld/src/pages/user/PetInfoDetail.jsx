@@ -1,54 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import bobi from 'assets/bobi.png';
 import o from 'assets/o.png';
 import x from 'assets/x.png';
 import paws from 'assets/paws.png';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Dday from 'components/common/Dday';
+import Spinner from 'components/common/Spinner';
+
+import { fetchPupInfo, puppySelector } from 'app/puppy';
+import { render } from '@testing-library/react';
 
 const Wrap = styled.div`
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 
-.title {
-  color: #5c5c5c;
-  text-align: right;
-  margin-right: 3vw;
-  margin-bottom: 0;
-}
+  .title {
+    color: #5c5c5c;
+    text-align: right;
+    margin-right: 3vw;
+    margin-bottom: 0;
+  }
 
-h1 {
-  margin-bottom: -5vh;
-}
+  h1 {
+    margin-bottom: -5vh;
+  }
 
-.puppyProfile {
-  position: relative;
-  display: flex;
-  padding-left: 3vw;
-  align-items: center;
-}
+  .puppyProfile {
+    position: relative;
+    display: flex;
+    padding-left: 3vw;
+    align-items: center;
+  }
 
-.puppyInfo {
-  position: absolute;
-  background-color: #ffeeb1;
-  border-radius: 5px;
-  width: 74%;
-  margin-left: 10vh;
-  height: 10vh;
-  z-index: -1;
-}
+  .puppyInfo {
+    position: absolute;
+    background-color: #ffeeb1;
+    border-radius: 5px;
+    width: 74%;
+    margin-left: 10vh;
+    height: 10vh;
+    z-index: -1;
+  }
 
-h2 {
-  margin-left: 25vw;
-}
+  h2 {
+    margin-left: 25vw;
+  }
 
-.infoEdit {
-  color: #5c5c5c;
-  font-size: 90%;
-  margin-top: 15vh;
-  margin-left: 34vw;
-}
+  .infoEdit {
+    color: #5c5c5c;
+    font-size: 90%;
+    margin-top: 15vh;
+    margin-left: 34vw;
+  }
 `;
 
 const PuppyImage = styled.img`
@@ -61,52 +67,52 @@ const PuppyImage = styled.img`
 `;
 
 const PuppyTitle = styled.div`
-color: #5c5c5c;
-
-.puppyName {
-  display: flex;
-  align-items: center;
-
-.paws {
-  height: 4vh;
-  margin-left: 2vw;
-  padding: 0;
-}
-
-}`;
-const PuppyInfo = styled.div`
-padding: 3vw;
-color: #5c5c5c;
-
-.subdiv {
-  padding-bottom: 2vh;
-}
-
-p {
-  margin: 1.5vh 2vw ;
-  text-align: left;
-  font-size: 120%;
-}
-
-.subtitle {
   color: #5c5c5c;
-  font-weight: 900;
-  border: none;
-  background-color: #F1F1F1;
-  border-radius: 4px;
-  width: 30vw;
-  height: 1.5 rem;
-}
 
-.birthDday {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .puppyName {
+    display: flex;
+    align-items: center;
 
-.record {
-  align-items: center;
-}
+    .paws {
+      height: 4vh;
+      margin-left: 2vw;
+      padding: 0;
+    }
+  }
+`;
+const PuppyInfo = styled.div`
+  padding: 3vw;
+  color: #5c5c5c;
+
+  .subdiv {
+    padding-bottom: 2vh;
+  }
+
+  p {
+    margin: 1.5vh 2vw;
+    text-align: left;
+    font-size: 120%;
+  }
+
+  .subtitle {
+    color: #5c5c5c;
+    font-weight: 900;
+    border: none;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    width: 30vw;
+    height: 1.5 rem;
+  }
+
+  .birthDday {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .record {
+    align-items: center;
+  }
 `;
 
 const RegisterButton = styled.button`
@@ -123,6 +129,20 @@ const RegisterButton = styled.button`
 `;
 
 function PetInfoDetail() {
+  const puppy = useSelector(puppySelector);
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  useEffect(() => {
+    console.log(window.location.pathname);
+    console.log(params.petId);
+    dispatch(fetchPupInfo(params.petId));
+  }, []);
+
+  if (!puppy.puppyInfo) {
+    return <Spinner />;
+  }
+
   return (
     <Wrap>
       <PuppyTitle>
@@ -131,43 +151,46 @@ function PetInfoDetail() {
         </div>
         <div className="puppyProfile">
           <div className="PuppyImage">
-            <PuppyImage src={bobi} />
+            <PuppyImage src={puppy.puppyInfo.fileURL} />
           </div>
           <div className="puppyInfo">
             <div className="puppyName">
-              <h2>보비(♀ ,13세)</h2>
+              <h2>
+                {puppy.puppyInfo.name}
+                <span>&#40;{puppy.puppyInfo.gender}&#41;</span>
+              </h2>
               <img className="paws" src={paws} alt="paws" />
             </div>
           </div>
-          <Link className="infoEdit" to="/pet-info-edit">정보수정</Link>
+          <Link className="infoEdit" to="/pet-info-edit">
+            정보수정
+          </Link>
         </div>
       </PuppyTitle>
       <PuppyInfo>
         <div className="subdiv">
           <div className="subtitle">태어난 날은 ?</div>
           <div className="birthDday">
-            <p>2008년 12월 4일</p>
+            <p>{puppy.puppyInfo.birthdate}</p>
             <Dday />
           </div>
         </div>
         <div className="subdiv">
           <div className="subtitle">우리 아이는 ?</div>
-          <p>시고르자브종</p>
+          <p>{puppy.puppyInfo.breedName}</p>
         </div>
         <div className="subdiv">
           <div className="subtitle">몸무게는 ?</div>
-          <p>9kg</p>
+          <p>{puppy.puppyInfo.weight} kg</p>
         </div>
         <div className="subdiv">
           <div className="subtitle">건강상태는 ?</div>
           <div className="record">
             <p className="neutered">중성화 여부</p>
-            <img style={{ height: '5vh' }} src={o} alt="o" />
-            <img style={{ height: '5vh' }} src={x} alt="x" />
+            {puppy.puppyInfo.neuter ? <img style={{ height: '5vh' }} src={o} alt="o" /> : <img style={{ height: '5vh' }} src={x} alt="x" />}
             <p className="disease">질병 경력</p>
             <ul>
-              <li>슬개골탈구</li>
-              <li>백내장</li>
+              <li>{puppy.puppyInfo.disease}</li>
             </ul>
           </div>
         </div>
