@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import dummy from 'data/RestaurantDataFinal.json';
+import dummy from 'data/RestaurantData.json';
 
 const Container = styled.div`
   display: flex;
