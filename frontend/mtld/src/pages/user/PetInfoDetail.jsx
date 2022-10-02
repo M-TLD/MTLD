@@ -139,7 +139,7 @@ function PetInfoDetail() {
     dispatch(fetchPupInfo(params.petId));
   }, []);
 
-  if (!puppy.puppyInfo) {
+  if (!puppy.pupInfo) {
     return <Spinner />;
   }
 
@@ -151,13 +151,13 @@ function PetInfoDetail() {
         </div>
         <div className="puppyProfile">
           <div className="PuppyImage">
-            <PuppyImage src={puppy.puppyInfo.fileURL} />
+            <PuppyImage src={puppy.pupInfo.fileURL} />
           </div>
           <div className="puppyInfo">
             <div className="puppyName">
               <h2>
-                {puppy.puppyInfo.name}
-                <span>&#40;{puppy.puppyInfo.gender}&#41;</span>
+                {puppy.pupInfo.name}
+                <span>&#40;{puppy.pupInfo.gender}&#41;</span>
               </h2>
               <img className="paws" src={paws} alt="paws" />
             </div>
@@ -171,26 +171,26 @@ function PetInfoDetail() {
         <div className="subdiv">
           <div className="subtitle">태어난 날은 ?</div>
           <div className="birthDday">
-            <p>{puppy.puppyInfo.birthdate}</p>
+            <p>{puppy.pupInfo.birthdate}</p>
             <Dday />
           </div>
         </div>
         <div className="subdiv">
           <div className="subtitle">우리 아이는 ?</div>
-          <p>{puppy.puppyInfo.breedName}</p>
+          <p>{puppy.pupInfo.breedName}</p>
         </div>
         <div className="subdiv">
           <div className="subtitle">몸무게는 ?</div>
-          <p>{puppy.puppyInfo.weight} kg</p>
+          <p>{puppy.pupInfo.weight} kg</p>
         </div>
         <div className="subdiv">
           <div className="subtitle">건강상태는 ?</div>
           <div className="record">
             <p className="neutered">중성화 여부</p>
-            {puppy.puppyInfo.neuter ? <img style={{ height: '5vh' }} src={o} alt="o" /> : <img style={{ height: '5vh' }} src={x} alt="x" />}
+            {puppy.pupInfo.neuter ? <img style={{ height: '5vh' }} src={o} alt="o" /> : <img style={{ height: '5vh' }} src={x} alt="x" />}
             <p className="disease">질병 경력</p>
             <ul>
-              <li>{puppy.puppyInfo.disease}</li>
+              <li>{puppy.pupInfo.disease}</li>
             </ul>
           </div>
         </div>
