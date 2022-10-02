@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import DogWalk from 'assets/dogwalk.png';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from 'components/common/DeleteModal';
