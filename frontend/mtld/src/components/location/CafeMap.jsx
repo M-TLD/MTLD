@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import dummy from 'data/RestaurantDataFinal.json';
+import dummy from 'data/RestaurantData.json';
 
 const Container = styled.div`
   display: flex;
@@ -15,6 +15,7 @@ const ResultList = styled.div`
   background-color: #F8F7F7;
   margin-top: 15px;
   border-radius: 10px;
+  color: #5C5C5C;
 `;
 
 const ResultItem = styled.div`
@@ -46,8 +47,8 @@ const PlaceName = styled.span`
 
 const Phone = styled.a`
   font-size: 10px;
-  color: black;
-  text-decoration: none;
+  color: #5C5C5C;
+  text-decoration: underline;
   &:hover,
   &:active {
     cursor: pointer;
@@ -84,8 +85,8 @@ function RestaurantMap({ searchPlace, flag }) {
   let long;
 
   useEffect(() => {
-    console.log(searchPlace);
-    console.log(flag);
+    // console.log(searchPlace);
+    // console.log(flag);
     // geoloaction으로 사용할 수 있다면
     if (navigator.geolocation) {
     // GeoLocation을 이용해 접속 위치 얻어오기
@@ -93,7 +94,7 @@ function RestaurantMap({ searchPlace, flag }) {
         (position) => {
           lat = position.coords.latitude; // 위도
           long = position.coords.longitude; // 경도
-          console.log(lat, long);
+          // console.log(lat, long);
           // 검색하지 않았을 때
           if (searchPlace === '' && flag === false) {
             const options = {
@@ -106,15 +107,12 @@ function RestaurantMap({ searchPlace, flag }) {
             const kakaoMap = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴 얘 뭔데
             setMap(kakaoMap);
           } else if (flag === true) {
-            console.log('버튼 눌렀을 때');
-            // dummy.map(context, idx) => {
-
-            // }
+            // console.log('버튼 눌렀을 때');
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('반려견동반카페', placeSearchCB, {
               location: new window.kakao.maps.LatLng(lat, long),
-              // radius: 3000, // 3km
+              // radius: 30000, // 3km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
               category_group_code: 'CE7', // 카테고리 그룹 코드 - 카페
             });
@@ -163,7 +161,7 @@ function RestaurantMap({ searchPlace, flag }) {
 
             function displayMarker(place) {
               const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5693/5693993.png';
-              const imageSize = new kakao.maps.Size(30, 32);
+              const imageSize = new kakao.maps.Size(30, 30);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
@@ -175,23 +173,18 @@ function RestaurantMap({ searchPlace, flag }) {
               // console.log('타입 = ', typeof (place));
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
-                // const imgUrl = content.image;
                 const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
                   if (contentImg === 0) {
-                    console.log('0이야');
+                    // console.log('0이야');
                     place.img = content.image;
                   } else {
                     place.img = content.img;
                   }
-                  // place.img = content.image;
-                  // console.log(typeof (imgUrl));
-                  // console.log(imgUrl.startswith('https'));
-                  console.log(typeof (test));
                 }
               });
               if (place.img === undefined) {
-                place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
+                place.img = 'https://media.istockphoto.com/photos/adorable-corgi-dogs-that-were-trained-to-sit-and-wait-for-the-owners-picture-id1179202479?k=20&m=1179202479&s=612x612&w=0&h=3b7c37pPyz1eAoPQnWlk2Tq0KM0Cm_OzQnEkeCA2kEM=';
               }
               // console.log('place = ', place);
               kakao.maps.event.addListener(marker, 'click', () => {
@@ -202,7 +195,7 @@ function RestaurantMap({ searchPlace, flag }) {
           } else {
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
-            ps.keywordSearch(searchPlace, placeSearchCB);
+            ps.keywordSearch(searchPlace.concat('반려견동반카페'), placeSearchCB);
             function placeSearchCB(data, status, pagination) {
               if (status === kakao.maps.services.Status.OK) {
                 const bounds = new kakao.maps.LatLngBounds();
@@ -247,7 +240,7 @@ function RestaurantMap({ searchPlace, flag }) {
 
             function displayMarker(place) {
               const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5693/5693993.png';
-              const imageSize = new kakao.maps.Size(30, 32);
+              const imageSize = new kakao.maps.Size(30, 30);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
@@ -259,21 +252,15 @@ function RestaurantMap({ searchPlace, flag }) {
                 const contentImg = content.img;
                 if (contentName.includes(place.place_name)) {
                   if (contentImg === 0) {
-                    console.log('0이야');
+                    // console.log('0이야');
                     place.img = content.image;
                   } else {
                     place.img = content.img;
                   }
-                  // if (imgUrl.startsWith('https://s3')) {
-                  //   place.img = content.img;
-                  //   console.log('imageUrl = ', content.image);
-                  // } else {
-                  //   place.img = content.image;
-                  // }
                 }
               });
               if (place.img === undefined) {
-                place.img = 'https://s3-ap-northeast-1.amazonaws.com/dcicons/new/images/web/noimage/1.jpg';
+                place.img = 'https://media.istockphoto.com/photos/adorable-corgi-dogs-that-were-trained-to-sit-and-wait-for-the-owners-picture-id1179202479?k=20&m=1179202479&s=612x612&w=0&h=3b7c37pPyz1eAoPQnWlk2Tq0KM0Cm_OzQnEkeCA2kEM=';
               }
               console.log('place = ', place);
               // 마커 누르면 인포윈도우에 장소명 나옴
