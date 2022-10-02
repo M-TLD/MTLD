@@ -207,7 +207,7 @@ function RestaurantMap({ searchPlace, flag }) {
           } else {
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
-            ps.keywordSearch(searchPlace, placeSearchCB);
+            ps.keywordSearch(searchPlace.concat('반려견동반식당'), placeSearchCB);
             function placeSearchCB(data, status, pagination) {
               if (status === kakao.maps.services.Status.OK) {
                 const bounds = new kakao.maps.LatLngBounds();
