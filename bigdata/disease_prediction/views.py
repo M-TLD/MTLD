@@ -11,6 +11,7 @@ from collections import OrderedDict
 @api_view(['GET','POST'])
 def disease_predict(request):
    if request.method=='POST':
+      return HttpResponse(request.POST['submitRecord'])
       df = pd.read_csv('disease_prediction/disease_data/disease.csv',engine='python', encoding='cp949')
 
       condition_split=condition.split()
@@ -34,9 +35,9 @@ def disease_predict(request):
       result=cos_sim_df.loc['9999']
       result['9999']=0
       result=result.sort_values(ascending=False)
-      data=df.loc[result.index[0:5]-1].reset_index()
-      # return HttpResponse(data.to_json(orient='records'))
-      return HttpResponse(df.loc[result.index[0:5]-1].to_json(orient='records'))
+      data=df.loc[result.index[0:3]-1].reset_index()
+      return HttpResponse(data[['disease_name','define']].to_json(orient='records'))
+      # return HttpResponse(df.loc[result.index[0:5]-1].to_json(orient='records'))
 
    elif request.method=='GET':
       condition=pd.read_csv('disease_prediction/disease_data/condition.csv',engine='python', encoding='cp949')
