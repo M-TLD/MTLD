@@ -13,6 +13,7 @@ import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
 import Arrow from 'assets/arrow.png';
 import Spinner from 'components/common/Spinner';
+import bobi from 'assets/bobi.png';
 import { fetchPuppyInfo, puppySelector } from 'app/puppy';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -144,6 +145,90 @@ function Main() {
     return <Spinner />;
   }
 
+  if (puppy.puppyInfo.length === 0) {
+    return (
+      <div>
+        <StyledSwiper
+          modules={[Navigation]}
+          // spaceBetween={}
+          slidesPerView={1} // 한 슬라이드에 보여줄 갯수
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          navigation
+        >
+          <StyledSwiperSlide>
+            <StyledLink to="/mypage">
+              <OurBabyDiv>
+                <OurBaby src={bobi} />
+              </OurBabyDiv>
+            </StyledLink>
+            <Welcome>
+              <BabyName>&nbsp;보비야</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <span>예방접종까지 10일 남았어요!</span>
+                <span>심장사상충약 잊지 말아주세요!</span>
+              </Alarm>
+            </StyledLink>
+          </StyledSwiperSlide>
+        </StyledSwiper>
+        <MenuDiv>
+          <MenuGroup>
+            <MenuItem>
+              <StyledLink to="/survey-question">
+                <div>
+                  <MenuImage src={MedicalCheckup} />
+                </div>
+                건강진단
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/diary-home">
+                <div>
+                  <MenuImage src={WalkingDiary} />
+                </div>
+                산책일지
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/location-main">
+                <div>
+                  <MenuImage src={PetFriendly} />
+                </div>
+                애견동반장소
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/info-board">
+                <div>
+                  <MenuImage src={HoneyTip} />
+                </div>
+                꿀팁게시판
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-survey">
+                <div>
+                  <MenuImage src={AdoptionHelper} />
+                </div>
+                입양도우미
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-home">
+                <div>
+                  <MenuImage src={AbandonedDogs} />
+                </div>
+                유기견친구들
+              </StyledLink>
+            </MenuItem>
+          </MenuGroup>
+        </MenuDiv>
+      </div>
+    );
+  }
   if (puppy.puppyInfo.length === 1) {
     return (
       <div>
