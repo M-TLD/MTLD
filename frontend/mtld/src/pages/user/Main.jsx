@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import Bobi from 'assets/bobi.png';
 import MedicalCheckup from 'assets/survey_question.png';
 import WalkingDiary from 'assets/diary_home.png';
 import PetFriendly from 'assets/location_main.png';
@@ -13,6 +12,9 @@ import HoneyTip from 'assets/info_board.png';
 import AdoptionHelper from 'assets/adoption_survey.png';
 import AbandonedDogs from 'assets/adoption_home.png';
 import Arrow from 'assets/arrow.png';
+import Spinner from 'components/common/Spinner';
+import { fetchPuppyInfo, puppySelector } from 'app/puppy';
+import { useSelector, useDispatch } from 'react-redux';
 
 const StyledSwiper = styled(Swiper)`
   margin-top: 30px;
@@ -23,8 +25,8 @@ const StyledSwiper = styled(Swiper)`
   .swiper-button-next {
     width: 90px;
     height: 100px;
-    background: url(${Arrow}) no-repeat!important;
-    position: absolute; 
+    background: url(${Arrow}) no-repeat !important;
+    position: absolute;
     right: 0;
     top: 100px;
   }
@@ -131,107 +133,320 @@ const StyledLink = styled(Link)`
 `;
 
 function Main() {
-  return (
-    <div>
-      <StyledSwiper
-        modules={[Navigation]}
-        // spaceBetween={}
-        slidesPerView={1} // 한 슬라이드에 보여줄 갯수
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-        navigation
-      >
-        <StyledSwiperSlide>
-          <StyledLink to="/mypage">
-            <OurBabyDiv>
-              <OurBaby src={Bobi} />
-            </OurBabyDiv>
-          </StyledLink>
-          <Welcome>
-            <BabyName>&nbsp;보비</BabyName>
-            <span>&nbsp;반가워!</span>
-          </Welcome>
-          <StyledLink to="/pet-medical-card">
-            <Alarm>
-              <span>예방접종까지 10일 남았어요!</span>
-              <span>심장사상충약 잊지 말아주세요!</span>
-            </Alarm>
-          </StyledLink>
-        </StyledSwiperSlide>
-        <StyledSwiperSlide>
-          <OurBabyDiv>
-            <OurBaby src={Bobi} />
-          </OurBabyDiv>
-          <Welcome>
-            <BabyName>&nbsp;바비야</BabyName>
-            <span>&nbsp;반가워!</span>
-          </Welcome>
-          <StyledLink to="/pet-medical-card">
-            <Alarm>
-              <div>
+  const puppy = useSelector(puppySelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPuppyInfo());
+  }, []);
+
+  if (!puppy.puppyInfo) {
+    return <Spinner />;
+  }
+
+  if (puppy.puppyInfo.length === 1) {
+    return (
+      <div>
+        <StyledSwiper
+          modules={[Navigation]}
+          // spaceBetween={}
+          slidesPerView={1} // 한 슬라이드에 보여줄 갯수
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          navigation
+        >
+          <StyledSwiperSlide>
+            <StyledLink to="/mypage">
+              <OurBabyDiv>
+                <OurBaby src={puppy.puppyInfo[0].fileURL} />
+              </OurBabyDiv>
+            </StyledLink>
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[0].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
                 <span>예방접종까지 10일 남았어요!</span>
                 <span>심장사상충약 잊지 말아주세요!</span>
-              </div>
-            </Alarm>
-          </StyledLink>
-        </StyledSwiperSlide>
-        <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
-        <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
-      </StyledSwiper>
-      <MenuDiv>
-        <MenuGroup>
-          <MenuItem>
-            <StyledLink to="/survey-question">
-              <div>
-                <MenuImage src={MedicalCheckup} />
-              </div>
-              건강진단
+              </Alarm>
             </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink to="/diary-home">
-              <div>
-                <MenuImage src={WalkingDiary} />
-              </div>
-              산책일지
+          </StyledSwiperSlide>
+        </StyledSwiper>
+        <MenuDiv>
+          <MenuGroup>
+            <MenuItem>
+              <StyledLink to="/survey-question">
+                <div>
+                  <MenuImage src={MedicalCheckup} />
+                </div>
+                건강진단
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/diary-home">
+                <div>
+                  <MenuImage src={WalkingDiary} />
+                </div>
+                산책일지
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/location-main">
+                <div>
+                  <MenuImage src={PetFriendly} />
+                </div>
+                애견동반장소
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/info-board">
+                <div>
+                  <MenuImage src={HoneyTip} />
+                </div>
+                꿀팁게시판
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-survey">
+                <div>
+                  <MenuImage src={AdoptionHelper} />
+                </div>
+                입양도우미
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-home">
+                <div>
+                  <MenuImage src={AbandonedDogs} />
+                </div>
+                유기견친구들
+              </StyledLink>
+            </MenuItem>
+          </MenuGroup>
+        </MenuDiv>
+      </div>
+    );
+  }
+  if (puppy.puppyInfo.length === 2) {
+    return (
+      <div>
+        <StyledSwiper
+          modules={[Navigation]}
+          // spaceBetween={}
+          slidesPerView={1} // 한 슬라이드에 보여줄 갯수
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          navigation
+        >
+          <StyledSwiperSlide>
+            <StyledLink to="/mypage">
+              <OurBabyDiv>
+                <OurBaby src={puppy.puppyInfo[0].fileURL} />
+              </OurBabyDiv>
             </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink to="/location-main">
-              <div>
-                <MenuImage src={PetFriendly} />
-              </div>
-              애견동반장소
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[0].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <span>예방접종까지 10일 남았어요!</span>
+                <span>심장사상충약 잊지 말아주세요!</span>
+              </Alarm>
             </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink to="/info-board">
-              <div>
-                <MenuImage src={HoneyTip} />
-              </div>
-              꿀팁게시판
+          </StyledSwiperSlide>
+          <StyledSwiperSlide>
+            <OurBabyDiv>
+              <OurBaby src={puppy.puppyInfo[1].fileURL} />
+            </OurBabyDiv>
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[1].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <div>
+                  <span>예방접종까지 10일 남았어요!</span>
+                  <span>심장사상충약 잊지 말아주세요!</span>
+                </div>
+              </Alarm>
             </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink to="/adoption-survey">
-              <div>
-                <MenuImage src={AdoptionHelper} />
-              </div>
-              입양도우미
+          </StyledSwiperSlide>
+        </StyledSwiper>
+        <MenuDiv>
+          <MenuGroup>
+            <MenuItem>
+              <StyledLink to="/survey-question">
+                <div>
+                  <MenuImage src={MedicalCheckup} />
+                </div>
+                건강진단
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/diary-home">
+                <div>
+                  <MenuImage src={WalkingDiary} />
+                </div>
+                산책일지
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/location-main">
+                <div>
+                  <MenuImage src={PetFriendly} />
+                </div>
+                애견동반장소
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/info-board">
+                <div>
+                  <MenuImage src={HoneyTip} />
+                </div>
+                꿀팁게시판
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-survey">
+                <div>
+                  <MenuImage src={AdoptionHelper} />
+                </div>
+                입양도우미
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-home">
+                <div>
+                  <MenuImage src={AbandonedDogs} />
+                </div>
+                유기견친구들
+              </StyledLink>
+            </MenuItem>
+          </MenuGroup>
+        </MenuDiv>
+      </div>
+    );
+  }
+  if (puppy.puppyInfo.length === 3) {
+    return (
+      <div>
+        <StyledSwiper
+          modules={[Navigation]}
+          // spaceBetween={}
+          slidesPerView={1} // 한 슬라이드에 보여줄 갯수
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          navigation
+        >
+          <StyledSwiperSlide>
+            <StyledLink to="/mypage">
+              <OurBabyDiv>
+                <OurBaby src={puppy.puppyInfo[0].fileURL} />
+              </OurBabyDiv>
             </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink to="/adoption-home">
-              <div>
-                <MenuImage src={AbandonedDogs} />
-              </div>
-              유기견친구들
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[0].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <span>예방접종까지 10일 남았어요!</span>
+                <span>심장사상충약 잊지 말아주세요!</span>
+              </Alarm>
             </StyledLink>
-          </MenuItem>
-        </MenuGroup>
-      </MenuDiv>
-    </div>
-  );
+          </StyledSwiperSlide>
+          <StyledSwiperSlide>
+            <OurBabyDiv>
+              <OurBaby src={puppy.puppyInfo[1].fileURL} />
+            </OurBabyDiv>
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[1].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <div>
+                  <span>예방접종까지 10일 남았어요!</span>
+                  <span>심장사상충약 잊지 말아주세요!</span>
+                </div>
+              </Alarm>
+            </StyledLink>
+          </StyledSwiperSlide>
+          <StyledSwiperSlide>
+            <OurBabyDiv>
+              <OurBaby src={puppy.puppyInfo[2].fileURL} />
+            </OurBabyDiv>
+            <Welcome>
+              <BabyName>&nbsp;{puppy.puppyInfo[2].name}</BabyName>
+              <span>&nbsp;반가워!</span>
+            </Welcome>
+            <StyledLink to="/pet-medical-card">
+              <Alarm>
+                <div>
+                  <span>예방접종까지 10일 남았어요!</span>
+                  <span>심장사상충약 잊지 말아주세요!</span>
+                </div>
+              </Alarm>
+            </StyledLink>
+          </StyledSwiperSlide>
+        </StyledSwiper>
+        <MenuDiv>
+          <MenuGroup>
+            <MenuItem>
+              <StyledLink to="/survey-question">
+                <div>
+                  <MenuImage src={MedicalCheckup} />
+                </div>
+                건강진단
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/diary-home">
+                <div>
+                  <MenuImage src={WalkingDiary} />
+                </div>
+                산책일지
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/location-main">
+                <div>
+                  <MenuImage src={PetFriendly} />
+                </div>
+                애견동반장소
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/info-board">
+                <div>
+                  <MenuImage src={HoneyTip} />
+                </div>
+                꿀팁게시판
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-survey">
+                <div>
+                  <MenuImage src={AdoptionHelper} />
+                </div>
+                입양도우미
+              </StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink to="/adoption-home">
+                <div>
+                  <MenuImage src={AbandonedDogs} />
+                </div>
+                유기견친구들
+              </StyledLink>
+            </MenuItem>
+          </MenuGroup>
+        </MenuDiv>
+      </div>
+    );
+  }
 }
 
 export default Main;
