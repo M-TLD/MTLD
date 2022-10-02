@@ -1,13 +1,13 @@
 condition_code,condition_name,condition_num
 Acoustic,청각기관 증상,5
-Cardiovascular,심혈관계증상,37
-Digestive,소화기계,64
+Cardiovascular,심혈관계증상,34
+Digestive,소화기계,52
 Ophthalmology,안과증상,53
-General,전신종합증상,105
-Musculoskeletal,근골격계,39
-Nervous,신경계 증상,28
-Pain,통증 증상,28
-Respiratory,호흡기계 증상,21
-Skin/Integumentary,피부/외피계 증상,57
-Reproductive,생식기계 증상,61
-Urinary,비뇨기계 증상,18
+General,전신종합증상,88
+Musculoskeletal,근골격계,31
+Nervous,신경계 증상,27
+Pain,통증 증상,25
+Respiratory,호흡기계 증상,19
+Skin/Integumentary,피부/외피계 증상,53
+Reproductive,생식기계 증상,52
+Urinary,비뇨기계 증상,19
