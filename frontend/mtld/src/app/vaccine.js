@@ -29,6 +29,19 @@ export const registerVaccine = createAsyncThunk('vaccine/registerVaccine', async
   }
 });
 
+export const fetchVaccineInfo = createAsyncThunk('vaccine/fetchVaccineInfo', async (thunkAPI) => {
+  try {
+    const res = await axiosInstance.get(`/api/vaccine/${thunkAPI}`).then((res) => {
+      console.log('vaccine date', res.data);
+      return res.data;
+    });
+    return res.data;
+  } catch (err) {
+    console.log('에러! ');
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const vaccineSlice = createSlice({
   // Name of the reducer
   name: 'vaccine',
@@ -47,6 +60,24 @@ export const vaccineSlice = createSlice({
     },
     [registerVaccine.rejected]: (state) => {
       console.log('register rejected');
+    },
+
+    //  GET
+    [fetchVaccineInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('fetching pending');
+    },
+    [fetchVaccineInfo.fulfilled]: (state, action) => {
+      state.vaccineInfo = action.payload.data;
+      console.log(action.payload.data);
+      state.loading = true;
+      console.log('vaccine info redux store:', state.puppyInfo);
+      console.log('fetching fulfilled');
+    },
+    [fetchVaccineInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('fetching rejected');
     },
 
     // PATCH

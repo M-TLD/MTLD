@@ -8,9 +8,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Grid from '@mui/material/Grid';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { registerVaccine, vaccineSelector } from 'app/vaccine';
+import { fetchVaccineInfo, registerVaccine, vaccineSelector } from 'app/vaccine';
 
 const Wrap = styled.div`
   display: flex;
@@ -224,13 +224,18 @@ function PetMedicalCardDetail() {
     medicineId: 3,
   };
 
-  const addVaccine = () => {
-    console.log(dhpplData);
-    dispatch(registerVaccine(dhpplData));
-    dispatch(registerVaccine(coronaData));
-    dispatch(registerVaccine(kennelData));
-    dispatch(registerVaccine(rabisData));
-  };
+  function addVaccine() {
+    batch(() => {
+      dispatch(registerVaccine(dhpplData));
+      dispatch(registerVaccine(coronaData));
+      dispatch(registerVaccine(kennelData));
+      dispatch(registerVaccine(rabisData));
+    });
+  }
+
+  useEffect(() => {
+    dispatch(fetchVaccineInfo(params.petId));
+  }, []);
 
   return (
     <Wrap>
@@ -332,7 +337,9 @@ function PetMedicalCardDetail() {
                               label="예방접종일자"
                               value={kennelValue}
                               onChange={(newValue) => {
-                                setKennelValue(newValue);
+                                const date = newValue.$d;
+                                const kennelDate = date.toISOString().slice(0, 10);
+                                setKennelValue(kennelDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -368,7 +375,9 @@ function PetMedicalCardDetail() {
                               label="예방접종일자"
                               value={rabisValue}
                               onChange={(newValue) => {
-                                setRabisValue(newValue);
+                                const date = newValue.$d;
+                                const rabisDate = date.toISOString().slice(0, 10);
+                                setRabisValue(rabisDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
