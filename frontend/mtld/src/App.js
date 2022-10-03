@@ -27,6 +27,7 @@ import Login from './pages/user/Login';
 import Main from './pages/user/Main';
 import MyPage from './pages/user/MyPage';
 import PetInfoCreate from './pages/user/PetInfoCreate';
+import PetInfoEdit from './pages/user/PetInfoEdit';
 import PetInfoDetail from './pages/user/PetInfoDetail';
 import PetMedicalCard from './pages/user/PetMedicalCard';
 import Kakao from './pages/user/Kakao';
@@ -59,7 +60,7 @@ const theme = createTheme({
           fontSize: 2,
         },
         listbox: {
-          fontSize: 1,
+          fontSize: '12px',
           textAlign: 'left',
         },
         popupIndicator: {
@@ -93,6 +94,7 @@ function App() {
                 <Route path="/" element={<Main />} exact />
                 <Route path="/mypage" element={<MyPage />} exact />
                 <Route path="/pet-info-create" element={<PetInfoCreate />} exact />
+                <Route path="/pet-info-edit/:petId" element={<PetInfoEdit />} exact />
                 <Route path="/pet-info-detail/:petId" element={<PetInfoDetail />} exact />
                 <Route path="/pet-medical-card" element={<PetMedicalCard />} exact />
                 <Route path="/adoption-home" element={<AdoptionHome />} exact />
