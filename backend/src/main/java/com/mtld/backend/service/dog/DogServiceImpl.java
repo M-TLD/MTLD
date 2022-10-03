@@ -121,13 +121,14 @@ public class DogServiceImpl implements DogService {
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
-
+        dog.update(dogUpdateRequestDto);
         if (image.isEmpty()) {
-            dog.update(dogUpdateRequestDto);
             return dog.getId();
         }
         // 기존 이미지 삭제
-        amazonS3Client.deleteObject(bucket, dog.getFileName());
+        if (dog.getFileName() != null) {
+            amazonS3Client.deleteObject(bucket, dog.getFileName());
+        }
 
         String originName = image.getOriginalFilename();
         String fileName = createFileName(originName);
@@ -158,9 +159,10 @@ public class DogServiceImpl implements DogService {
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
-
         // 기존 이미지 삭제
-        amazonS3Client.deleteObject(bucket, dog.getFileName());
+        if (dog.getFileName() != null) {
+            amazonS3Client.deleteObject(bucket, dog.getFileName());
+        }
 
         dogRepository.delete(dog);
     }
