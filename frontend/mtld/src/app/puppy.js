@@ -85,34 +85,31 @@ export const deletePuppyInfo = createAsyncThunk('puppy/deletePuppyInfo', async (
 export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thunkAPI) => {
   const dogFormData = new FormData();
   const dogInfo = JSON.stringify(thunkAPI[1]);
-  dogFormData.append('image', thunkAPI[0]);
-  dogFormData.append(
-    'dog',
-    new Blob([dogInfo], {
-      type: 'application/json',
-    }),
-  );
 
-  // const check = 'https://';
-  // if (thunkAPI[0].startsWith(check)) {
-  //   console.log('profile not changed');
-  //   dogFormData.append(
-  //     'dog',
-  //     new Blob([dogInfo], {
-  //       type: 'application/json',
-  //     }),
-  //   );
-  // } else {
-  //   console.log('profile changed');
-  //   dogFormData.append('image', thunkAPI[0]);
-  //   dogFormData.append(
-  //     'dog',
-  //     new Blob([dogInfo], {
-  //       type: 'application/json',
-  //     }),
-  //   );
-  // }
+  if (typeof thunkAPI[0] === 'string') {
+    console.log('profile not changed');
+    dogFormData.append(
+      'dog',
+      new Blob([dogInfo], {
+        type: 'application/json',
+      }),
+    );
+  } else {
+    console.log('profile changed');
+    dogFormData.append('image', thunkAPI[0]);
+    dogFormData.append(
+      'dog',
+      new Blob([dogInfo], {
+        type: 'application/json',
+      }),
+    );
+  }
 
+  for (const value of dogFormData.values()) {
+    console.log(value);
+  }
+
+  console.log(dogFormData.get('image'));
   const accessToken = window.localStorage.getItem('accessToken');
 
   try {
