@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Paw from 'assets/paw_blue.png';
 import axios from 'axios';
 import DeleteModal from 'components/common/DeleteModal';
@@ -109,7 +109,7 @@ function DiaryDetail() {
         }
       });
   }, []);
-  console.log(walkingData);
+  // console.log(walkingData);
 
   // 다이어리 삭제 (모달창에서 '예' 버튼 클릭 시 작동)
   const deleteButton = async () => {
@@ -121,16 +121,15 @@ function DiaryDetail() {
     if (res.status === 200) {
       navigate('/diary-home');
     }
-    console.log('delete!');
   };
 
   return (
     <StyledDetail>
       <div className="top">
-        <NavLink to="/diary-home">
-          <CloseRoundedIcon id="close" sx={{ color: '#F38181' }} />
-        </NavLink>
         <DeleteModal submit={deleteButton} />
+        <NavLink to="/diary-home">
+          <CheckRoundedIcon id="check" sx={{ color: '#81E3D7' }} />
+        </NavLink>
       </div>
       <br />
       <div>
