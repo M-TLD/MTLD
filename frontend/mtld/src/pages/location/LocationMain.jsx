@@ -1,21 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import pawYellow from 'assets/paw_yellow.png';
 import HospitalLogo from 'assets/hospital.png';
 import AccommodationLogo from 'assets/accommodation.png';
 import RestaurantLogo from 'assets/restaurant.png';
 import CafeLogo from 'assets/cafe.png';
 
 const Container = styled.div`
-  margin-top: 115px;
+  margin-top: 80px;
   @media screen and (min-width: 768px) {
-    margin-top: 250px; 
+    margin-top: 150px; 
   }
 `;
 
-const Title = styled.span`
+const Title = styled.p`
   font-size: 24px;
   color: #5C5C5C;
+`;
+
+const SubTitle = styled.span`
+  font-size: 16px;  
+  font-family: 'UhBeeStrawberry';
+  font-weight: 600;
+  color: #5C5C5C;
+`;
+
+const Paw = styled.img`
+  height: 3vh;
+  vertical-align: middle;
 `;
 
 const Highlight = styled.span`
@@ -24,7 +37,7 @@ const Highlight = styled.span`
 `;
 
 const MenuGroup = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -78,6 +91,11 @@ function LocationMain() {
           <Highlight fontColor="#81E3D7">반려견 동반가능 </Highlight>
           장소들
         </Title>
+        <div>
+          <SubTitle>가까운 순으로 추천해줄개! <br /> 날 얼른 데려가개</SubTitle>
+          <Paw src={pawYellow} />
+
+        </div>
         <MenuGroup>
           <MenuItem>
             <ItemDiv>
