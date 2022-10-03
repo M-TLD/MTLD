@@ -159,23 +159,18 @@ const StyledCalender = styled.div`
 function CalenderView() {
   const date = useSelector((state) => state.date.value);
   const dispatch = useDispatch();
-  // console.log('reducer', date);
 
   const [value, onChange] = useState(new Date());
-  // console.log(value);
 
   const selectedYear = value.getFullYear();
   const selectedMonth = String(value.getMonth() + 1).padStart(2, '0');
   const selectedDate = String(value.getDate()).padStart(2, '0');
 
   const dateValue = `${selectedYear}-${selectedMonth}-${selectedDate}`;
-  // console.log(dateValue);
 
   useEffect(() => {
     dispatch(update(dateValue));
   });
-
-  // console.log('reduced', date);
 
   const [diaryData, setDiaryData] = useState(['1900-01-01']);
   const [walkingData, setWalkingData] = useState([]);
@@ -188,7 +183,6 @@ function CalenderView() {
       })
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         if (data.recordDateList !== undefined) {
           setDiaryData(data.recordDateList);
         }
@@ -196,9 +190,7 @@ function CalenderView() {
           setWalkingData(data.walkingDateList);
         }
       });
-  }, []);
-  console.log(diaryData);
-  console.log(walkingData);
+  }, [date]);
 
   return (
     <StyledCalender>
@@ -210,7 +202,7 @@ function CalenderView() {
           locale="eng-US"
           tileContent={({ date, view }) => {
             const html = [];
-            if (diaryData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+            if (diaryData.find((x, idx) => x === moment(date).format('YYYY-MM-DD'))) {
               html.push(<EventNoteRoundedIcon className="diaryicon" />);
             }
             if (walkingData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import DogWalk from 'assets/dogwalk.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import DeleteModal from 'components/common/DeleteModal';
+import mtldLogo from 'assets/logo.png';
 
 const StyledWalkLog = styled.div`
   border: 2px solid #e5e5e5;
@@ -121,6 +121,20 @@ const StyledWalkLog = styled.div`
   #delete {
     margin-left: 300px;
   }
+
+  .report {
+    padding-top: 1vh;
+    font-family: 'UhBeeStrawberry';
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .report-p {
+    margin-bottom: 0;
+  }
 `;
 
 const TabMenu = styled.ul`
@@ -153,6 +167,28 @@ const TabMenu = styled.ul`
   }
 `;
 
+const StyledLink = styled(NavLink)`
+  width: 200px;
+  height: 3vh;
+  text-decoration: none;
+  background-color: #ffeeb1;
+  border-radius: 6px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #5c5c5c;
+  font-size: 13px;
+  font-family: 'GmarketSansMedium';
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
+  font-weight: lighter;
+
+  .content {
+    font-size: 10pt;
+  }
+`;
+
 function WalkLog() {
   const navigate = useNavigate();
   // 현재 선택된 날짜 호출 및 형식 수정
@@ -162,7 +198,7 @@ function WalkLog() {
   const day = date.substr(8, 2);
   const newDate = `${year}년 ${month}월 ${day}일`;
 
-  const [puppyData, setPuppyData] = useState();
+  const [puppyData, setPuppyData] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
   const [currentId, setCurrentId] = useState(0);
   const [time, setTime] = useState(0);
@@ -187,9 +223,14 @@ function WalkLog() {
       .then((res) => res.data)
       .then((data) => {
         setPuppyData(data);
-        setCurrentId(data[0].id); // 첫번째 강아지로 Id 고정하고 시작
+        if (data.length > 0) {
+          setCurrentId(data[0].id);
+        }
+        // 첫번째 강아지로 Id 고정하고 시작
       });
   }, []);
+
+  // console.log(puppyData);
 
   // 현재 선택된 강아지의 산책 기록 여부 조회
   const getWalking = { date, dogId: Number(currentId) };
@@ -204,7 +245,7 @@ function WalkLog() {
       })
       .then((res) => {
         setStatus(res.status);
-        console.log(res);
+        // console.log(res);
         setPrintTime(res.data.time);
         setPrintDistance(res.data.distance);
         setLogId(res.data.id);
@@ -253,11 +294,11 @@ function WalkLog() {
         Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
       },
     });
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       navigate('/diary-home');
     }
-    console.log('delete!');
+    // console.log('delete!');
   };
 
   // [0]: 입력 form, [1]: 결과 출력
@@ -304,21 +345,34 @@ function WalkLog() {
         <span>산책일지</span>
         <span className="date">{newDate}</span>
       </div>
-
-      <TabMenu>
-        {nameArr.map((name, index) => (
-          <li
-            role="presentation"
-            onKeyDown={console.log()}
-            key={index}
-            className={currentTab === index ? 'submenu-focused' : 'submenu'}
-            onClick={() => selectMenuHandler(index)}
-          >
-            {name}
-          </li>
-        ))}
-      </TabMenu>
-      {status === 204 ? <div className="contentblock">{contentArr[0].content}</div> : <div className="contentblock">{contentArr[1].content}</div>}
+      {puppyData.length > 0 ? (
+        <div>
+          <TabMenu>
+            {nameArr.map((name, index) => (
+              <li
+                role="presentation"
+                onKeyDown={console.log()}
+                key={index}
+                className={currentTab === index ? 'submenu-focused' : 'submenu'}
+                onClick={() => selectMenuHandler(index)}
+              >
+                {name}
+              </li>
+            ))}
+          </TabMenu>
+          {status === 204 ? <div className="contentblock">{contentArr[0].content}</div> : <div className="contentblock">{contentArr[1].content}</div>}
+        </div>
+      ) : (
+        <div className="report">
+          <img src={mtldLogo} alt="logo" width="250px" />
+          <p className="report-p">반려견을 먼저 등록해주세요!</p>
+          <StyledLink to="/mypage">
+            <div className="content">
+              <span>반려견 등록하러 가기 </span>
+            </div>
+          </StyledLink>
+        </div>
+      )}
     </StyledWalkLog>
   );
 }
