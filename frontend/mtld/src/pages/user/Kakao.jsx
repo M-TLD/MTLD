@@ -22,10 +22,9 @@ const StyledDiv = styled.div`
 function Kakao() {
   const user = useSelector((state) => state.user.value);
   // 이렇게 하면 {email: 'sam8034@naver.com', name: '규민'}
-  console.log(user.payload);
+  // console.log(user.payload);
   const dispatch = useDispatch();
   const kakaoCode = new URL(window.location.href).searchParams.get('code');
-  console.log(kakaoCode);
 
   const navigate = useNavigate();
   useEffect(() => {

@@ -92,12 +92,59 @@ function Header() {
 
   useEffect(() => {
     dispatch(fetchUserInfo());
-    dispatch(fetchPuppyInfo());
   }, []);
 
   if (locationNow.pathname === '/login') return null;
-  if (!puppy.loading || !user.loading) {
-    return <div>loading...</div>;
+  if (!user.loading) {
+    return (
+      <StyledHeader>
+        <Accordion expanded={expand} sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}>
+          <AccordionSummary expandIcon={<MenuIcon onClick={toggleAccordion} />} aria-controls="panel1a-content" id="panel1a-header">
+            <div className="navBar">
+              <Link className="Link" to="/" style={{ zIndex: '100' }}>
+                <LogoImage src={Logo} />
+              </Link>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="menuDiv">
+              <div
+                className="userDiv"
+                onClick={() => {
+                  navigate('/mypage');
+                }}
+                onKeyDown={() => {
+                  navigate('/mypage');
+                }}
+                role="button"
+                tabIndex={0}
+              >
+                <Avatar src={Paw} sx={{ height: '7vh', width: '7vh' }} />
+                {/* <p className="name">사용자</p> */}
+              </div>
+              <div className="userInfoDiv">
+                <a href="/mypage">마이페이지</a>
+                <div
+                  className="logout"
+                  onClick={() => {
+                    dispatch(logout());
+                    window.alert('성공적으로 로그아웃 되었습니다');
+                    navigate('/login');
+                  }}
+                  onKeyDown={() => {
+                    dispatch(logout());
+                  }}
+                  role="button"
+                  tabIndex={0}
+                >
+                  로그아웃
+                </div>
+              </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+      </StyledHeader>
+    );
   }
   if (puppy.puppyInfo) {
     return (
