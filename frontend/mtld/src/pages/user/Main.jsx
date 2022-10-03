@@ -138,7 +138,6 @@ function Main() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('이팩트?');
     dispatch(fetchPuppyInfo());
   }, []);
 
