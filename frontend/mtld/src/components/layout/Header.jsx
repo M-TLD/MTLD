@@ -124,7 +124,7 @@ function Header() {
                   role="button"
                   tabIndex={0}
                 >
-                  <Avatar sx={{ height: '7vh', width: '7vh' }} />
+                  <Avatar src={Paw} sx={{ height: '7vh', width: '7vh' }} />
                   <p className="name">{user.userInfo.name}</p>
                 </div>
                 <div className="userInfoDiv">
@@ -152,7 +152,7 @@ function Header() {
               <div className="menuDiv">
                 <div className="userDiv">
                   <Avatar src={puppy.puppyInfo[0].fileURL} sx={{ height: '7vh', width: '7vh' }} />
-                  <p className="name">{puppy.puppyInfo[0].name}</p>
+                  <p className="name">{user.userInfo.name}</p>
                 </div>
                 <div className="userInfoDiv">
                   <a href="/mypage">마이페이지</a>
