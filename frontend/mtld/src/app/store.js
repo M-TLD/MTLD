@@ -4,6 +4,7 @@ import userReducer from './user';
 import puppyReducer from './puppy';
 import scoreReducer from './score';
 import vaccineReducer from './vaccine';
+import medicineReducer from './medicine';
 import dxReducer from './diagnosis';
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     date: dateReducer,
     score: scoreReducer,
     diagnosis: dxReducer,
+    medicine: medicineReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

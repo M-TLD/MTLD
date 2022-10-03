@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchVaccineInfo, registerVaccine, vaccineSelector } from 'app/vaccine';
+import { fetchMedicineInfo, registerMedicine, medicineSelector } from 'app/medicine';
 import { isFulfilled } from '@reduxjs/toolkit';
 
 const Wrap = styled.div`
@@ -175,13 +176,13 @@ function PetMedicalCardDetail() {
   const vaccine = useSelector(vaccineSelector);
   const params = useParams();
 
-  const [dhpplValue, setDhpplValue] = React.useState(); // DHPPL
-  const [coronaValue, setCoronaValue] = React.useState(); // 코로나
-  const [kennelValue, setKennelValue] = React.useState(); // 켄넬코프
-  const [rabisValue, setRabisValue] = React.useState(); // 광견병
-  const [dirofilariaValue, setDirofilariaValue] = React.useState(); // 심장사상충
-  const [tickValue, setTickValue] = React.useState(); // 진드기
-  const [anthelminticValue, setAnthelminticValue] = React.useState(); // 구충제
+  const [dhpplValue, setDhpplValue] = React.useState(dayjs()); // DHPPL
+  const [coronaValue, setCoronaValue] = React.useState(dayjs()); // 코로나
+  const [kennelValue, setKennelValue] = React.useState(dayjs()); // 켄넬코프
+  const [rabisValue, setRabisValue] = React.useState(dayjs()); // 광견병
+  const [dirofilariaValue, setDirofilariaValue] = React.useState(dayjs()); // 심장사상충
+  const [tickValue, setTickValue] = React.useState(dayjs()); // 진드기
+  const [anthelminticValue, setAnthelminticValue] = React.useState(dayjs()); // 구충제
 
   const dhpplData = {
     dogId: params.petId,
@@ -234,6 +235,14 @@ function PetMedicalCardDetail() {
     });
   }
 
+  function addMedicine() {
+    batch(() => {
+      dispatch(registerMedicine(dirofilariaData));
+      dispatch(registerMedicine(tickData));
+      dispatch(registerMedicine(anthelminticData));
+    });
+  }
+
   useEffect(() => {
     const loadData = async () => {
       const action = await dispatch(fetchVaccineInfo(params.petId));
@@ -247,6 +256,22 @@ function PetMedicalCardDetail() {
       setCoronaValue(vacc[1].expectDate);
       setKennelValue(vacc[2].expectDate);
       setRabisValue(vacc[3].expectDate);
+    });
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const action = await dispatch(fetchMedicineInfo(params.petId));
+      if (isFulfilled(action)) {
+        return action.payload.data;
+      }
+    };
+    loadData().then((med) => {
+      dispatch(fetchMedicineInfo(params.petId));
+      setDhpplValue(med[0].expectDate);
+      setCoronaValue(med[1].expectDate);
+      setKennelValue(med[2].expectDate);
+      setRabisValue(med[3].expectDate);
     });
   }, []);
 
@@ -438,7 +463,9 @@ function PetMedicalCardDetail() {
                               label="복용일자"
                               value={dirofilariaValue}
                               onChange={(newValue) => {
-                                setDirofilariaValue(newValue);
+                                const date = newValue.$d;
+                                const dirofilariaDate = date.toISOString().slice(0, 10);
+                                setDirofilariaValue(dirofilariaDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -478,7 +505,9 @@ function PetMedicalCardDetail() {
                               label="복용일자"
                               value={tickValue}
                               onChange={(newValue) => {
-                                setTickValue(newValue);
+                                const date = newValue.$d;
+                                const tickDate = date.toISOString().slice(0, 10);
+                                setTickValue(tickDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -518,7 +547,9 @@ function PetMedicalCardDetail() {
                               label="예방접종일자"
                               value={anthelminticValue}
                               onChange={(newValue) => {
-                                setAnthelminticValue(newValue);
+                                const date = newValue.$d;
+                                const anthelminticDate = date.toISOString().slice(0, 10);
+                                setAnthelminticValue(anthelminticDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
