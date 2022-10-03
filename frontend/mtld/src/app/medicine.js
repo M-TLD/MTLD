@@ -40,6 +40,23 @@ export const fetchMedicineInfo = createAsyncThunk('medicine/fetchMedicineInfo', 
   }
 });
 
+export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', async (thunkAPI) => {
+  try {
+    const res = await axios({
+      url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
+      method: 'patch',
+      data: thunkAPI,
+    }).then((res) => {
+      console.log(res);
+      console.log('successfully edited medicine');
+      return res;
+    });
+    return res;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const medicineSlice = createSlice({
   // Name of the reducer
   name: 'medicine',
@@ -75,6 +92,21 @@ export const medicineSlice = createSlice({
     },
 
     // PATCH
+    [editMedicineInfo.pending]: (state) => {
+      state.loading = false;
+      console.log('edit pending');
+    },
+    [editMedicineInfo.fulfilled]: (state, action) => {
+      state.loading = true;
+      console.log(action);
+      console.log(action.payload);
+      console.log(action.payload); // dogId
+      console.log('edit fulfilled');
+    },
+    [editMedicineInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('edit rejected');
+    },
   },
 });
 

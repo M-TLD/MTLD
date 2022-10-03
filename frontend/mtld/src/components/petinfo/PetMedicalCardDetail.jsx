@@ -29,6 +29,18 @@ const DogCard = styled.div`
   height: 80vh;
   border-radius: 10px;
   box-shadow: 0px 2px 2px 0.1px #5c5c5c;
+
+  .saveButton {
+    width: 110px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    font-family: 'GmarketSansMedium';
+    color: #5c5c5c;
+    font-size: 80%;
+    background-color: #81e3d7;
+  }
 `;
 
 const CardDecoLine = styled.div`
@@ -40,7 +52,7 @@ const CardDecoLine = styled.div`
 
 const VaccineForm = styled.div`
   margin-left: 5vw;
-  margin-top: 5vh;
+  margin-top: 3vh;
   display: flex;
   width: 90%;
   flex-direction: column;
@@ -436,7 +448,7 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            <button type="submit" onClick={addVaccine}>
+            <button className="saveButton" type="submit" onClick={addVaccine}>
               알림 저장하기
             </button>
           </VaccineForm>
@@ -570,7 +582,7 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            <button type="submit" onClick={addMedicine}>
+            <button className="saveButton" type="submit" onClick={addMedicine}>
               알림 저장하기
             </button>
           </MedicineForm>
