@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/16
- * updated by seongmin on 2022/09/27
+ * updated by seongmin on 2022/10/30
  */
 public interface DogService {
 
@@ -25,7 +25,7 @@ public interface DogService {
 
     Long registerDog(Long userId, DogRequestDto dogRequestDto, MultipartFile file);
 
-    void updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto);
+    Long updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto, MultipartFile image);
 
     void deleteDog(Long userId, Long dogId);
 }

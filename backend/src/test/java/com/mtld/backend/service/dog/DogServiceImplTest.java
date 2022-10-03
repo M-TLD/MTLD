@@ -83,7 +83,7 @@ class DogServiceImplTest {
         dogService.registerDog(user.get().getId(), dogRequestDto, file);
         dogService.registerDog(user.get().getId(), dogRequestDto2, file);
         DogUpdateRequestDto dogUpdateRequestDto = DogUpdateRequestDto.builder().id(2L).neuter(true).weight(25.1).build();
-        dogService.updateDog(user.get().getId(), dogUpdateRequestDto);
+//        dogService.updateDog(user.get().getId(), dogUpdateRequestDto);
 
         DogResponseDetailDto resultDog = dogService.getDogById(user.get().getId(), 2L);
         Assertions.assertThat(resultDog.getWeight()).isEqualTo(25.1);
