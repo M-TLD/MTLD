@@ -29,5 +29,5 @@ public class DogUpdateRequestDto {
 
     private String disease;
 
-    private String fileURL;
+//    private String fileURL;
 }
