@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/08
- * updated by myeongseok on 2022/09/20
+ * updated by myeongseok on 2022/10/03
  */
 
 @Entity
@@ -47,15 +47,17 @@ public class Dog extends BaseEntity {
     @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    @OneToMany(mappedBy = "dog")
+    @OneToMany(mappedBy = "dog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TakingMedicine> takingMedicines = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dog")
+    @OneToMany(mappedBy = "dog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vaccination> vaccinations = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    private String fileName;
 
     private String fileURL;
 
@@ -78,16 +80,17 @@ public class Dog extends BaseEntity {
         this.disease = disease;
     }
 
-    public void uploadFile(String fileURL) {
+    public void uploadFile(String fileURL, String fileName) {
         this.fileURL = fileURL;
+        this.fileName = fileName;
     }
 
     public void update(DogUpdateRequestDto dogUpdateRequestDto) {
         this.weight = dogUpdateRequestDto.getWeight();
         if (!this.neuter && dogUpdateRequestDto.isNeuter()) withdrawNeuter();
         writeDisease(dogUpdateRequestDto.getDisease());
-        if (!this.fileURL.equals(dogUpdateRequestDto.getFileURL()))
-            uploadFile(dogUpdateRequestDto.getFileURL());
+//        if (!this.fileURL.equals(dogUpdateRequestDto.getFileURL()))
+//            uploadFile(dogUpdateRequestDto.getFileURL());
     }
 }
 

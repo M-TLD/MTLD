@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/21
+ * updated by myeongseok on 2022/10/03
  */
 
 @Slf4j
@@ -70,6 +71,9 @@ public class TakingMedicineServiceImpl implements TakingMedicineService {
             throw new AuthException("권한이 없습니다.");
         }
         Medicine medicine = medicineRepository.findById(takingMedicineRequestDto.getMedicineId()).orElseThrow(() -> new BadRequestException("해당 접종이 없습니다."));
+        if (takingMedicineRepository.findByDogAndMedicine(dog, medicine) != null) {
+            throw new BadRequestException("이미 약 섭취에 대한 정보가 저장이 되어 있습니다.");
+        }
         TakingMedicine takingMedicine = TakingMedicine.builder().medicine(medicine).dog(dog).expectDate(ConvertDate.stringToDate(takingMedicineRequestDto.getExpectDate())).build();
 
         takingMedicineRepository.save(takingMedicine);

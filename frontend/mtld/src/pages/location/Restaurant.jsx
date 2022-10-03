@@ -6,7 +6,7 @@ import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import RestaurantLogo from 'assets/restaurant.png';
 
 const Container = styled.div`
-  margin: 30px;
+  margin: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,8 +78,7 @@ const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
 
 const CurrentPositiondiv = styled.div`
   display: flex;
-  gap: 5px;
-  margin: 0 0 5px 180px;
+  margin: 0 0 5px 165px;
   &:hover {
     cursor: pointer;
   }
@@ -128,7 +127,7 @@ function Restaurant() {
         </TitleDiv>
         <SearchDiv>
           <SearchForm onSubmit={handleSubmit}>
-            <SearchInput placeholder="검색어를 입력하세요" onChange={onChange} value={InputText} />
+            <SearchInput placeholder="지역명을 입력하세요 ex.역삼동" onChange={onChange} value={InputText} />
             <SearchBtn type="submit">
               <StyledSearchRoundedIcon fontSize="medium" />
             </SearchBtn>

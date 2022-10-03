@@ -7,6 +7,7 @@ const ResultList = styled.div`
   background-color: #F8F7F7;
   margin-top: 15px;
   border-radius: 10px;
+  color: #5C5C5C;
 `;
 
 const ResultItem = styled.div`
@@ -19,14 +20,20 @@ const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
   margin-right: 3px;
 `;
 
-const PlaceName = styled.span`
+const PlaceName = styled.a`
   font-size: 15px;
+  color: #5C5C5C;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const Phone = styled.a`
   font-size: 10px;
-  color: black;
-  text-decoration: none;
+  color: #5C5C5C;
+  text-decoration: underline;
   &:hover,
   &:active {
     cursor: pointer;
@@ -48,8 +55,8 @@ function HospitalMap({ searchPlace, flag }) {
   let lat;
   let long;
   useEffect(() => {
-    console.log('searchPlace = ', searchPlace);
-    console.log(flag);
+    // console.log('searchPlace = ', searchPlace);
+    // console.log(flag);
     // geoloaction으로 사용할 수 있다면
     if (navigator.geolocation) {
     // GeoLocation을 이용해 접속 위치 얻어오기
@@ -57,7 +64,7 @@ function HospitalMap({ searchPlace, flag }) {
         (position) => {
           lat = position.coords.latitude; // 위도
           long = position.coords.longitude; // 경도
-          console.log(lat, long);
+          // console.log(lat, long);
           // 검색하지 않았을 때
           if (searchPlace === '' && flag === false) {
             const options = {
@@ -70,7 +77,7 @@ function HospitalMap({ searchPlace, flag }) {
             const kakaoMap = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴 얘 뭔데
             setMap(kakaoMap);
           } else if (flag === true) {
-            console.log('버튼 눌렀을 때');
+            // console.log('버튼 눌렀을 때');
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('동물병원', placeSearchCB, {
@@ -121,7 +128,7 @@ function HospitalMap({ searchPlace, flag }) {
 
             function displayMarker(place) {
               const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695634.png';
-              const imageSize = new kakao.maps.Size(30, 32);
+              const imageSize = new kakao.maps.Size(30, 30);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
@@ -137,7 +144,7 @@ function HospitalMap({ searchPlace, flag }) {
           } else {
             const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
-            ps.keywordSearch(searchPlace, placeSearchCB);
+            ps.keywordSearch(searchPlace.concat('동물병원'), placeSearchCB);
             function placeSearchCB(data, status, pagination) {
               if (status === kakao.maps.services.Status.OK) {
                 const bounds = new kakao.maps.LatLngBounds();
@@ -181,8 +188,8 @@ function HospitalMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
-              const imageSize = new kakao.maps.Size(30, 32);
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695634.png';
+              const imageSize = new kakao.maps.Size(30, 30);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
                 map,
@@ -225,7 +232,7 @@ function HospitalMap({ searchPlace, flag }) {
             <ResultItem>
               <div>
                 <StyledLocalHospitalIcon fontSize="small" />
-                <PlaceName>{item.place_name}</PlaceName>
+                <PlaceName href={item.place_url} target="_blank">{item.place_name}</PlaceName>
               </div>
               <Phone href="tel:{item.phone}">{item.phone}</Phone>
               {item.road_address_name ? (
