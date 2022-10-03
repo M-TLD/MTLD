@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 import BloodDonation from 'assets/blood_donation.png';
 import AbandonedDog from 'assets/abandoned_pets_2.png';
 import DogNose from 'assets/dog_nose.png';
@@ -175,12 +176,16 @@ function InfoBoard() {
   return (
     <div>
       <StyledSwiper
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={1} // 한 슬라이드에 보여줄 갯수
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log()}
+        onSwiper={() => console.log()}
         navigation
         pagination
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
       >
         <StyledSwiperSlide>
           <Atag href="https://www.ekara.org/parttake/serve" target="_blank">

@@ -7,8 +7,12 @@ import RestaurantLogo from 'assets/restaurant.png';
 import CafeLogo from 'assets/cafe.png';
 
 const Container = styled.div`
-  margin-top: 80px;
+  margin-top: 115px;
+  @media screen and (min-width: 768px) {
+    margin-top: 250px; 
+  }
 `;
+
 const Title = styled.span`
   font-size: 24px;
   color: #5C5C5C;
