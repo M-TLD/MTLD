@@ -148,8 +148,8 @@ function PetInfoDetail() {
     dispatch(fetchPupInfo(params.petId));
   }, []);
 
+  const dogId = params.petId;
   const editButton = async () => {
-    const dogId = params.petId;
     navigate(`/pet-info-edit/${dogId}`);
   };
 
@@ -205,7 +205,7 @@ function PetInfoDetail() {
           </div>
         </div>
       </PuppyInfo>
-      <Link to="/pet-medical-card">
+      <Link to={`/pet-medical-card/${dogId}`}>
         <RegisterButton>강아지 수첩 바로가기</RegisterButton>
       </Link>
     </Wrap>

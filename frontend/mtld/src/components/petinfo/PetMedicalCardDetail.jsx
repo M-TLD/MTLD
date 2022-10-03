@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import InfoModal from 'components/common/InfoModal';
 import dayjs from 'dayjs';
@@ -8,6 +8,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Grid from '@mui/material/Grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { registerVaccine, vaccineSelector } from 'app/vaccine';
 
 const Wrap = styled.div`
   display: flex;
@@ -167,7 +170,67 @@ const MedicineForm = styled.div`
 `;
 
 function PetMedicalCardDetail() {
-  const [value, setValue] = React.useState(dayjs());
+  const dispatch = useDispatch();
+  const vaccine = useSelector(vaccineSelector);
+  const params = useParams();
+
+  const [dhpplValue, setDhpplValue] = React.useState({ vaccine }); // DHPPL
+  const [coronaValue, setCoronaValue] = React.useState(dayjs()); // 코로나
+  const [kennelValue, setKennelValue] = React.useState(dayjs()); // 켄넬코프
+  const [rabisValue, setRabisValue] = React.useState(dayjs()); // 광견병
+  const [dirofilariaValue, setDirofilariaValue] = React.useState(dayjs()); // 심장사상충
+  const [tickValue, setTickValue] = React.useState(dayjs()); // 진드기
+  const [anthelminticValue, setAnthelminticValue] = React.useState(dayjs()); // 구충제
+
+  const dhpplData = {
+    dogId: params.petId,
+    expectDate: dhpplValue,
+    vaccineId: 1,
+  };
+
+  const coronaData = {
+    dogId: params.petId,
+    expectDate: coronaValue,
+    vaccineId: 2,
+  };
+
+  const kennelData = {
+    dogId: params.petId,
+    expectDate: kennelValue,
+    vaccineId: 3,
+  };
+
+  const rabisData = {
+    dogId: params.petId,
+    expectDate: rabisValue,
+    vaccineId: 4,
+  };
+
+  const dirofilariaData = {
+    dogId: params.petId,
+    expectDate: dirofilariaValue,
+    medicineId: 1,
+  };
+
+  const tickData = {
+    dogId: params.petId,
+    expectDate: tickValue,
+    medicineId: 2,
+  };
+
+  const anthelminticData = {
+    dogId: params.petId,
+    expectDate: anthelminticValue,
+    medicineId: 3,
+  };
+
+  const addVaccine = () => {
+    console.log(dhpplData);
+    dispatch(registerVaccine(dhpplData));
+    dispatch(registerVaccine(coronaData));
+    dispatch(registerVaccine(kennelData));
+    dispatch(registerVaccine(rabisData));
+  };
 
   return (
     <Wrap>
@@ -190,9 +253,11 @@ function PetMedicalCardDetail() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                               label="예방접종일자"
-                              value={value}
+                              value={dhpplValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                const date = newValue.$d;
+                                const dhpplDate = date.toISOString().slice(0, 10);
+                                setDhpplValue(dhpplDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -207,9 +272,7 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
@@ -229,9 +292,11 @@ function PetMedicalCardDetail() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                               label="예방접종일자"
-                              value={value}
+                              value={coronaValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                const date = newValue.$d;
+                                const coronaDate = date.toISOString().slice(0, 10);
+                                setCoronaValue(coronaDate);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -246,9 +311,7 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
@@ -267,9 +330,9 @@ function PetMedicalCardDetail() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                               label="예방접종일자"
-                              value={value}
+                              value={kennelValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                setKennelValue(newValue);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -284,9 +347,7 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
@@ -305,9 +366,9 @@ function PetMedicalCardDetail() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                               label="예방접종일자"
-                              value={value}
+                              value={rabisValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                setRabisValue(newValue);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -322,15 +383,16 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
                 </Box>
               </div>
             </div>
+            <button type="submit" onClick={addVaccine}>
+              알림 저장하기
+            </button>
           </VaccineForm>
           <MedicineForm>
             <div className="title">
@@ -351,10 +413,10 @@ function PetMedicalCardDetail() {
                         <div>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                              label="예방접종일자"
-                              value={value}
+                              label="복용일자"
+                              value={dirofilariaValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                setDirofilariaValue(newValue);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -369,9 +431,7 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
@@ -393,10 +453,10 @@ function PetMedicalCardDetail() {
                         <div>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                              label="예방접종일자"
-                              value={value}
+                              label="복용일자"
+                              value={tickValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                setTickValue(newValue);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -411,9 +471,7 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
@@ -436,9 +494,9 @@ function PetMedicalCardDetail() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                               label="예방접종일자"
-                              value={value}
+                              value={anthelminticValue}
                               onChange={(newValue) => {
-                                setValue(newValue);
+                                setAnthelminticValue(newValue);
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -453,15 +511,14 @@ function PetMedicalCardDetail() {
                     </Grid>
                     <Grid item xs={2}>
                       <div className="dateDiv2">
-                        <NotificationsActiveIcon
-                          sx={{ color: '#81e3d7', margin: '0', padding: '0' }}
-                        />
+                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                       </div>
                     </Grid>
                   </Grid>
                 </Box>
               </div>
             </div>
+            <button type="submit">알림 저장하기</button>
           </MedicineForm>
         </CardDecoLine>
       </DogCard>
