@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPupInfo, puppySelector, editPuppyInfo } from 'app/puppy';
 import puppyface from 'assets/puppyface.png';
 import { isFulfilled } from '@reduxjs/toolkit';
-import Autocomplete from '@mui/material/Autocomplete';
 
 const Wrap = styled.div`
   display: flex;
