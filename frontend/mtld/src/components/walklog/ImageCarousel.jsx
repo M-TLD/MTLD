@@ -6,16 +6,7 @@ import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import Photo from 'assets/dogwithperson.png';
-import Paw from 'assets/paw.png';
-import PawYellow from 'assets/paw_yellow.png';
-import PawBlue from 'assets/paw_blue.png';
-
 const StyledCarousel = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
   width: 260px;
   height: 300px;
   margin: 0;
@@ -23,18 +14,6 @@ const StyledCarousel = styled.div`
   .swiper-slide {
     margin: 0;
     height: 290px;
-    // /* Center slide text vertically */
-    // display: -webkit-box;
-    // display: -ms-flexbox;
-    // display: -webkit-flex;
-    // display: flex;
-    // -webkit-box-pack: center;
-    // -ms-flex-pack: center;
-    // -webkit-justify-content: center;
-    // justify-content: center;
-    // -webkit-box-align: center;
-    // -ms-flex-align: center;
-    // -webkit-align-items: center;
   }
 
   .swiper-slide img {
@@ -42,8 +21,6 @@ const StyledCarousel = styled.div`
     display: block;
     width: 250px;
     height: 250px;
-    // object-fit: cover;
-    // overflow: hidden;
   }
 
   .swiper-wrapper {
@@ -67,7 +44,6 @@ function ImageCarousel(props) {
   useEffect(() => {
     setImageList(props.ImageList);
   }, [props.ImageList]);
-  // console.log(ImageList);
 
   return (
     <StyledCarousel>
