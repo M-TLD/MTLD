@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchVaccineInfo, registerVaccine, vaccineSelector } from 'app/vaccine';
+import { isFulfilled } from '@reduxjs/toolkit';
 
 const Wrap = styled.div`
   display: flex;
@@ -174,13 +175,13 @@ function PetMedicalCardDetail() {
   const vaccine = useSelector(vaccineSelector);
   const params = useParams();
 
-  const [dhpplValue, setDhpplValue] = React.useState({ vaccine }); // DHPPL
-  const [coronaValue, setCoronaValue] = React.useState(dayjs()); // 코로나
-  const [kennelValue, setKennelValue] = React.useState(dayjs()); // 켄넬코프
-  const [rabisValue, setRabisValue] = React.useState(dayjs()); // 광견병
-  const [dirofilariaValue, setDirofilariaValue] = React.useState(dayjs()); // 심장사상충
-  const [tickValue, setTickValue] = React.useState(dayjs()); // 진드기
-  const [anthelminticValue, setAnthelminticValue] = React.useState(dayjs()); // 구충제
+  const [dhpplValue, setDhpplValue] = React.useState(); // DHPPL
+  const [coronaValue, setCoronaValue] = React.useState(); // 코로나
+  const [kennelValue, setKennelValue] = React.useState(); // 켄넬코프
+  const [rabisValue, setRabisValue] = React.useState(); // 광견병
+  const [dirofilariaValue, setDirofilariaValue] = React.useState(); // 심장사상충
+  const [tickValue, setTickValue] = React.useState(); // 진드기
+  const [anthelminticValue, setAnthelminticValue] = React.useState(); // 구충제
 
   const dhpplData = {
     dogId: params.petId,
@@ -234,7 +235,19 @@ function PetMedicalCardDetail() {
   }
 
   useEffect(() => {
-    dispatch(fetchVaccineInfo(params.petId));
+    const loadData = async () => {
+      const action = await dispatch(fetchVaccineInfo(params.petId));
+      if (isFulfilled(action)) {
+        return action.payload.data;
+      }
+    };
+    loadData().then((vacc) => {
+      dispatch(fetchVaccineInfo(params.petId));
+      setDhpplValue(vacc[0].expectDate);
+      setCoronaValue(vacc[1].expectDate);
+      setKennelValue(vacc[2].expectDate);
+      setRabisValue(vacc[3].expectDate);
+    });
   }, []);
 
   return (
