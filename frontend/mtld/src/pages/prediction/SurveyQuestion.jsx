@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { without } from 'underscore';
 import { useTheme } from '@mui/material/styles';
+import { report } from 'app/diagnosis';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -20,17 +22,49 @@ const StyledSurvey = styled.div`
   justify-content: center;
   align-items: center;
 
-  .submitlist {
-    display: grid;
-    margin-top: 2vh;
+  .b-box {
+    font-family: 'Pretendard-Regular';
+  }
+
+  .submitbox {
     height: 250px;
-    width: 330px;
+    width: 320px;
     background-color: #fafafa;
     border-radius: 8px;
+    margin-top: 2vh;
+    padding: 1vh;
+    padding-top: 1vh;
+  }
+
+  .submitlist {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-family: 'Pretendard-Regular';
   }
 
   .placeholder {
     color: #bdbdbd;
+  }
+
+  .rechoice {
+    position: fixed;
+  }
+
+  .condition-item {
+    display: inline-block;
+    color: #848484;
+    background-color: #def3fe;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    margin: 0.5vh;
+    border-radius: 15px;
+  }
+
+  .pound {
+    color: white;
   }
 `;
 
@@ -40,6 +74,18 @@ const RegisterButton = styled.button`
   border: none;
   margin-top: 1vh;
   background-color: #ffeeb1;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  font-family: GmarketSansMedium;
+  border-radius: 8px;
+  color: #5c5c5c;
+`;
+
+const RechoiceButton = styled.button`
+  width: 330px;
+  height: 5vh;
+  border: none;
+  margin-top: 1vh;
+  background-color: #f2f2f2;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   font-family: GmarketSansMedium;
   border-radius: 8px;
@@ -83,15 +129,16 @@ const MenuProps = {
 
 function getStyles(con, condition, theme) {
   return {
+    fontFamily: 'Pretendard-Regular',
     fontWeight: condition.indexOf(con) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
 
 function SurveyQuestion() {
+  const navigate = useNavigate();
   const [disease, setDisease] = useState();
   const [titleArr, setTitleArr] = useState();
   const [contentArr, setContentArr] = useState();
-  const [currentTab, setCurrentTab] = useState(0);
 
   // 증상 데이터 get
   useEffect(() => {
@@ -138,20 +185,28 @@ function SurveyQuestion() {
   };
 
   const addCondition = () => {
-    console.log('add!');
     condition.map((con, idx) => submitList.push(con));
-    console.log(submitList);
     setSubmitRecord(submitList.map((row) => row.list_code));
     setCondition([]);
   };
 
+  const deleteCondition = () => {
+    setSubmitList([]);
+    setSubmitRecord([]);
+  };
+
+  // const reportData = useSelector((state) => state.diagnosis.value);
+  const dispatch = useDispatch();
+
   const submitExecute = () => {
-    console.log('post');
     axios.post('https://j7a106.p.ssafy.io/disease/', submitRecord).then((res) => {
-      console.log(res);
+      // console.log(res);
+      dispatch(report(res.data));
+      if (res.status === 200) {
+        navigate('/survey-result');
+      }
     });
   };
-  console.log(submitRecord);
 
   if (disease !== undefined) {
     return (
@@ -161,9 +216,9 @@ function SurveyQuestion() {
           <Box sx={{ m: 1, width: 300 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">분류</InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={title} label="분류" onChange={titleChange}>
+              <Select className="b-box" labelId="demo-simple-select-label" id="demo-simple-select" value={title} label="분류" onChange={titleChange}>
                 {titleArr.map((title, idx) => (
-                  <MenuItem value={title} id={idx} key={idx}>
+                  <MenuItem style={{ fontFamily: 'Pretendard-Regular' }} value={title} id={idx} key={idx} className="b-box">
                     {title}
                   </MenuItem>
                 ))}
@@ -184,7 +239,7 @@ function SurveyQuestion() {
               onChange={conditionChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, fontFamily: 'Pretendard-Regular' }}>
                   {selected.map((value, idx) => (
                     <Chip
                       key={idx}
@@ -192,7 +247,8 @@ function SurveyQuestion() {
                       clickable
                       deleteIcon={<CancelIcon onMouseDown={(event) => event.stopPropagation()} />}
                       onDelete={(e) => handleDelete(e, value)}
-                      onClick={() => console.log('clicked chip')}
+                      onClick={() => console.log()}
+                      style={{ fontFamily: 'Pretendard-Regular' }}
                     />
                   ))}
                 </Box>
@@ -207,20 +263,28 @@ function SurveyQuestion() {
                 ))
               ) : (
                 <MenuItem>
-                  <p style={{ fontSize: '10px' }}>분류를 선택하세요!</p>
+                  <p style={{ fontSize: '10px', fontFamily: 'Pretendard-Regular' }}>분류를 선택하세요!</p>
                 </MenuItem>
               )}
             </Select>
           </FormControl>
         </div>
         <RegisterButton onClick={addCondition}>증상 저장하기</RegisterButton>
-        <div className="submitlist">
+        <div className="submitbox">
           {submitList.length > 0 ? (
-            submitList.map((content, idx) => <div key={idx}>{content.list_kname}</div>)
+            <div className="submitlist">
+              {submitList.map((content, idx) => (
+                <span className="condition-item">
+                  <span className="pound"># </span>
+                  <span key={idx}>{content.list_kname}</span>
+                </span>
+              ))}
+            </div>
           ) : (
             <div className="placeholder">증상을 알려주세요!</div>
           )}
         </div>
+        <RechoiceButton onClick={deleteCondition}>증상 다시 선택하기</RechoiceButton>
 
         <StyledLink onClick={submitExecute}>
           <div className="content">
