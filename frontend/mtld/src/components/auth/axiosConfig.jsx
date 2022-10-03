@@ -43,6 +43,7 @@ axiosInstance.interceptors.request.use(
         url: `${baseURL}/login/oauth2/reissue`,
         method: 'get',
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           'Access-Token': `${accessToken}`,
           'Refresh-Token': `${refreshToken}`,
         },
