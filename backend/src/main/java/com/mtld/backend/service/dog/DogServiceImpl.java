@@ -89,7 +89,7 @@ public class DogServiceImpl implements DogService {
                 .build();
         dog.writeDisease(dogRequestDto.getDisease());
 
-        if (image.isEmpty()) {
+        if (image == null || image.isEmpty()) {
             return dogRepository.save(dog).getId();
         }
 
@@ -122,7 +122,7 @@ public class DogServiceImpl implements DogService {
             throw new AuthException("권한이 없습니다.");
         }
         dog.update(dogUpdateRequestDto);
-        if (image.isEmpty()) {
+        if (image == null || image.isEmpty()) {
             return dog.getId();
         }
         // 기존 이미지 삭제
