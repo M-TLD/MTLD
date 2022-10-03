@@ -31,28 +31,27 @@ function Dday() {
     setDateInput(newValue);
   };
 
-  useEffect(() => {
-    // 현재 시각까지 나오는거
-    const rawToday = new Date();
-    // 시각 떼버리는거
-    const today = rawToday.toDateString();
-    // 떼버린 시각 00:00:00 으로
-    const parsedToday = new Date(`${today} 00:00:00`);
-    console.log(rawToday);
-    console.log(today);
-    // 설정해준 target date
-    const dday = new Date(dateInput);
+  const dday = new Date(dateInput);
 
-    // 디데이 카운터
-    setDdayCounter(Math.ceil((dday - parsedToday) / 86400000));
+  useEffect(() => {
+    const today = new Date(); // 오늘 날짜 객체 생성
+    const yy = today.getFullYear();
+    const mm = dday.getMonth();
+    const dd = dday.getDate();
+
+    const birthDay = new Date(yy, mm, dd);
+    let diffDate = Math.ceil((birthDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+    if (diffDate < 0) {
+      diffDate = 365 + diffDate;
+    }
+
+    setDdayCounter(diffDate);
   });
 
   return (
     <Wrap>
-      <p>
-        🥳
-        {dDayCounter} 일 남았어요!
-      </p>
+      <p style={{ fontSize: '100%' }}>🥳 {dDayCounter} 일 남았어요!</p>
       <LocalizationProvider dateAdapter={AdapterDayjs} className="test">
         <DatePicker
           className="test"

@@ -201,9 +201,7 @@ function PetInfoDetail() {
             <p className="neutered">중성화 여부</p>
             {puppy.pupInfo.neuter ? <img style={{ height: '5vh' }} src={o} alt="o" /> : <img style={{ height: '5vh' }} src={x} alt="x" />}
             <p className="disease">질병 경력</p>
-            <ul>
-              <li>{puppy.pupInfo.disease}</li>
-            </ul>
+            <p style={{ fontSize: '110%' }}>{puppy.pupInfo.disease}</p>
           </div>
         </div>
       </PuppyInfo>
