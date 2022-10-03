@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CalenderView from 'components/common/CalendarView';
 import WalkLog from 'components/walklog/WalkLog';
+import mtldLogo from 'assets/logo.png';
 
 const StyledDiaryHome = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding-top: 1vh;
 
   .walklog {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: center;
   }
 
   .click {
     color: #ffffff;
+  }
+
+  .report {
+    font-family: UhBeeStrawberry;
+    font-weight: bold;
   }
 `;
 
@@ -63,31 +69,48 @@ function DiaryHome() {
       });
   }, []);
 
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2);
+  const day = ('0' + today.getDate()).slice(-2);
+
+  const dateString = year + '-' + month + '-' + day;
+
   return (
     <StyledDiaryHome>
       <CalenderView />
 
-      <div className="walklog">
-        <WalkLog />
-      </div>
+      {dateString >= date ? (
+        <div>
+          <div className="walklog">
+            <WalkLog />
+          </div>
 
-      {/* 다이어리 */}
-      {/* 해당하는 값이 없을 경우 (status 이용): 다이어리 작성하러 가기 */}
-      {/* 해당하는 값이 있는 경우: 다이어리 디테일 (오늘의 다이어리) */}
-      {diaryData.length > 0 && diaryData.includes(date) ? (
-        <StyledLink to={`/diary/${date}`}>
-          <div className="content">
-            <span>다이어리 확인하기! </span>
-            <span className="click">Click</span>
-          </div>
-        </StyledLink>
+          {/* 다이어리 */}
+          {/* 해당하는 값이 없을 경우 (status 이용): 다이어리 작성하러 가기 */}
+          {/* 해당하는 값이 있는 경우: 다이어리 디테일 (오늘의 다이어리) */}
+          {diaryData.length > 0 && diaryData.includes(date) ? (
+            <StyledLink to={`/diary/${date}`}>
+              <div className="content">
+                <span>다이어리 확인하기! </span>
+                <span className="click">Click</span>
+              </div>
+            </StyledLink>
+          ) : (
+            <StyledLink to="/diary-create">
+              <div className="content">
+                <span>다이어리 작성하기! </span>
+                <span className="click">Click</span>
+              </div>
+            </StyledLink>
+          )}
+        </div>
       ) : (
-        <StyledLink to="/diary-create">
-          <div className="content">
-            <span>다이어리 작성하기! </span>
-            <span className="click">Click</span>
-          </div>
-        </StyledLink>
+        <div className="report">
+          <img src={mtldLogo} alt="logo" width="300px" />
+          <p>오늘 이후의 날짜에는 작성할 수 없어요!</p>
+        </div>
       )}
     </StyledDiaryHome>
   );
