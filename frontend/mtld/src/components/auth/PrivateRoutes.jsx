@@ -8,7 +8,7 @@ const PrivateRoutes = () => {
   const today = new Date();
   const parsedToday = today.getTime();
   const isExpired = refreshTokenExp - parsedToday < 0;
-  console.log('is refresh token expired?', isExpired);
+  // console.log('is refresh token expired?', isExpired);
 
   if (isExpired) {
     return <Navigate to="/login" />;
