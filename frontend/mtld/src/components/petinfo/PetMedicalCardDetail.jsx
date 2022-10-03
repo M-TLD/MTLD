@@ -268,10 +268,9 @@ function PetMedicalCardDetail() {
     };
     loadData().then((med) => {
       dispatch(fetchMedicineInfo(params.petId));
-      setDhpplValue(med[0].expectDate);
-      setCoronaValue(med[1].expectDate);
-      setKennelValue(med[2].expectDate);
-      setRabisValue(med[3].expectDate);
+      setDirofilariaValue(med[0].expectDate);
+      setTickValue(med[1].expectDate);
+      setAnthelminticValue(med[2].expectDate);
     });
   }, []);
 
@@ -571,7 +570,9 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            <button type="submit">알림 저장하기</button>
+            <button type="submit" onClick={addMedicine}>
+              알림 저장하기
+            </button>
           </MedicineForm>
         </CardDecoLine>
       </DogCard>
