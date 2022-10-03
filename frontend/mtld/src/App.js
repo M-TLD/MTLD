@@ -60,7 +60,7 @@ const theme = createTheme({
           fontSize: 2,
         },
         listbox: {
-          fontSize: 1,
+          fontSize: '12px',
           textAlign: 'left',
         },
         popupIndicator: {

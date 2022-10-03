@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPupInfo, puppySelector, editPuppyInfo } from 'app/puppy';
 import puppyface from 'assets/puppyface.png';
 import { isFulfilled } from '@reduxjs/toolkit';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const Wrap = styled.div`
   display: flex;
@@ -137,8 +138,6 @@ function PetInfoEdit() {
     neuter: neuterValue,
     weight: weightValue,
   };
-
-  console.log(parsedData);
 
   const onBreedIdChange = (e) => {
     setBreedIdValue(e.currentTarget.value);
@@ -274,7 +273,6 @@ function PetInfoEdit() {
             id="standard-basic"
             label="견종은 수정할 수 없습니다"
             variant="standard"
-            type="number"
             InputLabelProps={{ shrink: true }}
             value={breedIdValue}
             disabled

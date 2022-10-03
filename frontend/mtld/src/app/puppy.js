@@ -93,10 +93,25 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
     }),
   );
 
-  for (const value of dogFormData.values()) {
-    console.log(value);
-  }
-  console.log(dogFormData.get('dog'));
+  // const check = 'https://';
+  // if (thunkAPI[0].startsWith(check)) {
+  //   console.log('profile not changed');
+  //   dogFormData.append(
+  //     'dog',
+  //     new Blob([dogInfo], {
+  //       type: 'application/json',
+  //     }),
+  //   );
+  // } else {
+  //   console.log('profile changed');
+  //   dogFormData.append('image', thunkAPI[0]);
+  //   dogFormData.append(
+  //     'dog',
+  //     new Blob([dogInfo], {
+  //       type: 'application/json',
+  //     }),
+  //   );
+  // }
 
   const accessToken = window.localStorage.getItem('accessToken');
 
