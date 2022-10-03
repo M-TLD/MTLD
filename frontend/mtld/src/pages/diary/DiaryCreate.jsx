@@ -110,7 +110,7 @@ function DiaryCreate() {
   const onLoadFile = (event) => {
     // 이미지 미리보기
     const imageLists = event.target.files;
-    console.log('targetlist:', imageLists);
+    // console.log('targetlist:', imageLists);
     let imageUrlLists = [...showImages];
     let imageUploadLists = [...Image];
 
@@ -134,13 +134,13 @@ function DiaryCreate() {
     setShowImages(imageUrlLists);
     setImage(imageUploadLists);
   };
-  console.log('showImages', showImages);
-  console.log('imagelist:', Image);
+  // console.log('showImages', showImages);
+  // console.log('imagelist:', Image);
 
   const ResetImage = (e) => {
     setShowImages([]);
     setImage([]);
-    console.log(showImages);
+    // console.log(showImages);
   };
 
   const onTextChange = (e) => {
@@ -168,9 +168,9 @@ function DiaryCreate() {
     // console.log('image:', formData.get('image'));
     // console.log('record:', formData.get('record'));
 
-    for (const value of formData.values()) {
-      console.log('value', value);
-    }
+    // for (const value of formData.values()) {
+    //   console.log('value', value);
+    // }
 
     const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/diary/record`, formData, {
       headers: {
@@ -178,7 +178,7 @@ function DiaryCreate() {
         'content-type': 'multipart/form-data',
       },
     });
-    console.log(res);
+    // console.log(res);
     if (res.status === 201) {
       navigate('/diary-home');
     }
@@ -199,7 +199,7 @@ function DiaryCreate() {
         }
       });
   }, []);
-  console.log(walkingData);
+  // console.log(walkingData);
 
   return (
     <StyledCreate>
