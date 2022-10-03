@@ -121,9 +121,8 @@ public class DogServiceImpl implements DogService {
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
-
+        dog.update(dogUpdateRequestDto);
         if (image.isEmpty()) {
-            dog.update(dogUpdateRequestDto);
             return dog.getId();
         }
         // 기존 이미지 삭제
