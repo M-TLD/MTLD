@@ -50,12 +50,13 @@ public class DogController {
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateDog(@RequestBody @Valid DogUpdateRequestDto dogUpdateRequestDto) {
+    public ResponseEntity<?> updateDog(@RequestPart(value = "dog") @Valid DogUpdateRequestDto dogUpdateRequestDto,
+                                       @RequestPart(value = "image", required = false) MultipartFile multipartFile) {
         log.info("dogUpdateRequestDto : {}", dogUpdateRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
-        dogService.updateDog(userId, dogUpdateRequestDto);
+        Long id = dogService.updateDog(userId, dogUpdateRequestDto, multipartFile);
 
-        return ResponseEntity.status(CREATED).build();
+        return ResponseEntity.status(CREATED).body(id);
     }
 
     @DeleteMapping("/{dogId}")

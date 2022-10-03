@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/24
+ * updated by myeongseok on 2022/10/03
  */
 
 @Slf4j
@@ -72,6 +73,9 @@ public class VaccinationServiceImpl implements VaccinationService {
             throw new AuthException("권한이 없습니다.");
         }
         Vaccine vaccine = vaccineRepositpry.findById(vaccinationRequestDto.getVaccineId()).orElseThrow(() -> new BadRequestException("해당 약이 없습니다."));
+        if(vaccinationRepository.findByDogAndVaccine(dog,vaccine) != null){
+            throw new BadRequestException("이미 백신접종에 대한 정보가 저장이 되어 있습니다.");
+        }
         Vaccination vaccination = Vaccination.builder().vaccine(vaccine).dog(dog).expectDate(ConvertDate.stringToDate(vaccinationRequestDto.getExpectDate())).build();
 
         vaccinationRepository.save(vaccination);

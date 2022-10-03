@@ -31,7 +31,7 @@ import java.util.UUID;
 
 /**
  * created by myeongSeok on 2022/09/14
- * updated by seongmin on 2022/09/27
+ * updated by seongmin on 2022/10/30
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -106,7 +106,7 @@ public class DogServiceImpl implements DogService {
                             objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead)
             );
             String imagePath = amazonS3Client.getUrl(bucket, fileName).toString();
-            dog.uploadFile(imagePath);
+            dog.uploadFile(imagePath, fileName);
         } catch (IOException e) {
             throw new IllegalStateException("파일(이미지) 업로드에 실패했습니다.");
         }
@@ -115,13 +115,39 @@ public class DogServiceImpl implements DogService {
 
     @Override
     @Transactional
-    public void updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto) {
+    public Long updateDog(Long userId, DogUpdateRequestDto dogUpdateRequestDto, MultipartFile image) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(dogUpdateRequestDto.getId()).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
         dog.update(dogUpdateRequestDto);
+        if (image.isEmpty()) {
+            return dog.getId();
+        }
+        // 기존 이미지 삭제
+        if (dog.getFileName() != null) {
+            amazonS3Client.deleteObject(bucket, dog.getFileName());
+        }
+
+        String originName = image.getOriginalFilename();
+        String fileName = createFileName(originName);
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(image.getContentType());
+        objectMetadata.setContentLength(image.getSize());
+
+        try (InputStream inputStream = image.getInputStream()) {
+            amazonS3Client.putObject(
+                    new PutObjectRequest(bucket, fileName, inputStream,
+                            objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead)
+            );
+            String imagePath = amazonS3Client.getUrl(bucket, fileName).toString();
+            dog.uploadFile(imagePath, fileName);
+        } catch (IOException e) {
+            throw new IllegalStateException("파일(이미지) 업로드에 실패했습니다.");
+        }
+        return dog.getId();
     }
 
     @Override
@@ -129,8 +155,13 @@ public class DogServiceImpl implements DogService {
     public void deleteDog(Long userId, Long dogId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new BadRequestException("해당 반려견이 없습니다."));
+
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
+        }
+        // 기존 이미지 삭제
+        if (dog.getFileName() != null) {
+            amazonS3Client.deleteObject(bucket, dog.getFileName());
         }
 
         dogRepository.delete(dog);

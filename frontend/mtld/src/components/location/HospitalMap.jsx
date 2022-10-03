@@ -20,8 +20,14 @@ const StyledLocalHospitalIcon = styled(LocalHospitalIcon)`
   margin-right: 3px;
 `;
 
-const PlaceName = styled.span`
+const PlaceName = styled.a`
   font-size: 15px;
+  color: #5C5C5C;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const Phone = styled.a`
@@ -226,7 +232,7 @@ function HospitalMap({ searchPlace, flag }) {
             <ResultItem>
               <div>
                 <StyledLocalHospitalIcon fontSize="small" />
-                <PlaceName>{item.place_name}</PlaceName>
+                <PlaceName href={item.place_url} target="_blank">{item.place_name}</PlaceName>
               </div>
               <Phone href="tel:{item.phone}">{item.phone}</Phone>
               {item.road_address_name ? (

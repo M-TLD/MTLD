@@ -41,8 +41,14 @@ const StyledCardTravelIcon = styled(CardTravelIcon)`
   margin-right: 5px;
 `;
 
-const PlaceName = styled.span`
+const PlaceName = styled.a`
   font-size: 15px;
+  color: #5C5C5C;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const Phone = styled.a`
@@ -292,7 +298,7 @@ function RestaurantMap({ searchPlace, flag }) {
                   <PlaceDiv>
                     <div>
                       <StyledCardTravelIcon fontSize="small" />
-                      <PlaceName>{item.place_name}</PlaceName>
+                      <PlaceName href={item.place_url} target="_blank">{item.place_name}</PlaceName>
                     </div>
                     <Phone href="tel:{item.phone}">{item.phone}</Phone>
                     <Address>{item.address_name}</Address>
