@@ -41,8 +41,14 @@ const StyledRestaurantIcon = styled(RestaurantIcon)`
   margin-right: 5px;
 `;
 
-const PlaceName = styled.span`
+const PlaceName = styled.a`
   font-size: 15px;
+  color: #5C5C5C;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const Phone = styled.a`
@@ -174,6 +180,7 @@ function RestaurantMap({ searchPlace, flag }) {
 
               // console.log('place = ', place);
               // console.log('타입 = ', typeof (place));
+              console.log(place.place_url);
               dummy.forEach((content, idx) => {
                 const contentName = String(content.name);
                 const contentImg = content.img;
@@ -252,7 +259,7 @@ function RestaurantMap({ searchPlace, flag }) {
             }
 
             function displayMarker(place) {
-              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695709.png';
+              const imageSrc = 'https://cdn-icons-png.flaticon.com/512/5695/5695138.png';
               const imageSize = new kakao.maps.Size(30, 30);
               const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
               const marker = new kakao.maps.Marker({
@@ -315,7 +322,7 @@ function RestaurantMap({ searchPlace, flag }) {
                   <PlaceDiv>
                     <div>
                       <StyledRestaurantIcon fontSize="small" />
-                      <PlaceName>{item.place_name}</PlaceName>
+                      <PlaceName href={item.place_url} target="_blank">{item.place_name}</PlaceName>
                     </div>
                     <Phone href="tel:{item.phone}">{item.phone}</Phone>
                     <Address>{item.address_name}</Address>
