@@ -88,7 +88,7 @@ function RegisteredPet() {
           <div className="puppyInfo">
             <div className="name-gender">
               <h2>{puppy.puppyInfo[0].name}</h2>
-              <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+              <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
             </div>
             <p>{puppy.puppyInfo[0].breedName}</p>
             <p>{puppy.puppyInfo[0].birthdate}일 생</p>
@@ -122,7 +122,7 @@ function RegisteredPet() {
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[0].name}</h2>
-                <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
               </div>
               <p>{puppy.puppyInfo[0].breedName}</p>
               {/* 날짜 파싱은 나중에... ^^...  */}
@@ -152,7 +152,7 @@ function RegisteredPet() {
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[1].name}</h2>
-                <h2>&#40;{puppy.puppyInfo[1].gender}&#41;</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
               </div>
               <p>{puppy.puppyInfo[1].breedName}</p>
               {/* 날짜 파싱은 나중에... ^^...  */}
@@ -188,7 +188,7 @@ function RegisteredPet() {
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[0].name}</h2>
-                <h2>&#40;{puppy.puppyInfo[0].gender}&#41;</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
               </div>
               <p>{puppy.puppyInfo[0].breedName}</p>
               {/* 날짜 파싱은 나중에... ^^...  */}
@@ -218,7 +218,7 @@ function RegisteredPet() {
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[1].name}</h2>
-                <h2>&#40;{puppy.puppyInfo[1].gender}&#41;</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
               </div>
               <p>{puppy.puppyInfo[1].breedName}</p>
               {/* 날짜 파싱은 나중에... ^^...  */}
@@ -248,7 +248,7 @@ function RegisteredPet() {
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[2].name}</h2>
-                <h2>&#40;{puppy.puppyInfo[2].gender}&#41;</h2>
+                <h2>&#40;{puppy.puppyInfo[2].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
               </div>
               <p>{puppy.puppyInfo[2].breedName}</p>
               {/* 날짜 파싱은 나중에... ^^...  */}

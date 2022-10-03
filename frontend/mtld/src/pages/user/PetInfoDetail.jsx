@@ -4,14 +4,13 @@ import bobi from 'assets/bobi.png';
 import o from 'assets/o.png';
 import x from 'assets/x.png';
 import paws from 'assets/paws.png';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Dday from 'components/common/Dday';
 import Spinner from 'components/common/Spinner';
 
 import { fetchPupInfo, puppySelector } from 'app/puppy';
-import { render } from '@testing-library/react';
 
 const Wrap = styled.div`
   margin: 0;
@@ -128,16 +127,31 @@ const RegisterButton = styled.button`
   margin-bottom: 3vh;
 `;
 
+const EditButton = styled.button`
+  color: #81e3d7;
+  font-size: 100%;
+  margin-top: 15vh;
+  margin-left: 32vw;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  font-weight: 900;
+`;
+
 function PetInfoDetail() {
   const puppy = useSelector(puppySelector);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
 
   useEffect(() => {
-    console.log(window.location.pathname);
-    console.log(params.petId);
     dispatch(fetchPupInfo(params.petId));
   }, []);
+
+  const editButton = async () => {
+    const dogId = params.petId;
+    navigate(`/pet-info-edit/${dogId}`);
+  };
 
   if (!puppy.pupInfo) {
     return <Spinner />;
@@ -157,14 +171,12 @@ function PetInfoDetail() {
             <div className="puppyName">
               <h2>
                 {puppy.pupInfo.name}
-                <span>&#40;{puppy.pupInfo.gender}&#41;</span>
+                <span>&#40;{puppy.pupInfo.gender === 'FEMALE' ? '♀' : '♂'}&#41;</span>
               </h2>
               <img className="paws" src={paws} alt="paws" />
             </div>
           </div>
-          <Link className="infoEdit" to="/pet-info-edit">
-            정보수정
-          </Link>
+          <EditButton onClick={editButton}>정보수정</EditButton>
         </div>
       </PuppyTitle>
       <PuppyInfo>
@@ -189,9 +201,7 @@ function PetInfoDetail() {
             <p className="neutered">중성화 여부</p>
             {puppy.pupInfo.neuter ? <img style={{ height: '5vh' }} src={o} alt="o" /> : <img style={{ height: '5vh' }} src={x} alt="x" />}
             <p className="disease">질병 경력</p>
-            <ul>
-              <li>{puppy.pupInfo.disease}</li>
-            </ul>
+            <p style={{ fontSize: '110%' }}>{puppy.pupInfo.disease}</p>
           </div>
         </div>
       </PuppyInfo>
