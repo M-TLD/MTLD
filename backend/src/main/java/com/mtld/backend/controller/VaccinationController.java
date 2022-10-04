@@ -67,7 +67,7 @@ public class VaccinationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{medicineId}")
+    @DeleteMapping("/{vaccineId}")
     public ResponseEntity<?> deleteMedicine(@PathVariable("vaccinationId") Long vaccinationId) {
         log.info("vaccinationId : {}", vaccinationId);
         Long userId = userService.getMyInfoSecret().getId();
