@@ -16,6 +16,7 @@ import { fetchMedicineInfo, registerMedicine, editMedicineInfo, medicineInfoSele
 import { isFulfilled } from '@reduxjs/toolkit';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Spinner from 'components/common/Spinner';
+import { editPuppyInfo } from 'app/puppy';
 
 const Wrap = styled.div`
   display: flex;
@@ -196,13 +197,13 @@ function PetMedicalCardDetail() {
   const medicine = useSelector(medicineSelector);
   const params = useParams();
 
-  const [dhpplValue, setDhpplValue] = React.useState(dayjs()); // DHPPL
-  const [coronaValue, setCoronaValue] = React.useState(dayjs()); // 코로나
-  const [kennelValue, setKennelValue] = React.useState(dayjs()); // 켄넬코프
-  const [rabisValue, setRabisValue] = React.useState(dayjs()); // 광견병
-  const [dirofilariaValue, setDirofilariaValue] = React.useState(dayjs()); // 심장사상충
-  const [tickValue, setTickValue] = React.useState(dayjs()); // 진드기
-  const [anthelminticValue, setAnthelminticValue] = React.useState(dayjs()); // 구충제
+  const [dhpplValue, setDhpplValue] = React.useState(''); // DHPPL
+  const [coronaValue, setCoronaValue] = React.useState(''); // 코로나
+  const [kennelValue, setKennelValue] = React.useState(''); // 켄넬코프
+  const [rabisValue, setRabisValue] = React.useState(''); // 광견병
+  const [dirofilariaValue, setDirofilariaValue] = React.useState(''); // 심장사상충
+  const [tickValue, setTickValue] = React.useState(''); // 진드기
+  const [anthelminticValue, setAnthelminticValue] = React.useState(''); // 구충제
 
   const dhpplData = {
     dogId: params.petId,
@@ -256,25 +257,44 @@ function PetMedicalCardDetail() {
   }
 
   function editVaccine() {
-    batch(() => {
-      dispatch(editVaccineInfo(dhpplData));
-      dispatch(editVaccineInfo(coronaData));
-      dispatch(editVaccineInfo(kennelData));
-      dispatch(editVaccineInfo(rabisData));
-    });
+    for (let i = 0; i < Object.keys(vaccineInfo); i += 1) {
+      if (vaccineInfo) {
+        if (vaccineInfo[i].vaccineId === 1) {
+          const dhppl = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          dispatch(editVaccineInfo(dhppl));
+        }
+        if (vaccineInfo[i].vaccineId === 2) {
+          const corona = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          dispatch(editVaccineInfo(corona));
+        }
+        if (vaccineInfo[i].vaccineId === 3) {
+          const kennel = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          dispatch(editVaccineInfo(kennel));
+        }
+        if (vaccineInfo[i].vaccineId === 4) {
+          const rabis = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          dispatch(editVaccineInfo(rabis));
+        }
+        return null;
+      }
+    }
   }
 
   function deleteVaccine(vaccId) {
-    const loadData = async () => {
-      const action = await dispatch(fetchVaccineInfo(params.petId));
-      if (isFulfilled(action)) {
-        const vaccineId = action.payload.data[vaccId].id;
-        return vaccineId;
+    for (let i = 0; i < Object.keys(vaccineInfo).length; i += 1) {
+      if (vaccineInfo[i].vaccineId === vaccId) {
+        const vaccinationId = vaccineInfo[i].id;
+        dispatch(deleteVaccineInfo(vaccinationId));
+        if (vaccId === 1) {
+          setDhpplValue('');
+        } else if (vaccId === 2) {
+          setCoronaValue('');
+        } else if (vaccId === 3) {
+          setKennelValue('');
+        }
+        setRabisValue('');
       }
-    };
-    loadData().then((vaccineId) => {
-      dispatch(deleteVaccineInfo(vaccineId));
-    });
+    }
   }
 
   function addMedicine() {
@@ -286,15 +306,40 @@ function PetMedicalCardDetail() {
   }
 
   function editMedicine() {
-    batch(() => {
-      dispatch(editMedicineInfo(dirofilariaData));
-      dispatch(editMedicineInfo(tickData));
-      dispatch(editMedicineInfo(anthelminticData));
+    const loadData = async () => {
+      for (let i = 0; i < 3; i += 1) {
+        if (medicineInfo) {
+          if (medicineInfo[i].medicineId === 1) {
+            const dirofilaria = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+            dispatch(editMedicineInfo(dirofilaria));
+          }
+          if (medicineInfo[i].medicineId === 2) {
+            const tick = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+            dispatch(editMedicineInfo(tick));
+          }
+          if (medicineInfo[i].medicineId === 3) {
+            const anthelmintic = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+            dispatch(editMedicineInfo(anthelmintic));
+          }
+        }
+      }
+    };
+    loadData().then((action) => {
+      console.log(action);
     });
   }
 
   function deleteMedicine(medId) {
-    dispatch(deleteMedicineInfo(medId));
+    const loadData = async () => {
+      const action = await dispatch(fetchMedicineInfo(params.petId));
+      if (isFulfilled(action)) {
+        const medicineId = action.payload.data[medId].id;
+        return medicineId;
+      }
+    };
+    loadData().then((medicineId) => {
+      dispatch(deleteMedicineInfo(medicineId));
+    });
   }
 
   useEffect(() => {
@@ -306,13 +351,18 @@ function PetMedicalCardDetail() {
       }
     };
     loadData().then((vacc) => {
-      dispatch(fetchVaccineInfo(params.petId));
-      if (vacc.length > 3) {
-        setDhpplValue(vacc[0].expectDate);
-        setCoronaValue(vacc[1].expectDate);
-        setKennelValue(vacc[2].expectDate);
-        setRabisValue(vacc[3].expectDate);
+      for (let i = 0; i < vacc.length; i += 1) {
+        if (vacc[i].vaccineId === 1) {
+          setDhpplValue(vacc[i].expectDate);
+        } else if (vacc[i].vaccineId === 2) {
+          setCoronaValue(vacc[i].expectDate);
+        } else if (vacc[i].vaccineId === 3) {
+          setKennelValue(vacc[i].expectDate);
+        } else if (vacc[i].vaccineId === 4) {
+          setRabisValue(vacc[i].expectDate);
+        }
       }
+      return null;
     });
   }, []);
 
@@ -324,12 +374,18 @@ function PetMedicalCardDetail() {
       }
     };
     loadData().then((med) => {
-      dispatch(fetchMedicineInfo(params.petId));
-      if (med.length > 0) {
-        setDirofilariaValue(med[0].expectDate);
-        setTickValue(med[1].expectDate);
-        setAnthelminticValue(med[2].expectDate);
+      for (let i = 0; i < med.length; i += 1) {
+        if (med[i].medicineId === 1) {
+          setDirofilariaValue(med[i].expectDate);
+        }
+        if (med[i].medicineId === 2) {
+          setTickValue(med[i].expectDate);
+        }
+        if (med[i].medicineId === 3) {
+          setAnthelminticValue(med[i].expectDate);
+        }
       }
+      return null;
     });
   }, []);
 
@@ -365,7 +421,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -375,12 +431,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {vaccineInfo[0] ? (
+                      {dhpplValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteVaccine(0);
+                              deleteVaccine(1);
                             }}
                             fontSize="small"
                           />
@@ -416,7 +472,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -426,12 +482,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {vaccineInfo[1] ? (
+                      {coronaValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteVaccine(1);
+                              deleteVaccine(2);
                             }}
                             fontSize="small"
                           />
@@ -466,7 +522,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -476,12 +532,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {vaccineInfo[2] ? (
+                      {kennelValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteVaccine(2);
+                              deleteVaccine(3);
                             }}
                             fontSize="small"
                           />
@@ -516,7 +572,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -526,12 +582,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {vaccineInfo[3] ? (
+                      {rabisValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteVaccine(3);
+                              deleteVaccine(4);
                             }}
                             fontSize="small"
                           />
@@ -561,7 +617,7 @@ function PetMedicalCardDetail() {
               <h3>복용약 알리미</h3>
             </div>
             <div className="dateFormMed">
-              <h4>심상사상충약</h4>
+              <h4>심장사상충약</h4>
               <p>
                 <span style={{ fontWeight: 700 }}>한 달에 한 번 </span>
                 급여해 주는 것을 권장해요!
@@ -584,7 +640,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -594,9 +650,21 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {medicineInfo[0] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteMedicine(0);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
@@ -626,7 +694,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -636,9 +704,21 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {medicineInfo[1] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteMedicine(1);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
@@ -668,7 +748,7 @@ function PetMedicalCardDetail() {
                               }}
                               renderInput={({ inputRef, inputProps, InputProps }) => (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <input ref={inputRef} {...inputProps} />
+                                  <input ref={inputRef} {...inputProps} placeholder="mm/dd/yyyy" />
                                   {InputProps?.endAdornment}
                                 </Box>
                               )}
@@ -678,15 +758,27 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {medicineInfo[2] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteMedicine(2);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
               </div>
             </div>
-            {vaccineInfo && vaccineInfo.length > 0 ? (
+            {medicineInfo && medicineInfo.length > 0 ? (
               <button className="saveButton" type="submit" onClick={editMedicine}>
                 알림 수정하기
               </button>

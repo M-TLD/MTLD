@@ -41,12 +41,15 @@ export const fetchVaccineInfo = createAsyncThunk('vaccine/fetchVaccineInfo', asy
 
 export const editVaccineInfo = createAsyncThunk('vaccine/editVaccineInfo', async (thunkAPI) => {
   try {
+    const accessToken = window.localStorage.getItem('accessToken');
     const res = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/api/vaccine`,
       method: 'patch',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       data: thunkAPI,
     }).then((res) => {
-      console.log(res);
       console.log('successfully edited vaccine');
       return res;
     });
@@ -89,7 +92,7 @@ export const vaccineSlice = createSlice({
       console.log('register rejected');
     },
 
-    //  GET
+    // GET
     [fetchVaccineInfo.pending]: (state) => {
       state.loading = false;
       console.log('fetching pending');
@@ -111,9 +114,6 @@ export const vaccineSlice = createSlice({
     },
     [editVaccineInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action);
-      console.log(action.payload);
-      console.log(action.payload); // dogId
       console.log('edit fulfilled');
     },
     [editVaccineInfo.rejected]: (state) => {
