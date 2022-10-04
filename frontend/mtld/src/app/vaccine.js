@@ -56,6 +56,20 @@ export const editVaccineInfo = createAsyncThunk('vaccine/editVaccineInfo', async
   }
 });
 
+export const deleteVaccineInfo = createAsyncThunk('vaccine/deleteVaccineInfo', async (thunkAPI) => {
+  const vaccineId = thunkAPI;
+  try {
+    const res = await axiosInstance.delete(`/api/vaccine/${vaccineId}`).then((res) => {
+      console.log('deleted?', res);
+      return vaccineId;
+    });
+    return vaccineId;
+  } catch (err) {
+    // console.log(err);
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const vaccineSlice = createSlice({
   // Name of the reducer
   name: 'vaccine',
@@ -106,9 +120,26 @@ export const vaccineSlice = createSlice({
       state.loading = false;
       console.log('edit rejected');
     },
+
+    // DELETE
+    [deleteVaccineInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('pending');
+    },
+    [deleteVaccineInfo.fulfilled]: (state, action) => {
+      state.loading = true;
+      const id = action.payload;
+      state.vaccineInfo = state.vaccineInfo.filter((item) => item.id !== id);
+    },
+    [deleteVaccineInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('rejected');
+    },
   },
 });
 
 // export const {  } = userSlice.actions;
-export const vaccineSelector = (state) => state.vaccine.vaccineInfo;
+export const vaccineInfoSelector = (state) => state.vaccine.vaccineInfo;
+export const vaccineSelector = (state) => state.vaccine;
 export default vaccineSlice.reducer;

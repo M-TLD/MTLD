@@ -7,12 +7,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
 import Grid from '@mui/material/Grid';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchVaccineInfo, registerVaccine, vaccineSelector } from 'app/vaccine';
-import { fetchMedicineInfo, registerMedicine, medicineSelector } from 'app/medicine';
+import { deleteVaccineInfo, fetchVaccineInfo, editVaccineInfo, registerVaccine, vaccineInfoSelector, vaccineSelector } from 'app/vaccine';
+import { fetchMedicineInfo, registerMedicine, editMedicineInfo, medicineInfoSelector, deleteMedicineInfo, medicineSelector } from 'app/medicine';
 import { isFulfilled } from '@reduxjs/toolkit';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import Spinner from 'components/common/Spinner';
 
 const Wrap = styled.div`
   display: flex;
@@ -104,6 +107,7 @@ const VaccineForm = styled.div`
   .dateDiv2 {
     display: flex;
     width: 100%;
+    z-index: 50;
   }
 
   .dateTitle {
@@ -175,6 +179,7 @@ const MedicineForm = styled.div`
   .dateDiv2 {
     display: flex;
     width: 100%;
+    z-index: 50;
   }
 
   .dateTitle {
@@ -185,7 +190,10 @@ const MedicineForm = styled.div`
 
 function PetMedicalCardDetail() {
   const dispatch = useDispatch();
+  const vaccineInfo = useSelector(vaccineInfoSelector);
   const vaccine = useSelector(vaccineSelector);
+  const medicineInfo = useSelector(medicineInfoSelector);
+  const medicine = useSelector(medicineSelector);
   const params = useParams();
 
   const [dhpplValue, setDhpplValue] = React.useState(dayjs()); // DHPPL
@@ -247,6 +255,28 @@ function PetMedicalCardDetail() {
     });
   }
 
+  function editVaccine() {
+    batch(() => {
+      dispatch(editVaccineInfo(dhpplData));
+      dispatch(editVaccineInfo(coronaData));
+      dispatch(editVaccineInfo(kennelData));
+      dispatch(editVaccineInfo(rabisData));
+    });
+  }
+
+  function deleteVaccine(vaccId) {
+    const loadData = async () => {
+      const action = await dispatch(fetchVaccineInfo(params.petId));
+      if (isFulfilled(action)) {
+        const vaccineId = action.payload.data[vaccId].id;
+        return vaccineId;
+      }
+    };
+    loadData().then((vaccineId) => {
+      dispatch(deleteVaccineInfo(vaccineId));
+    });
+  }
+
   function addMedicine() {
     batch(() => {
       dispatch(registerMedicine(dirofilariaData));
@@ -255,19 +285,34 @@ function PetMedicalCardDetail() {
     });
   }
 
+  function editMedicine() {
+    batch(() => {
+      dispatch(editMedicineInfo(dirofilariaData));
+      dispatch(editMedicineInfo(tickData));
+      dispatch(editMedicineInfo(anthelminticData));
+    });
+  }
+
+  function deleteMedicine(medId) {
+    dispatch(deleteMedicineInfo(medId));
+  }
+
   useEffect(() => {
     const loadData = async () => {
       const action = await dispatch(fetchVaccineInfo(params.petId));
       if (isFulfilled(action)) {
+        console.log(action.payload);
         return action.payload.data;
       }
     };
     loadData().then((vacc) => {
       dispatch(fetchVaccineInfo(params.petId));
-      setDhpplValue(vacc[0].expectDate);
-      setCoronaValue(vacc[1].expectDate);
-      setKennelValue(vacc[2].expectDate);
-      setRabisValue(vacc[3].expectDate);
+      if (vacc.length > 3) {
+        setDhpplValue(vacc[0].expectDate);
+        setCoronaValue(vacc[1].expectDate);
+        setKennelValue(vacc[2].expectDate);
+        setRabisValue(vacc[3].expectDate);
+      }
     });
   }, []);
 
@@ -280,12 +325,17 @@ function PetMedicalCardDetail() {
     };
     loadData().then((med) => {
       dispatch(fetchMedicineInfo(params.petId));
-      setDirofilariaValue(med[0].expectDate);
-      setTickValue(med[1].expectDate);
-      setAnthelminticValue(med[2].expectDate);
+      if (med.length > 0) {
+        setDirofilariaValue(med[0].expectDate);
+        setTickValue(med[1].expectDate);
+        setAnthelminticValue(med[2].expectDate);
+      }
     });
   }, []);
 
+  if (!vaccine.loading || !medicine.loading) {
+    return <Spinner />;
+  }
   return (
     <Wrap>
       <DogCard>
@@ -325,9 +375,21 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {vaccineInfo[0] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteVaccine(0);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
@@ -364,9 +426,21 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {vaccineInfo[1] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteVaccine(1);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
@@ -402,9 +476,21 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {vaccineInfo[2] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteVaccine(2);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
@@ -440,17 +526,35 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div className="dateDiv2">
-                        <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
-                      </div>
+                      {vaccineInfo[3] ? (
+                        <div className="dateDiv2">
+                          <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                          <CloseRoundedIcon
+                            onClick={() => {
+                              deleteVaccine(3);
+                            }}
+                            fontSize="small"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dateDiv2">
+                          <NotificationsOffIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
+                        </div>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
               </div>
             </div>
-            <button className="saveButton" type="submit" onClick={addVaccine}>
-              알림 저장하기
-            </button>
+            {vaccineInfo && vaccineInfo.length > 0 ? (
+              <button className="saveButton" type="submit" onClick={editVaccine}>
+                알림 수정하기
+              </button>
+            ) : (
+              <button className="saveButton" type="submit" onClick={addVaccine}>
+                알림 저장하기
+              </button>
+            )}
           </VaccineForm>
           <MedicineForm>
             <div className="title">
@@ -582,9 +686,15 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            <button className="saveButton" type="submit" onClick={addMedicine}>
-              알림 저장하기
-            </button>
+            {vaccineInfo && vaccineInfo.length > 0 ? (
+              <button className="saveButton" type="submit" onClick={editMedicine}>
+                알림 수정하기
+              </button>
+            ) : (
+              <button className="saveButton" type="submit" onClick={addMedicine}>
+                알림 저장하기
+              </button>
+            )}
           </MedicineForm>
         </CardDecoLine>
       </DogCard>
