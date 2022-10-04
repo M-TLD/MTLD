@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public TokenDto reissue(ReissueDto reissueDto) {
-        log.info("reissueDto = {}", reissueDto);
+        log.info("Reissue 서비스 시작 ####### reissueDto = {}", reissueDto);
         if (!jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
             log.info("refresh token 이 유효하지 않음");
             throw new BadRequestException("Refresh Token 이 유효하지 않습니다.");
