@@ -42,9 +42,14 @@ export const fetchMedicineInfo = createAsyncThunk('medicine/fetchMedicineInfo', 
 
 export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', async (thunkAPI) => {
   try {
+    const accessToken = window.localStorage.getItem('accessToken');
+    console.log(thunkAPI);
     const res = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
       method: 'patch',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       data: thunkAPI,
     }).then((res) => {
       console.log(res);
@@ -53,6 +58,20 @@ export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', as
     });
     return res;
   } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const deleteMedicineInfo = createAsyncThunk('medicine/deleteMedicineInfo', async (thunkAPI) => {
+  const medicineId = thunkAPI;
+  try {
+    const res = await axiosInstance.delete(`/api/medicine/${medicineId}`).then((res) => {
+      console.log('deleted?', res);
+      return medicineId;
+    });
+    return medicineId;
+  } catch (err) {
+    // console.log(err);
     return thunkAPI.rejectWithValue(err);
   }
 });
@@ -98,17 +117,31 @@ export const medicineSlice = createSlice({
     },
     [editMedicineInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action);
-      console.log(action.payload);
-      console.log(action.payload); // dogId
       console.log('edit fulfilled');
     },
     [editMedicineInfo.rejected]: (state) => {
       state.loading = false;
       console.log('edit rejected');
     },
+
+    // DELETE
+    [deleteMedicineInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log(state.loading);
+      console.log('pending');
+    },
+    [deleteMedicineInfo.fulfilled]: (state, action) => {
+      state.loading = true;
+      const id = action.payload;
+      state.medicineInfo = state.medicineInfo.filter((item) => item.id !== id);
+    },
+    [deleteMedicineInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('rejected');
+    },
   },
 });
 
-export const medicineSelector = (state) => state.medicine.medicineInfo;
+export const medicineInfoSelector = (state) => state.medicine.medicineInfo;
+export const medicineSelector = (state) => state.medicine;
 export default medicineSlice.reducer;

@@ -257,7 +257,7 @@ function PetMedicalCardDetail() {
   }
 
   function editVaccine() {
-    for (let i = 0; i < Object.keys(vaccineInfo); i += 1) {
+    for (let i = 0; i < Object.keys(vaccineInfo).length; i += 1) {
       if (vaccineInfo) {
         if (vaccineInfo[i].vaccineId === 1) {
           const dhppl = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
@@ -275,7 +275,6 @@ function PetMedicalCardDetail() {
           const rabis = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
           dispatch(editVaccineInfo(rabis));
         }
-        return null;
       }
     }
   }
@@ -291,8 +290,9 @@ function PetMedicalCardDetail() {
           setCoronaValue('');
         } else if (vaccId === 3) {
           setKennelValue('');
+        } else if (vaccId === 4) {
+          setRabisValue('');
         }
-        setRabisValue('');
       }
     }
   }
@@ -306,40 +306,38 @@ function PetMedicalCardDetail() {
   }
 
   function editMedicine() {
-    const loadData = async () => {
-      for (let i = 0; i < 3; i += 1) {
-        if (medicineInfo) {
-          if (medicineInfo[i].medicineId === 1) {
-            const dirofilaria = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
-            dispatch(editMedicineInfo(dirofilaria));
-          }
-          if (medicineInfo[i].medicineId === 2) {
-            const tick = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
-            dispatch(editMedicineInfo(tick));
-          }
-          if (medicineInfo[i].medicineId === 3) {
-            const anthelmintic = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
-            dispatch(editMedicineInfo(anthelmintic));
-          }
+    for (let i = 0; i < Object.keys(medicineInfo).length; i += 1) {
+      if (medicineInfo) {
+        if (medicineInfo[i].medicineId === 1) {
+          const dirofilaria = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          dispatch(editMedicineInfo(dirofilaria));
+        }
+        if (medicineInfo[i].medicineId === 2) {
+          const tick = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          dispatch(editMedicineInfo(tick));
+        }
+        if (medicineInfo[i].medicineId === 3) {
+          const anthelmintic = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          dispatch(editMedicineInfo(anthelmintic));
         }
       }
-    };
-    loadData().then((action) => {
-      console.log(action);
-    });
+    }
   }
 
   function deleteMedicine(medId) {
-    const loadData = async () => {
-      const action = await dispatch(fetchMedicineInfo(params.petId));
-      if (isFulfilled(action)) {
-        const medicineId = action.payload.data[medId].id;
-        return medicineId;
+    for (let i = 0; i < Object.keys(medicineInfo).length; i += 1) {
+      if (medicineInfo[i].medicineId === medId) {
+        const medicationId = medicineInfo[i].id;
+        dispatch(deleteMedicineInfo(medicationId));
+        if (medId === 1) {
+          setDirofilariaValue('');
+        } else if (medId === 2) {
+          setTickValue('');
+        } else if (medId === 3) {
+          setAnthelminticValue('');
+        }
       }
-    };
-    loadData().then((medicineId) => {
-      dispatch(deleteMedicineInfo(medicineId));
-    });
+    }
   }
 
   useEffect(() => {
@@ -650,12 +648,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {medicineInfo[0] ? (
+                      {dirofilariaValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteMedicine(0);
+                              deleteMedicine(1);
                             }}
                             fontSize="small"
                           />
@@ -704,12 +702,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {medicineInfo[1] ? (
+                      {tickValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteMedicine(1);
+                              deleteMedicine(2);
                             }}
                             fontSize="small"
                           />
@@ -758,12 +756,12 @@ function PetMedicalCardDetail() {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      {medicineInfo[2] ? (
+                      {anthelminticValue ? (
                         <div className="dateDiv2">
                           <NotificationsActiveIcon sx={{ color: '#81e3d7', margin: '0', padding: '0' }} />
                           <CloseRoundedIcon
                             onClick={() => {
-                              deleteMedicine(2);
+                              deleteMedicine(3);
                             }}
                             fontSize="small"
                           />
