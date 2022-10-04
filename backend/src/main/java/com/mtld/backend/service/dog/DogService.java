@@ -1,5 +1,6 @@
 package com.mtld.backend.service.dog;
 
+import com.mtld.backend.dto.dog.DogMainResponseDetailDto;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
@@ -20,6 +21,8 @@ public interface DogService {
     Dog getDog(Long dogId);
 
     List<DogResponseDetailDto> getDogByUser(Long userId);
+
+    List<DogMainResponseDetailDto> getMainDogByUser(Long userId);
 
     DogResponseDetailDto getDogById(Long uid, Long id);
 

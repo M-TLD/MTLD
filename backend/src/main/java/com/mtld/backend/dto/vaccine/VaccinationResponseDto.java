@@ -3,8 +3,10 @@ package com.mtld.backend.dto.vaccine;
 import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.entity.vaccine.Vaccination;
 import com.mtld.backend.entity.vaccine.Vaccine;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -13,6 +15,8 @@ import java.time.LocalDate;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class VaccinationResponseDto {
 
     private Long id;

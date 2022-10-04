@@ -1,5 +1,6 @@
 package com.mtld.backend.controller;
 
+import com.mtld.backend.dto.dog.DogMainResponseDetailDto;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.service.dog.DogService;
@@ -41,5 +42,13 @@ public class UserController {
         log.info("userId = {}", userId);
         List<DogResponseDetailDto> dogResponseDetailDtoList = dogService.getDogByUser(userId);
         return ResponseEntity.status(OK).body(dogResponseDetailDtoList);
+    }
+
+    @GetMapping("/main")
+    public ResponseEntity<?> getMainDogsByUser() {
+        Long userId = userService.getMyInfoSecret().getId();
+        log.info("userId = {}", userId);
+        List<DogMainResponseDetailDto> dogMainResponseDetailDtos = dogService.getMainDogByUser(userId);
+        return ResponseEntity.status(OK).body(dogMainResponseDetailDtos);
     }
 }
