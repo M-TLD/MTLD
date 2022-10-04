@@ -21,6 +21,8 @@ public interface UserService {
 
     LoginResponseDto kakaoLogin(String kakaoAccessToken);
 
+    void logout(Long id);
+
     TokenDto reissue(ReissueDto reissueDto);
 
     UserInfoDto getMyInfoSecret();

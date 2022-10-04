@@ -69,7 +69,7 @@ public class TakingMedicineController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{medicineId}")
+    @DeleteMapping("/{takingMedicineId}")
     public ResponseEntity<?> deleteTakingMedicine(@PathVariable("takingMedicineId") Long takingMedicineId) {
         log.info("takingMedicineId : {}", takingMedicineId);
         Long userId = userService.getMyInfoSecret().getId();

@@ -49,7 +49,7 @@ public class VaccinationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerTakingMed(@RequestBody @Valid VaccinationRequestDto vaccinationRequestDto) {
+    public ResponseEntity<?> registerVaccination(@RequestBody @Valid VaccinationRequestDto vaccinationRequestDto) {
         log.info("vaccinationRequestDto :{}", vaccinationRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.registerVaccination(userId, vaccinationRequestDto);
@@ -59,7 +59,7 @@ public class VaccinationController {
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateMedicine(@RequestBody @Valid VaccinationUpdateRequestDto vaccinationUpdateRequestDto) {
+    public ResponseEntity<?> updateVaccination(@RequestBody @Valid VaccinationUpdateRequestDto vaccinationUpdateRequestDto) {
         log.info("vaccinationUpdateRequestDto : {}", vaccinationUpdateRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.updateVaccination(userId, vaccinationUpdateRequestDto);
@@ -67,8 +67,8 @@ public class VaccinationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{medicineId}")
-    public ResponseEntity<?> deleteMedicine(@PathVariable("vaccinationId") Long vaccinationId) {
+    @DeleteMapping("/{vaccinationId}")
+    public ResponseEntity<?> deleteVaccination(@PathVariable("vaccinationId") Long vaccinationId) {
         log.info("vaccinationId : {}", vaccinationId);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.deleteVaccination(userId, vaccinationId);
