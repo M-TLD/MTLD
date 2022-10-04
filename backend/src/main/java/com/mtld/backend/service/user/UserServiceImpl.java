@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return UserInfoDto.of(user);
     }
 
+    @Override
     public KakaoTokenDto getKakaoAccessToken(String code) {
         log.info("getKakaoAccessToken = {}", code);
         RestTemplate rt = new RestTemplate();
@@ -110,6 +111,7 @@ public class UserServiceImpl implements UserService {
         return kakaoTokenDto;
     }
 
+    @Override
     public User getKakaoInfo(String kakaoAccessToken) {
 
         RestTemplate rt = new RestTemplate();
@@ -151,6 +153,7 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
     public LoginResponseDto kakaoLogin(String kakaoAccessToken) {
         // kakaoAccessToken 으로 회원정보 받아오기
         User user = getKakaoInfo(kakaoAccessToken);
@@ -178,6 +181,13 @@ public class UserServiceImpl implements UserService {
         return LoginResponseDto.of(loginUser, tokenDto);
     }
 
+    @Override
+    public void logout(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        redisTemplate.delete(user.getOauthId());
+    }
+
+    @Override
     public TokenDto reissue(ReissueDto reissueDto) {
         log.info("Reissue 서비스 시작 ####### reissueDto = {}", reissueDto);
         if (!jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
