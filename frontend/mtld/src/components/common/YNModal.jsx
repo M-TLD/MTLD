@@ -17,24 +17,30 @@ const StyledModal = Modal.styled`
   transition : all 0.05s ease-in-out;;
   `;
 
-const Atag = styled.a`
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 0.875rem 1rem;
-  text-decoration: none;
-  &:hover,
-  &:active {
-    cursor: pointer;
-  }
-`;
-const StyledATag = styled.a`
+// const Atag = styled.a`
+//   display: block;
+//   color: black;
+//   text-align: center;
+//   padding: 0.875rem 1rem;
+//   text-decoration: none;
+//   &:hover,
+//   &:active {
+//     cursor: pointer;
+//   }
+// `;
+
+// const Delete = styled.div`
+//   display: flex;
+//   width: 100%;
+//   margin-top: 1vh;
+//   gap: 1vw;
+// `;
+
+const DeleteBtn = styled.button`
   border-radius: 5px;
+  height: 1.5rem;
   border: none;
   background-color: #ffeeb1;
-  &:hover,
-  &:active {
-    cursor: pointer;
   }
 `;
 
@@ -82,60 +88,8 @@ const Btn = styled.button`
   font-weight: 600;
   font-family: 'GmarketSansMedium';
 `;
-const FadingBackground = styled(BaseModalBackground)`
-  opacity: ${(props) => props.opacity};
-  transition: all 0.3s ease-in-out;
-`;
 
-function FancyModalButton() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [opacity, setOpacity] = useState(0);
-
-  function toggleModal() {
-    setOpacity(0);
-    setIsOpen(!isOpen);
-  }
-
-  function afterOpen() {
-    setTimeout(() => {
-      setOpacity(1);
-    }, 100);
-  }
-
-  function beforeClose() {
-    return new Promise((resolve) => {
-      setOpacity(0);
-      setTimeout(resolve, 300);
-    });
-  }
-
-  return (
-    <div>
-      <Atag onClick={toggleModal}>상세정보보기</Atag>
-      <StyledModal
-        isOpen={isOpen}
-        afterOpen={afterOpen}
-        beforeClose={beforeClose}
-        onBackgroundClick={toggleModal}
-        onEscapeKeydown={toggleModal}
-        opacity={opacity}
-        backgroundProps={{ opacity }}
-      >
-        <StyledCloseRoundedIcon onClick={toggleModal} fontSize="medium" />
-        <DeleteDiv>
-          <Title>삭제하시겠습니까?</Title>
-          <Content>관련 정보가 모두 삭제됩니다.</Content>
-          <BtnDiv>
-            <Btn backgroundColor="#FFEEB1">예</Btn>
-            <Btn backgroundColor="#EEEEEE">아니오</Btn>
-          </BtnDiv>
-        </DeleteDiv>
-      </StyledModal>
-    </div>
-  );
-}
-
-function YNModal(props) {
+function FancyModalButton(props) {
   const dispatch = useDispatch();
   const puppy = useSelector(puppySelector);
   const [isOpen, setIsOpen] = useState(false);
@@ -167,10 +121,9 @@ function YNModal(props) {
       <div className="NoticeModal">
         <ModalProvider backgroundComponent={FadingBackground}>
           <div>
-            <StyledATag onClick={toggleModal} style={{ color: '#F38181' }}>
+            <DeleteBtn type="button" onClick={toggleModal} style={{ color: '#F38181' }}>
               삭제하기
-            </StyledATag>
-
+            </DeleteBtn>
             <StyledModal
               isOpen={isOpen}
               afterOpen={afterOpen}
@@ -188,7 +141,8 @@ function YNModal(props) {
                   <Btn
                     backgroundColor="#FFEEB1"
                     onClick={() => {
-                      deleteButton(puppy.puppyInfo[0].id);
+                      console.log(props);
+                      deleteButton(puppy.puppyInfo[props.props.puppyId].id);
                     }}
                   >
                     예
@@ -202,10 +156,18 @@ function YNModal(props) {
       </div>
     );
   }
+}
+
+const FadingBackground = styled(BaseModalBackground)`
+  opacity: ${(props) => props.opacity};
+  transition: all 0.3s ease-in-out;
+`;
+
+function YNModal(props) {
   return (
-    <div className="NoticeModal">
+    <div className="YNModal">
       <ModalProvider backgroundComponent={FadingBackground}>
-        <FancyModalButton />
+        <FancyModalButton props={props} />
       </ModalProvider>
     </div>
   );
