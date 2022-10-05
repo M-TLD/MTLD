@@ -53,6 +53,7 @@ const Paw = styled.img`
 const KakaoBtn = styled.img`
   width: 80vw;
   margin-bottom: 5%;
+  border-radius: 10px;
 `;
 
 const Desktop = ({ children }) => {
