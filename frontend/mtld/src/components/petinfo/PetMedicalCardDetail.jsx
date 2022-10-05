@@ -260,19 +260,19 @@ function PetMedicalCardDetail() {
     for (let i = 0; i < Object.keys(vaccineInfo).length; i += 1) {
       if (vaccineInfo) {
         if (vaccineInfo[i].vaccineId === 1) {
-          const dhppl = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          const dhppl = { id: vaccineInfo[i].id, expectDate: dhpplValue };
           dispatch(editVaccineInfo(dhppl));
         }
         if (vaccineInfo[i].vaccineId === 2) {
-          const corona = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          const corona = { id: vaccineInfo[i].id, expectDate: coronaValue };
           dispatch(editVaccineInfo(corona));
         }
         if (vaccineInfo[i].vaccineId === 3) {
-          const kennel = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          const kennel = { id: vaccineInfo[i].id, expectDate: kennelValue };
           dispatch(editVaccineInfo(kennel));
         }
         if (vaccineInfo[i].vaccineId === 4) {
-          const rabis = { id: vaccineInfo[i].id, expectDate: vaccineInfo[i].expectDate };
+          const rabis = { id: vaccineInfo[i].id, expectDate: rabisValue };
           dispatch(editVaccineInfo(rabis));
         }
       }
@@ -309,15 +309,15 @@ function PetMedicalCardDetail() {
     for (let i = 0; i < Object.keys(medicineInfo).length; i += 1) {
       if (medicineInfo) {
         if (medicineInfo[i].medicineId === 1) {
-          const dirofilaria = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          const dirofilaria = { id: medicineInfo[i].id, expectDate: dirofilariaValue };
           dispatch(editMedicineInfo(dirofilaria));
         }
         if (medicineInfo[i].medicineId === 2) {
-          const tick = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          const tick = { id: medicineInfo[i].id, expectDate: tickValue };
           dispatch(editMedicineInfo(tick));
         }
         if (medicineInfo[i].medicineId === 3) {
-          const anthelmintic = { id: medicineInfo[i].id, expectDate: medicineInfo[i].expectDate };
+          const anthelmintic = { id: medicineInfo[i].id, expectDate: anthelmintic };
           dispatch(editMedicineInfo(anthelmintic));
         }
       }
@@ -365,6 +365,7 @@ function PetMedicalCardDetail() {
   }, []);
 
   useEffect(() => {
+    console.log(vaccineInfo);
     const loadData = async () => {
       const action = await dispatch(fetchMedicineInfo(params.petId));
       if (isFulfilled(action)) {
@@ -600,7 +601,7 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            {vaccineInfo && vaccineInfo.length > 0 ? (
+            { medicineInfo && medicineInfo.length > 0 ? (
               <button className="saveButton" type="submit" onClick={editVaccine}>
                 알림 수정하기
               </button>

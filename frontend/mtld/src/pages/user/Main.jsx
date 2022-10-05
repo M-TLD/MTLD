@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,8 +14,10 @@ import AbandonedDogs from 'assets/adoption_home.png';
 import Arrow from 'assets/arrow.png';
 import Spinner from 'components/common/Spinner';
 import bobi from 'assets/bobi.png';
-import { fetchPuppyInfo, puppySelector } from 'app/puppy';
+import { fetchPuppyInfo, puppySelector, fetchAlarmInfo, alarmSelector } from 'app/puppy';
 import { useSelector, useDispatch } from 'react-redux';
+import { isFulfilled } from '@reduxjs/toolkit';
+import vaccine from 'app/vaccine';
 
 const StyledSwiper = styled(Swiper)`
   margin-top: 30px;
@@ -135,13 +137,102 @@ const StyledLink = styled(Link)`
 
 function Main() {
   const puppy = useSelector(puppySelector);
+  const alarm = useSelector(alarmSelector);
   const dispatch = useDispatch();
+
+  const [vaccineAlarm, setVaccineAlarm] = useState({});
+  const [vaccineDday, setVaccineDday] = useState('');
+  const [vaccineName, setVaccineName] = useState('');
+  const [medicineDday, setMedicineDday] = useState('');
+  const [medicineName, setMedicineName] = useState('');
+  const [medicineAlarm, setMedicineAlarm] = useState('');
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPuppyInfo());
   }, []);
 
-  if (!puppy.puppyInfo) {
+  useEffect(() => {
+    const triggerAlarm = async () => {
+      const action = await dispatch(fetchAlarmInfo());
+      if (isFulfilled(action)) {
+        // console.log(action.payload.data); // [{...}]
+        return action.payload.data;
+      }
+    };
+    triggerAlarm().then((res) => {
+      for (let i = 0; i < res[0].vaccinations.length; i += 1) {
+        const vaccineAlarmValue = res[0].vaccinations.slice();
+        const medicineAlarmValue = res[0].takingMedicines.slice();
+        const vaccineResult = vaccineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
+        const medicineResult = medicineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
+        console.log(vaccineResult);
+        setVaccineAlarm({ date: vaccineResult[0].expectDate, vaccineId: vaccineResult[0].vaccineId });
+        setMedicineAlarm({ date: medicineResult[0].expectDate, medicineId: medicineResult[0].medicineId });
+    }
+});
+  }, []);
+
+  useEffect(() => {
+    medDdayCounter();
+    medicineKind();
+    vaccDdayCounter();
+    vaccineKind();
+  }, [vaccineAlarm, medicineAlarm]);
+
+  const vaccDdayCounter = () => {
+    console.log('dday');
+    const dday = new Date(vaccineAlarm.date);
+    const today = new Date(); // 오늘 날짜 객체 생성
+    const yy = today.getFullYear();
+    const mm = dday.getMonth();
+    const dd = dday.getDate();
+
+    const dDay = new Date(yy, mm, dd);
+    const diffDate = Math.ceil((dDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+    setVaccineDday(diffDate);
+  };
+
+  const medDdayCounter = () => {
+    console.log('dday');
+    const dday = new Date(vaccineAlarm.date);
+    const today = new Date(); // 오늘 날짜 객체 생성
+    const yy = today.getFullYear();
+    const mm = dday.getMonth();
+    const dd = dday.getDate();
+
+    const dDay = new Date(yy, mm, dd);
+    const diffDate = Math.ceil((dDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+    setMedicineDday(diffDate);
+  };
+
+  const vaccineKind = () => {
+    if (vaccineAlarm.vaccineId === 1) {
+      setVaccineName('DHPPL');
+    } else if (vaccineAlarm.vaccineId === 2) {
+      setVaccineName('코로나');
+    } else if (vaccineAlarm.vaccineId === 3) {
+      setVaccineName('켄넬코프');
+    } else if (vaccineAlarm.vaccineId === 4) {
+      setVaccineName('광견병');
+    }
+  };
+
+  const medicineKind = () => {
+    if (medicineAlarm.medicineId === 1) {
+      setMedicineName('심장사상충약');
+    } else if (vaccineAlarm.vaccineId === 2) {
+      setMedicineName('진드기약');
+    } else if (vaccineAlarm.vaccineId === 3) {
+      setMedicineName('구충제');
+    }
+  };
+
+  if (!puppy.puppyInfo && isLoading) {
     return <Spinner />;
   }
 
@@ -189,8 +280,8 @@ function Main() {
               </Welcome>
               <StyledLink to={`/pet-medical-card/${pup.id}`}>
                 <Alarm>
-                  <span>예방접종까지 10일 남았어요!</span>
-                  <span>심장사상충약 잊지 말아주세요!</span>
+                  <span>{vaccineName} 접종까지 {vaccineDday}일 남았어요!</span>
+                  <span>{medicineName} {medicineDday}일까지 잊지 말아주세요!</span>
                 </Alarm>
               </StyledLink>
             </StyledSwiperSlide>
