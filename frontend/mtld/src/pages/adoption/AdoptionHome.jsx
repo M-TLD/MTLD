@@ -890,7 +890,7 @@ function AdoptionHome() {
   useEffect(() => {
     axios
       .get(
-        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=5&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+        'https://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=100&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
       )
       .then((res) => res.data)
       .then((data) => {
