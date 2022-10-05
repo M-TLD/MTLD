@@ -34,10 +34,18 @@ public class DogMainResponseDetailDto {
     private String disease;
     private String breedName;
     private String fileURL;
-    private List<Vaccination> vaccinations = new ArrayList<>();
-    private List<TakingMedicine> takingMedicines = new ArrayList<>();
+    private List<VaccinationResponseDto> vaccinations = new ArrayList<>();
+    private List<TakingMedicineResponseDto> takingMedicines = new ArrayList<>();
 
     public static DogMainResponseDetailDto of(Dog dog) {
+        List<VaccinationResponseDto> vaccinations = new ArrayList<>();
+        for (Vaccination vaccination : dog.getVaccinations())
+            vaccinations.add(VaccinationResponseDto.of(vaccination));
+
+        List<TakingMedicineResponseDto> takingMedicines = new ArrayList<>();
+        for (TakingMedicine takingMedicine : dog.getTakingMedicines())
+            takingMedicines.add(TakingMedicineResponseDto.of(takingMedicine));
+
         return DogMainResponseDetailDto.builder()
                 .id(dog.getId())
                 .name(dog.getName())
@@ -48,8 +56,8 @@ public class DogMainResponseDetailDto {
                 .disease(dog.getDisease())
                 .breedName(dog.getBreed().getName())
                 .fileURL(dog.getFileURL())
-                .vaccinations(dog.getVaccinations())
-                .takingMedicines(dog.getTakingMedicines())
+                .vaccinations(vaccinations)
+                .takingMedicines(takingMedicines)
                 .build();
     }
 }
