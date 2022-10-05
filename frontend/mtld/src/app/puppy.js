@@ -6,6 +6,7 @@ const initialStateValue = {
   loading: false,
   puppyInfo: [],
   pupInfo: {},
+  alarmInfo: [],
 };
 export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (thunkAPI) => {
   const dogFormData = new FormData();
@@ -46,6 +47,18 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
   try {
     const res = await axiosInstance.get('/api/user/dogs').then((res) => {
       console.log('dog info:', res.data);
+      return res;
+    });
+    return res;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (thunkAPI) => {
+  try {
+    const res = await axiosInstance.get('/api/user/main').then((res) => {
+      console.log('alarm info:', res.data);
       return res;
     });
     return res;
@@ -187,6 +200,21 @@ export const puppySlice = createSlice({
       console.log('fetching rejected');
     },
 
+    [fetchAlarmInfo.pending]: (state) => {
+      state.loading = false;
+      console.log('alarm pending');
+    },
+    [fetchAlarmInfo.fulfilled]: (state, action) => {
+      state.alarmInfo = action.payload.data;
+      console.log(action.payload.data);
+      state.loading = true;
+      console.log('alarm fulfilled');
+    },
+    [fetchAlarmInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('fetching rejected');
+    },
+
     // DELETE
     [deletePuppyInfo.pending]: (state) => {
       state.loading = false;
@@ -225,4 +253,5 @@ export const puppySlice = createSlice({
 
 // export const {  } = puppySlice.actions;
 export const puppySelector = (state) => state.puppy;
+export const alarmSelector = (state) => state.puppy.alarmInfo;
 export default puppySlice.reducer;
