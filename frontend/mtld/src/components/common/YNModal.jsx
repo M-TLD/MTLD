@@ -17,25 +17,6 @@ const StyledModal = Modal.styled`
   transition : all 0.05s ease-in-out;;
   `;
 
-// const Atag = styled.a`
-//   display: block;
-//   color: black;
-//   text-align: center;
-//   padding: 0.875rem 1rem;
-//   text-decoration: none;
-//   &:hover,
-//   &:active {
-//     cursor: pointer;
-//   }
-// `;
-
-// const Delete = styled.div`
-//   display: flex;
-//   width: 100%;
-//   margin-top: 1vh;
-//   gap: 1vw;
-// `;
-
 const DeleteBtn = styled.button`
   border-radius: 5px;
   height: 1.5rem;
