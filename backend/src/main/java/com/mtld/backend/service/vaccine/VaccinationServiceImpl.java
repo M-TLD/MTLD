@@ -91,8 +91,10 @@ public class VaccinationServiceImpl implements VaccinationService {
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
-
+        log.info("vaccinationUpdateRequestDto = {}", vaccinationUpdateRequestDto);
+        log.info("변경 전 vaccination.date = {}", vaccination.getExpectDate());
         vaccination.update(vaccinationUpdateRequestDto);
+        log.info("변경 후 vaccination.date = {}", vaccination.getExpectDate());
     }
 
     @Override
