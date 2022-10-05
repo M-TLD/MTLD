@@ -1,6 +1,6 @@
 package com.mtld.backend.controller;
 
-import com.mtld.backend.service.user.UserServiceImpl;
+import com.mtld.backend.service.user.UserService;
 import com.mtld.backend.dto.token.ReissueDto;
 import com.mtld.backend.dto.token.TokenDto;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +20,19 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RequestMapping("/login/oauth2")
 public class AuthController {
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @GetMapping("/kakao")
     public ResponseEntity<?> kakaoLogin(@RequestParam String code) {
         log.info("code = {}", code);
-        String kakaoAccessToken = userServiceImpl.getKakaoAccessToken(code).getAccess_token();
-        return ResponseEntity.status(OK).body(userServiceImpl.kakaoLogin(kakaoAccessToken));
+        String kakaoAccessToken = userService.getKakaoAccessToken(code).getAccess_token();
+        return ResponseEntity.status(OK).body(userService.kakaoLogin(kakaoAccessToken));
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout() {
+        userService.logout(userService.getMyInfoSecret().getId());
+        return ResponseEntity.status(OK).build();
     }
 
     @GetMapping("/reissue")
@@ -35,7 +41,7 @@ public class AuthController {
 
         log.info("accessToken = {}", accessToken);
         log.info("refreshToken = {}", refreshToken);
-        TokenDto reissue = userServiceImpl.reissue(new ReissueDto(accessToken, refreshToken));
+        TokenDto reissue = userService.reissue(new ReissueDto(accessToken, refreshToken));
         log.info("@@@@@@@@@@@@@@@@@@@리이슈 성공@@@@@@@@@@@@@@@@@@@@@@@@");
         return ResponseEntity.status(OK).body(reissue);
     }

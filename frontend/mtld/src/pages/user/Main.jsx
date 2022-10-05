@@ -187,7 +187,7 @@ function Main() {
                 <BabyName>&nbsp;{pup.name}</BabyName>
                 <span>&nbsp;반가워!</span>
               </Welcome>
-              <StyledLink to="/pet-medical-card">
+              <StyledLink to={`/pet-medical-card/${pup.id}`}>
                 <Alarm>
                   <span>예방접종까지 10일 남았어요!</span>
                   <span>심장사상충약 잊지 말아주세요!</span>

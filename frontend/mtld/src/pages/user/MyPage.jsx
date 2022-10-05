@@ -107,7 +107,7 @@ function MyPage() {
     return <Spinner />;
   }
 
-  if (puppy.puppyInfo.length === 3 && isLoading) {
+  if (puppy.puppyInfo.length === 3 && !isLoading) {
     return (
       <Wrap>
         <UserInfo>

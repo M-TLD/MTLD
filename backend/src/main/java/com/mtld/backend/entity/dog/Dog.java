@@ -3,6 +3,7 @@ package com.mtld.backend.entity.dog;
 import com.mtld.backend.converter.BooleanToYNConverter;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
 import com.mtld.backend.entity.*;
+import com.mtld.backend.entity.diary.Walking;
 import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.vaccine.Vaccination;
@@ -60,6 +61,9 @@ public class Dog extends BaseEntity {
     private String fileName;
 
     private String fileURL;
+
+    @OneToMany(mappedBy = "dog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Walking> walkings = new ArrayList<>();
 
     @Builder
     public Dog(String name, LocalDate birthdate, Gender gender, Double weight, boolean neuter, Breed breed, User user) {
