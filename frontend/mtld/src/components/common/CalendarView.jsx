@@ -21,6 +21,7 @@ const StyledCalender = styled.div`
     // border-radius: 5px;
     font-family: GmarketSansMedium;
     line-height: 1.125em;
+    margin-top: 1vh;
     margin-bottom: 2vh;
     margin-right: 0;
   }

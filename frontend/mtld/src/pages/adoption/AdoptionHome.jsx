@@ -73,6 +73,7 @@ const StyledAdoptionHome = styled.div`
     padding-left: 0,
     width: 100%;
     font-size: 13px;
+    font-color: #5C5C5C;
     flex-wrap: nowrap;
     text-align: left;
   }

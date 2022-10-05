@@ -123,7 +123,7 @@ const StyledLink = styled(NavLink)`
   }
 
   .bold {
-    font-weight: bold;
+    font-weight: 600;
   }
 `;
 

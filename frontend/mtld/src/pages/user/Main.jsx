@@ -233,7 +233,7 @@ function Main() {
             </StyledLink>
           </MenuItem>
           <MenuItem>
-            <StyledLink to="/adoption-survey">
+            <StyledLink to="/adoption-survey-home">
               <div>
                 <MenuImage src={AdoptionHelper} />
               </div>
