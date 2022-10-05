@@ -16,7 +16,7 @@ import Chip from '@mui/material/Chip';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const StyledSurvey = styled.div`
-  padding-top: 3vh;
+  padding-top: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,10 +74,15 @@ const RegisterButton = styled.button`
   border: none;
   margin-top: 1vh;
   background-color: #ffeeb1;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 8px;
   color: #5c5c5c;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const RechoiceButton = styled.button`
@@ -86,10 +91,15 @@ const RechoiceButton = styled.button`
   border: none;
   margin-top: 1vh;
   background-color: #f2f2f2;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 8px;
   color: #5c5c5c;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const StyledLink = styled(NavLink)`
@@ -98,7 +108,8 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
   background-color: #ffdcdc;
   border-radius: 8px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
