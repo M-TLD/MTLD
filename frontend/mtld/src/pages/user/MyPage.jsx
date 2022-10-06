@@ -59,6 +59,7 @@ const UserInfo = styled.div`
     // font-size: 100%;
     color: #5c5c5c;
     margin-right: 10px;
+    font-size: 14px;
   }
 
   p {

@@ -39,7 +39,8 @@ const DogCard = styled.div`
     height: 20px;
     border-radius: 10px;
     border: none;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    // box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
     font-family: 'GmarketSansMedium';
     color: #5c5c5c;
     font-size: 80%;
