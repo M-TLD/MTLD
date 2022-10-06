@@ -144,32 +144,26 @@ function PetInfoEdit() {
 
   const onBreedIdChange = (e) => {
     setBreedIdValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onDiseaseChange = (e) => {
     setDiseaseValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onGenderChange = (e) => {
     setGenderValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNameChange = (e) => {
     setNameValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNeuterChange = (e) => {
     setNeuterValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onWeightChange = (e) => {
     setWeightValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const handleChange = (newValue) => {
@@ -202,7 +196,6 @@ function PetInfoEdit() {
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(reader);
   };
 
   const editButton = async () => {
@@ -210,7 +203,6 @@ function PetInfoEdit() {
     action = await dispatch(editPuppyInfo([fileURLValue, parsedData]));
     if (isFulfilled(action)) {
       const dogId = action.payload.data;
-      console.log(action);
       navigate(`/pet-info-detail/${dogId}`);
     }
   };

@@ -32,7 +32,6 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
       },
       data: dogFormData,
     }).then((res) => {
-      console.log('puppyId:', res.data);
       dogId = res.data;
       console.log('successfully registered puppy');
       return dogId;
@@ -45,10 +44,7 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
 
 export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user/dogs').then((res) => {
-      console.log('dog info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get('/api/user/dogs').then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -57,10 +53,7 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
 
 export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user/main').then((res) => {
-      console.log('alarm info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get('/api/user/main').then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -69,10 +62,7 @@ export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (th
 
 export const fetchPupInfo = createAsyncThunk('puppy/fetchPupInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get(`/api/dogs/${thunkAPI}`).then((res) => {
-      console.log('pup info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get(`/api/dogs/${thunkAPI}`).then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -81,8 +71,7 @@ export const fetchPupInfo = createAsyncThunk('puppy/fetchPupInfo', async (thunkA
 
 export const deletePuppyInfo = createAsyncThunk('puppy/deletePuppyInfo', async (thunkAPI) => {
   const dogId = thunkAPI;
-  console.log(dogId);
-  console.log(initialStateValue);
+  // console.log(dogId);
   try {
     const res = await axiosInstance.delete(`/api/dogs/${dogId}`).then((res) => {
       console.log('deleted?', res);
@@ -108,7 +97,6 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
       }),
     );
   } else {
-    console.log('profile changed');
     dogFormData.append('image', thunkAPI[0]);
     dogFormData.append(
       'dog',
@@ -119,7 +107,7 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
   }
 
   for (const value of dogFormData.values()) {
-    console.log(value);
+    // console.log(value);
   }
 
   console.log(dogFormData.get('image'));
@@ -135,7 +123,7 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
       },
       data: dogFormData,
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       console.log('successfully edited puppy');
       return res;
     });
@@ -155,11 +143,11 @@ export const puppySlice = createSlice({
     // POST
     [registerPuppyInfo.pending]: (state) => {
       state.loading = false;
-      console.log('register pending');
+      // console.log('register pending');
     },
     [registerPuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action.payload); // dogId
+      // console.log(action.payload); // dogId
       console.log('register fulfilled');
     },
     [registerPuppyInfo.rejected]: (state) => {
@@ -170,7 +158,7 @@ export const puppySlice = createSlice({
     [fetchPuppyInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [fetchPuppyInfo.fulfilled]: (state, action) => {
       state.puppyInfo = action.payload.data;
@@ -187,7 +175,7 @@ export const puppySlice = createSlice({
     [fetchPupInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [fetchPupInfo.fulfilled]: (state, action) => {
       // console.log(typeof state.puppyInfo); // object
@@ -202,46 +190,44 @@ export const puppySlice = createSlice({
 
     [fetchAlarmInfo.pending]: (state) => {
       state.loading = false;
-      console.log('alarm pending');
+      // console.log('alarm pending');
     },
     [fetchAlarmInfo.fulfilled]: (state, action) => {
       state.alarmInfo = action.payload.data;
-      console.log(action.payload.data);
+      // console.log(action.payload.data);
       state.loading = true;
       console.log('alarm fulfilled');
     },
     [fetchAlarmInfo.rejected]: (state) => {
       state.loading = false;
-      console.log('fetching rejected');
+      console.log('alarm fetching rejected');
     },
 
     // DELETE
     [deletePuppyInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      console.log('pending');
+      // console.log('pending');
     },
     [deletePuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
       const id = action.payload;
-      console.log(id);
+      // console.log(id);
       state.puppyInfo = state.puppyInfo.filter((item) => item.id !== id);
     },
     [deletePuppyInfo.rejected]: (state) => {
       state.loading = false;
-      console.log('rejected');
+      console.log('delete rejected');
     },
 
     // PATCH
     [editPuppyInfo.pending]: (state) => {
       state.loading = false;
-      console.log('edit pending');
+      // console.log('edit pending');
     },
     [editPuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action);
-      console.log(action.payload);
-      console.log(action.payload); // dogId
+      // console.log(action.payload);
       console.log('edit fulfilled');
     },
     [editPuppyInfo.rejected]: (state) => {

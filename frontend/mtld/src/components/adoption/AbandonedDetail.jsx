@@ -86,8 +86,6 @@ function AbandonedDetail() {
       });
   }, []);
 
-  // console.log(abandonedList);
-
   const [puppy, setPuppy] = useState([]);
 
   useEffect(() => {

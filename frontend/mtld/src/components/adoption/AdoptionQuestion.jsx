@@ -9,12 +9,10 @@ import { sumScore } from 'app/score';
 
 const AdoptionQuestion = (props) => {
   const dispatch = useDispatch();
-  console.log(props);
 
   const [num, setNum] = React.useState(0);
 
   const onSwipe = (direction) => {
-    console.log(`You swiped: ${direction}`);
     const tempDirection = direction;
     if (tempDirection === 'left') {
       dispatch(sumScore());
