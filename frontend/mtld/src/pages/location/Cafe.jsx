@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const TitleDiv = styled.div`
   display: flex;
-  font-size: 25px;
+  font-size: 23px;
   color: #5C5C5C;
   line-height: 30px;
 `;

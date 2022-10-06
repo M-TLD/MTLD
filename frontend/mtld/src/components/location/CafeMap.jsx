@@ -118,7 +118,7 @@ function RestaurantMap({ searchPlace, flag }) {
             const ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
             ps.keywordSearch('반려견동반카페', placeSearchCB, {
               location: new window.kakao.maps.LatLng(lat, long),
-              radius: 50000, // 5km
+              radius: 5000, // 5km
               sort: kakao.maps.services.SortBy.DISTANCE, // 거리순 정렬
               category_group_code: 'CE7', // 카테고리 그룹 코드 - 카페
             });
