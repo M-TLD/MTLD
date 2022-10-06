@@ -1,0 +1,59 @@
+CREATE DATABASE  IF NOT EXISTS `mtld` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `mtld`;
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+--
+-- Host: j7a106.p.ssafy.io    Database: mtld
+-- ------------------------------------------------------
+-- Server version	8.0.30
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `vaccination`
+--
+
+DROP TABLE IF EXISTS `vaccination`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vaccination` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `expect_date` date DEFAULT NULL,
+  `dog_id` bigint DEFAULT NULL,
+  `vaccine_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK6a6lt4ji8yks9teqgit207wo` (`dog_id`),
+  KEY `FK7nk56xtl6qs5t4sbo13tp0ua6` (`vaccine_id`),
+  CONSTRAINT `FK6a6lt4ji8yks9teqgit207wo` FOREIGN KEY (`dog_id`) REFERENCES `dog` (`id`),
+  CONSTRAINT `FK7nk56xtl6qs5t4sbo13tp0ua6` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vaccination`
+--
+
+LOCK TABLES `vaccination` WRITE;
+/*!40000 ALTER TABLE `vaccination` DISABLE KEYS */;
+INSERT INTO `vaccination` VALUES (140,'2022-10-09',59,1),(141,'2022-12-14',59,4),(142,'2022-11-23',59,3),(143,'2022-10-23',59,2),(144,'2022-10-16',60,2),(145,'2023-01-19',60,4),(146,'2022-11-17',60,3),(147,'2022-10-28',60,1),(178,'2022-10-20',65,3),(179,'2022-10-12',65,1),(180,'2022-10-07',65,2),(181,'2022-10-12',65,4),(189,'2022-10-12',63,1),(195,'2022-10-12',64,3),(197,'2022-10-20',64,2),(198,'2022-10-20',64,4);
+/*!40000 ALTER TABLE `vaccination` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-10-07  0:09:05
