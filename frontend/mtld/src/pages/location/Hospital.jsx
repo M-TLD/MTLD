@@ -17,7 +17,7 @@ const TitleDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 25px;
+  font-size: 23px;
   color: #5C5C5C;
   line-height: 30px;
 `;
