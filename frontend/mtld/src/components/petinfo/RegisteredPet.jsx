@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import DeleteModal from 'components/common/DeleteModal';
 import { deletePuppyInfo, fetchPuppyInfo, puppySelector } from 'app/puppy';
 import Spinner from 'components/common/Spinner';
 import YNModal from 'components/common/YNModal';
@@ -50,6 +49,11 @@ const PuppyInfo = styled.div`
     height: 1.5rem;
     border: none;
     background-color: #ffeeb1;
+    color: #5C5C5C;
+    &:hover,
+    &:active {
+      cursor: pointer;
+     }
   }
 `;
 

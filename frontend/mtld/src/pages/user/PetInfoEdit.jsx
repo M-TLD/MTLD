@@ -90,9 +90,13 @@ const RegisterButton = styled.button`
   height: 5vh;
   border: none;
   background-color: #ffeeb1;
-  box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  color: #5c5c5c;
+  font-size: 18px;
+  // box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 10px;
+  margin-bottom: 20px;
 `;
 
 function PetInfoEdit() {

@@ -119,8 +119,10 @@ const QuizResult = styled.div`
     height: 5vh;
     border: none;
     background-color: #ffdcdc;
-    box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+    // box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
     font-family: GmarketSansMedium;
+    cont-size: 18px;
     color: #5c5c5c;
     border-radius: 10px;
     font-size: 110%;
@@ -177,7 +179,8 @@ const DragItem = styled.div`
     align-items: center;
     border-radius: 500%;
     background-color: #ffeeb1;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    // box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   }
   & img {
     // max-width: 150px;
