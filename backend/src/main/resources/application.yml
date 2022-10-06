@@ -34,7 +34,9 @@ spring:
             client-secret: evXGUWIVYQfidcszzUZOTiDovjQxGBeD
             client-authentication-method: POST
             authorization-grant-type: authorization_code
-            redirect-uri: https://j7a106.p.ssafy.io/login/oauth2/kakao
+            redirect-uri: http://localhost:3000/login/oauth2/kakao
+#            redirect-uri: https://j7a106.p.ssafy.io/login/oauth2/kakao
+
             scope:
               - profile_nickname
               - account_email
