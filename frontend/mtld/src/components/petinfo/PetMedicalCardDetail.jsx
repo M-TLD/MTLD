@@ -606,7 +606,7 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            {medicineInfo && medicineInfo.length > 0 ? (
+            {vaccineInfo && vaccineInfo.length > 0 ? (
               <button className="saveButton" type="submit" onClick={editVaccine}>
                 알림 수정하기
               </button>
