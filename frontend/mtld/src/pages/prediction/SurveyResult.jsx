@@ -119,6 +119,7 @@ function SurveyResult() {
   }
 
   const paws = [YellowPaw, BluePaw, Paw];
+  console.log(report);
 
   return (
     <StyledResult>
