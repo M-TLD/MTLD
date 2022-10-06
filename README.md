@@ -114,7 +114,7 @@
 ![Untitled](MTLD%20README%2072983d50a7c14330b2e98049f3e1f558/Untitled%202.png)
 
 - 파일트리
-- 컨벤션
+- [컨벤션](exec/Convention.md)
 - 발표 PPT
 - [포팅 매뉴얼](exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf)
 
