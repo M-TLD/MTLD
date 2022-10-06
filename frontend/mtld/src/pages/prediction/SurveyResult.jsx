@@ -7,6 +7,7 @@ import YellowPaw from 'assets/paw_yellow.png';
 import BluePaw from 'assets/paw_blue.png';
 import Search from 'assets/search.png';
 import DxModal from 'components/common/DxModal';
+import { NavLink } from 'react-router-dom';
 
 const StyledResult = styled.div`
   display: flex;
