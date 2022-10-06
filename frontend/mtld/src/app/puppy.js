@@ -53,7 +53,9 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
 
 export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user/main').then((res) => res);
+    const res = await axiosInstance.get('/api/user/main').then((res) => {
+      console.log(res);
+    });
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
