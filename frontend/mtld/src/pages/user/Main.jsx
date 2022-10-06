@@ -284,7 +284,7 @@ function Main() {
                     </span>
                   )}
                   {!medicineName[i] || medicineDday.length === 0 ? (
-                    <span style={{ color: '#81e3d7' }}>222</span>
+                    <span style={{ color: '#81e3d7' }}>복용약 정보도 입력해주개!</span>
                   ) : (
                     <span>
                       {medicineName[i]} {medicineDday[i]}일 안에 먹어야해!
