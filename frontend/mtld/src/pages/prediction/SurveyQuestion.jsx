@@ -297,12 +297,20 @@ function SurveyQuestion() {
         </div>
         <RechoiceButton onClick={deleteCondition}>증상 다시 선택하기</RechoiceButton>
 
-        <StyledLink onClick={submitExecute}>
-          <div className="content">
-            <span>질병정보 </span>
-            <span className="bold">알아보기</span>
-          </div>
-        </StyledLink>
+        {submitRecord.length > 0 ? (
+          <StyledLink onClick={submitExecute}>
+            <div className="content">
+              <span>질병정보 </span>
+              <span className="bold">알아보기</span>
+            </div>
+          </StyledLink>
+        ) : (
+          <StyledLink>
+            <div className="content">
+              <span>증상을 먼저 선택해주세요!</span>
+            </div>
+          </StyledLink>
+        )}
       </StyledSurvey>
     );
   }
