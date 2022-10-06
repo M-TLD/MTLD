@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.mtld.backend.dto.dog.DogMainResponseDetailDto;
 import com.mtld.backend.dto.dog.DogRequestDto;
 import com.mtld.backend.dto.dog.DogResponseDetailDto;
 import com.mtld.backend.dto.dog.DogUpdateRequestDto;
@@ -60,6 +61,17 @@ public class DogServiceImpl implements DogService {
             dogResponseDetailDtoList.add(DogResponseDetailDto.of(dog));
         }
         return dogResponseDetailDtoList;
+    }
+
+    @Override
+    public List<DogMainResponseDetailDto> getMainDogByUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+
+        List<DogMainResponseDetailDto> dogMainResponseDetailDtos = new ArrayList<>();
+        for (Dog dog : dogRepository.findByUser(user)) {
+            dogMainResponseDetailDtos.add(DogMainResponseDetailDto.of(dog));
+        }
+        return dogMainResponseDetailDtos;
     }
 
     @Override

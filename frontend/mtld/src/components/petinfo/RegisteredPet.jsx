@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import DeleteModal from 'components/common/DeleteModal';
 import { deletePuppyInfo, fetchPuppyInfo, puppySelector } from 'app/puppy';
 import Spinner from 'components/common/Spinner';
+import YNModal from 'components/common/YNModal';
 
 const Wrap = styled.div`
   margin: 0;
@@ -49,6 +49,11 @@ const PuppyInfo = styled.div`
     height: 1.5rem;
     border: none;
     background-color: #ffeeb1;
+    color: #5C5C5C;
+    &:hover,
+    &:active {
+      cursor: pointer;
+     }
   }
 `;
 
@@ -63,7 +68,6 @@ const PuppyImage = styled.img`
 
 function RegisteredPet() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const puppy = useSelector(puppySelector);
 
   useEffect(() => {
@@ -82,9 +86,11 @@ function RegisteredPet() {
     return (
       <Wrap>
         <PuppyInfo>
-          <div className="puppyImage">
-            <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
-          </div>
+          <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+            </div>
+          </Link>
           <div className="puppyInfo">
             <div className="name-gender">
               <h2>{puppy.puppyInfo[0].name}</h2>
@@ -96,15 +102,7 @@ function RegisteredPet() {
               <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
                 <button type="button">세부정보</button>
               </Link>
-              <button
-                onClick={() => {
-                  deleteButton(puppy.puppyInfo[0].id);
-                }}
-                type="button"
-                style={{ color: '#F38181' }}
-              >
-                삭제하기
-              </button>
+              <YNModal puppyId="0" />
             </div>
           </div>
         </PuppyInfo>
@@ -116,9 +114,11 @@ function RegisteredPet() {
       <div>
         <Wrap>
           <PuppyInfo>
-            <div className="puppyImage">
-              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
-            </div>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+              </div>
+            </Link>
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[0].name}</h2>
@@ -131,24 +131,18 @@ function RegisteredPet() {
                 <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
                   <button type="button">세부정보</button>
                 </Link>
-                <button
-                  onClick={() => {
-                    deleteButton(puppy.puppyInfo[0].id);
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
+                <YNModal puppyId="0" />
               </div>
             </div>
           </PuppyInfo>
         </Wrap>
         <Wrap>
           <PuppyInfo>
-            <div className="puppyImage">
-              <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
-            </div>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+              </div>
+            </Link>
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[1].name}</h2>
@@ -161,15 +155,7 @@ function RegisteredPet() {
                 <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
                   <button type="button">세부정보</button>
                 </Link>
-                <button
-                  onClick={() => {
-                    deleteButton(puppy.puppyInfo[1].id);
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
+                <YNModal puppyId="1" />
               </div>
             </div>
           </PuppyInfo>
@@ -182,9 +168,11 @@ function RegisteredPet() {
       <div>
         <Wrap>
           <PuppyInfo>
-            <div className="puppyImage">
-              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
-            </div>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+              </div>
+            </Link>
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[0].name}</h2>
@@ -197,24 +185,18 @@ function RegisteredPet() {
                 <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
                   <button type="button">세부정보</button>
                 </Link>
-                <button
-                  onClick={() => {
-                    deleteButton(puppy.puppyInfo[0].id);
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
+                <YNModal puppyId="0" />
               </div>
             </div>
           </PuppyInfo>
         </Wrap>
         <Wrap>
           <PuppyInfo>
-            <div className="puppyImage">
-              <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
-            </div>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+              </div>
+            </Link>
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[1].name}</h2>
@@ -227,24 +209,18 @@ function RegisteredPet() {
                 <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
                   <button type="button">세부정보</button>
                 </Link>
-                <button
-                  onClick={() => {
-                    deleteButton(puppy.puppyInfo[1].id);
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
+                <YNModal puppyId="1" />
               </div>
             </div>
           </PuppyInfo>
         </Wrap>
         <Wrap>
           <PuppyInfo>
-            <div className="puppyImage">
-              <PuppyImage src={puppy.puppyInfo[2].fileURL} alt="" />
-            </div>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[2].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[2].fileURL} alt="" />
+              </div>
+            </Link>
             <div className="puppyInfo">
               <div className="name-gender">
                 <h2>{puppy.puppyInfo[2].name}</h2>
@@ -257,15 +233,7 @@ function RegisteredPet() {
                 <Link to={`/pet-info-detail/${puppy.puppyInfo[2].id}`}>
                   <button type="button">세부정보</button>
                 </Link>
-                <button
-                  onClick={() => {
-                    deleteButton(puppy.puppyInfo[2].id);
-                  }}
-                  type="button"
-                  style={{ color: '#F38181' }}
-                >
-                  삭제하기
-                </button>
+                <YNModal puppyId="2" />
               </div>
             </div>
           </PuppyInfo>

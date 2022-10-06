@@ -4,21 +4,22 @@ import axios from 'axios';
 
 const initialStateValue = {
   loading: false,
-  vaccineInfo: [],
+  medicineInfo: [],
 };
 
-export const registerVaccine = createAsyncThunk('vaccine/registerVaccine', async (thunkAPI) => {
+export const registerMedicine = createAsyncThunk('medicine/registerMedicine', async (thunkAPI) => {
   try {
+    // console.log(thunkAPI);
     const accessToken = window.localStorage.getItem('accessToken');
     const res = await axios({
-      url: `${process.env.REACT_APP_BASE_URL}/api/vaccine`,
+      url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
       method: 'post',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       data: thunkAPI,
     }).then((res) => {
-      console.log('successfully registered vaccine alarm');
+      console.log('successfully registered medicine alarm');
       return res;
     });
     return res;
@@ -27,27 +28,29 @@ export const registerVaccine = createAsyncThunk('vaccine/registerVaccine', async
   }
 });
 
-export const fetchVaccineInfo = createAsyncThunk('vaccine/fetchVaccineInfo', async (thunkAPI) => {
+export const fetchMedicineInfo = createAsyncThunk('medicine/fetchMedicineInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get(`/api/vaccine/${thunkAPI}`).then((res) => res);
+    const res = await axiosInstance.get(`/api/medicine/${thunkAPI}`).then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const editVaccineInfo = createAsyncThunk('vaccine/editVaccineInfo', async (thunkAPI) => {
+export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', async (thunkAPI) => {
   try {
     const accessToken = window.localStorage.getItem('accessToken');
+    // console.log(thunkAPI);
     const res = await axios({
-      url: `${process.env.REACT_APP_BASE_URL}/api/vaccine`,
+      url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
       method: 'patch',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       data: thunkAPI,
     }).then((res) => {
-      console.log('successfully edited vaccine');
+      // console.log(res);
+      console.log('successfully edited medicine');
       return res;
     });
     return res;
@@ -56,83 +59,83 @@ export const editVaccineInfo = createAsyncThunk('vaccine/editVaccineInfo', async
   }
 });
 
-export const deleteVaccineInfo = createAsyncThunk('vaccine/deleteVaccineInfo', async (thunkAPI) => {
-  const vaccineId = thunkAPI;
+export const deleteMedicineInfo = createAsyncThunk('medicine/deleteMedicineInfo', async (thunkAPI) => {
+  const medicineId = thunkAPI;
   try {
-    const res = await axiosInstance.delete(`/api/vaccine/${vaccineId}`).then((res) => vaccineId);
-    return vaccineId;
+    const res = await axiosInstance.delete(`/api/medicine/${medicineId}`).then((res) => medicineId);
+    return medicineId;
   } catch (err) {
     // console.log(err);
     return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const vaccineSlice = createSlice({
+export const medicineSlice = createSlice({
   // Name of the reducer
-  name: 'vaccine',
+  name: 'medicine',
   initialState: {
     value: { initialStateValue },
   },
   reducers: {},
   extraReducers: {
     // POST
-    [registerVaccine.pending]: (state) => {
+    [registerMedicine.pending]: (state) => {
       // console.log('register pending');
     },
-    [registerVaccine.fulfilled]: (state, action) => {
+    [registerMedicine.fulfilled]: (state, action) => {
       console.log('register fulfilled');
     },
-    [registerVaccine.rejected]: (state) => {
+    [registerMedicine.rejected]: (state) => {
       console.log('register rejected');
     },
 
-    // GET
-    [fetchVaccineInfo.pending]: (state) => {
+    //  GET
+    [fetchMedicineInfo.pending]: (state) => {
       state.loading = false;
       // console.log('fetching pending');
     },
-    [fetchVaccineInfo.fulfilled]: (state, action) => {
-      state.vaccineInfo = action.payload.data;
+    [fetchMedicineInfo.fulfilled]: (state, action) => {
+      state.medicineInfo = action.payload.data;
       state.loading = true;
       console.log('fetching fulfilled');
     },
-    [fetchVaccineInfo.rejected]: (state) => {
+    [fetchMedicineInfo.rejected]: (state) => {
       state.loading = false;
       console.log('fetching rejected');
     },
 
     // PATCH
-    [editVaccineInfo.pending]: (state) => {
+    [editMedicineInfo.pending]: (state) => {
       state.loading = false;
       // console.log('edit pending');
     },
-    [editVaccineInfo.fulfilled]: (state, action) => {
+    [editMedicineInfo.fulfilled]: (state, action) => {
       state.loading = true;
       console.log('edit fulfilled');
     },
-    [editVaccineInfo.rejected]: (state) => {
+    [editMedicineInfo.rejected]: (state) => {
       state.loading = false;
       console.log('edit rejected');
     },
 
     // DELETE
-    [deleteVaccineInfo.pending]: (state) => {
+    [deleteMedicineInfo.pending]: (state) => {
       state.loading = false;
+      // console.log(state.loading);
       // console.log('pending');
     },
-    [deleteVaccineInfo.fulfilled]: (state, action) => {
+    [deleteMedicineInfo.fulfilled]: (state, action) => {
       state.loading = true;
       const id = action.payload;
-      state.vaccineInfo = state.vaccineInfo.filter((item) => item.id !== id);
+      state.medicineInfo = state.medicineInfo.filter((item) => item.id !== id);
     },
-    [deleteVaccineInfo.rejected]: (state) => {
+    [deleteMedicineInfo.rejected]: (state) => {
       state.loading = false;
       console.log('rejected');
     },
   },
 });
 
-// export const {  } = userSlice.actions;
-export const vaccineInfoSelector = (state) => state.vaccine.vaccineInfo;
-export const vaccineSelector = (state) => state.vaccine;
-export default vaccineSlice.reducer;
+export const medicineInfoSelector = (state) => state.medicine.medicineInfo;
+export const medicineSelector = (state) => state.medicine;
+export default medicineSlice.reducer;

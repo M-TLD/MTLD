@@ -16,7 +16,7 @@ import Chip from '@mui/material/Chip';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const StyledSurvey = styled.div`
-  padding-top: 3vh;
+  padding-top: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,10 +74,15 @@ const RegisterButton = styled.button`
   border: none;
   margin-top: 1vh;
   background-color: #ffeeb1;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 8px;
   color: #5c5c5c;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const RechoiceButton = styled.button`
@@ -86,10 +91,15 @@ const RechoiceButton = styled.button`
   border: none;
   margin-top: 1vh;
   background-color: #f2f2f2;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 8px;
   color: #5c5c5c;
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
 `;
 
 const StyledLink = styled(NavLink)`
@@ -98,7 +108,8 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
   background-color: #ffdcdc;
   border-radius: 8px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,7 +123,7 @@ const StyledLink = styled(NavLink)`
   }
 
   .bold {
-    font-weight: bold;
+    font-weight: 600;
   }
 `;
 
@@ -286,12 +297,20 @@ function SurveyQuestion() {
         </div>
         <RechoiceButton onClick={deleteCondition}>증상 다시 선택하기</RechoiceButton>
 
-        <StyledLink onClick={submitExecute}>
-          <div className="content">
-            <span>질병정보 </span>
-            <span className="bold">알아보기</span>
-          </div>
-        </StyledLink>
+        {submitRecord.length > 0 ? (
+          <StyledLink onClick={submitExecute}>
+            <div className="content">
+              <span>질병정보 </span>
+              <span className="bold">알아보기</span>
+            </div>
+          </StyledLink>
+        ) : (
+          <StyledLink>
+            <div className="content">
+              <span>증상을 먼저 선택해주세요!</span>
+            </div>
+          </StyledLink>
+        )}
       </StyledSurvey>
     );
   }

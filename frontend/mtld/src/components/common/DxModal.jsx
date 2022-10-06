@@ -119,6 +119,7 @@ function DxModal(props) {
             <Title>{props.title}</Title>
             <TitleEng>{props.engtitle}</TitleEng>
             <Content>{props.content}</Content>
+            <img src={props.imagelink} alt="" style={{ width: '250px', marginBottom: '1vh' }} />
           </DeleteDiv>
         </StyledModal>
       </ModalProvider>

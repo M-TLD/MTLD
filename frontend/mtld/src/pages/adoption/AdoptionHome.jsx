@@ -73,6 +73,7 @@ const StyledAdoptionHome = styled.div`
     padding-left: 0,
     width: 100%;
     font-size: 13px;
+    font-color: #5C5C5C;
     flex-wrap: nowrap;
     text-align: left;
   }
@@ -890,7 +891,7 @@ function AdoptionHome() {
   useEffect(() => {
     axios
       .get(
-        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=1000&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+        'https://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=100&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
       )
       .then((res) => res.data)
       .then((data) => {
@@ -1045,7 +1046,7 @@ function AdoptionHome() {
                 inputProps={{
                   ...params.inputProps,
                   style: {
-                    fontSize: '0.1rem',
+                    fontSize: 12,
                     paddingTop: 3,
                     paddingBottom: 3,
                   },
@@ -1082,7 +1083,7 @@ function AdoptionHome() {
                 label=""
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 12, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
@@ -1115,7 +1116,7 @@ function AdoptionHome() {
                 label=""
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 12, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
@@ -1167,7 +1168,7 @@ function AdoptionHome() {
                 }}
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 11, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
@@ -1284,7 +1285,7 @@ function AdoptionHome() {
         <span>을 기다리는 아이들</span>
       </div>
 
-      {loading || filtered.length === 0 ? (
+      {loading && filtered.length === 0 ? (
         <Spinner />
       ) : (
         <div className="contents">

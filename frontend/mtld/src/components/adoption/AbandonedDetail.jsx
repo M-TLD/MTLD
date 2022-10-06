@@ -53,7 +53,8 @@ const Button = styled.div`
   height: 4vh;
   background-color: #ffdcdc;
   border-radius: 8px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -77,7 +78,7 @@ function AbandonedDetail() {
   useEffect(() => {
     axios
       .get(
-        'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=1000&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
+        'https://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic?numOfRows=1000&upkind=417000&_type=json&state=protect&serviceKey=WXT8p8vqKpEWsfVbboNx3tvmBeHbzj87Zpv1VqSqNdCFz4qrvPfjNjuH3qrvfkdtSRzhZiSu0arymoQwLSp%2Bbg%3D%3D',
       )
       .then((res) => res.data)
       .then((data) => {
@@ -85,19 +86,17 @@ function AbandonedDetail() {
       });
   }, []);
 
-  // console.log(abandonedList);
-
   const [puppy, setPuppy] = useState([]);
 
   useEffect(() => {
     if (abandonedList.length > 0) {
-      console.log(abandonedList);
+      // console.log(abandonedList);
       const getIt = abandonedList.filter((abandoned) => abandoned.desertionNo === id);
       setPuppy(getIt[0]);
       setLoading(false);
     }
   }, [abandonedList]);
-  console.log('puppy', puppy);
+  // console.log('puppy', puppy);
 
   //  중성화 여부의 Y, N, U를 O, X, 알수없음으로 변경
   const [neutered, setNeutered] = useState();

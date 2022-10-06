@@ -10,13 +10,31 @@ const Wrap = styled.div`
 
   .container {
     margin: 5vw;
-    height: 62vh;
+    margin-top: 7vw;
+    height: 57vh;
     border-radius: 10px;
     background-color: #ffdcdc;
+    position: relative;
+
+    .commentKr {
+      position: absolute;
+      top: 23vh;
+      left: 10%;
+      font-size: 14px;
+      color: #5C5C5C;
+     }
+
+     .commentEng {
+      position: absolute;
+      top: 26vh;
+      left: 40%;
+      font-size: 14px;
+      color: #5C5C5C;
+     }
 
     .textArea {
       position: absolute;
-      top: 15vh;
+      top: 14vh;
       left: 50%;
       width: 80%;
       transform: translate(-50%, -50%);
@@ -25,23 +43,26 @@ const Wrap = styled.div`
       font-family: 'UhBeemunseulye';
       line-height: 0.5em;
       text-align: center;
+      color: #5C5C5C;
     }
+    
   }
-`;
+  `;
 
 const DogImage = styled.img`
   position: absolute;
-  top: 22vh;
-  left: 0;
+  height: 45vh;
+  top: 27vh;
+  left: 10%;
 `;
 
 const GoBackButton = styled.button`
-  margin-top: 10vh;
+  margin-top: 14vh;
   width: 70vw;
   height: 5vh;
   border: none;
-  background-color: #ffeeb1;
-  box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  background-color: #FFDCDC;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   color: #5c5c5c;
   border-radius: 10px;
@@ -59,6 +80,8 @@ function AdoptionSurveyHome() {
           <p>저의 새로운 가족이</p>
           <p>되어주실래요?</p>
         </div>
+        <p className="commentKr"># 사지말고 입양하세요</p>
+        <p className="commentEng"># Don&rsquo;t buy Adopt me</p>
       </div>
       <DogImage src={sadBeagle} />
       <Link to="/adoption-survey">

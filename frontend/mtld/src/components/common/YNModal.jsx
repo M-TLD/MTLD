@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal, { ModalProvider, BaseModalBackground } from 'styled-react-modal';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { deletePuppyInfo, puppySelector } from 'app/puppy';
+import { useDispatch, useSelector } from 'react-redux';
 
 const StyledModal = Modal.styled`
   width: 300px;
@@ -15,29 +17,25 @@ const StyledModal = Modal.styled`
   transition : all 0.05s ease-in-out;;
   `;
 
-const Atag = styled.a`
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 0.875rem 1rem;
-  text-decoration: none;
-  &:hover,
-  &:active {
-    cursor: pointer;
+const DeleteBtn = styled.button`
+  border-radius: 5px;
+  height: 1.5rem;
+  border: none;
+  background-color: #ffeeb1;
   }
 `;
 
 const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
-  margin: 5px 5px 0px 270px;  
-  color: #F38181;
+  margin: 5px 5px 0px 270px;
+  color: #f38181;
 `;
 
 const DeleteDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:center;  
-  color: #5C5C5C;
+  align-items: center;
+  color: #5c5c5c;
   font-size: 10px;
 `;
 
@@ -66,13 +64,15 @@ const Btn = styled.button`
   background-color: ${(props) => props.backgroundColor};
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
   margin-top: 5px;
-  color: #5C5C5C;
+  color: #5c5c5c;
   font-size: 14px;
   font-weight: 600;
   font-family: 'GmarketSansMedium';
 `;
 
-function FancyModalButton() {
+function FancyModalButton(props) {
+  const dispatch = useDispatch();
+  const puppy = useSelector(puppySelector);
   const [isOpen, setIsOpen] = useState(false);
   const [opacity, setOpacity] = useState(0);
 
@@ -93,44 +93,62 @@ function FancyModalButton() {
       setTimeout(resolve, 300);
     });
   }
+  const deleteButton = async (puppyId) => {
+    const action = await dispatch(deletePuppyInfo(puppyId));
+  };
 
-  return (
-    <div>
-      <Atag onClick={toggleModal}>상세정보보기</Atag>
-      <StyledModal
-        isOpen={isOpen}
-        afterOpen={afterOpen}
-        beforeClose={beforeClose}
-        onBackgroundClick={toggleModal}
-        onEscapeKeydown={toggleModal}
-        opacity={opacity}
-        backgroundProps={{ opacity }}
-      >
-        <StyledCloseRoundedIcon onClick={toggleModal} fontSize="medium" />
-        <DeleteDiv>
-          <Title>삭제하시겠습니까?</Title>
-          <Content>
-            관련 정보가 모두 삭제됩니다.
-          </Content>
-          <BtnDiv>
-            <Btn backgroundColor="#FFEEB1">예</Btn>
-            <Btn backgroundColor="#EEEEEE">아니오</Btn>
-          </BtnDiv>
-        </DeleteDiv>
-      </StyledModal>
-    </div>
-  );
+  if (props) {
+    return (
+      <div className="NoticeModal">
+        <ModalProvider backgroundComponent={FadingBackground}>
+          <div>
+            <DeleteBtn type="button" onClick={toggleModal} style={{ color: '#F38181' }}>
+              삭제하기
+            </DeleteBtn>
+            <StyledModal
+              isOpen={isOpen}
+              afterOpen={afterOpen}
+              beforeClose={beforeClose}
+              onBackgroundClick={toggleModal}
+              onEscapeKeydown={toggleModal}
+              opacity={opacity}
+              backgroundProps={{ opacity }}
+            >
+              <StyledCloseRoundedIcon onClick={toggleModal} fontSize="medium" />
+              <DeleteDiv>
+                <Title>삭제하시겠습니까?</Title>
+                <Content>관련 정보가 모두 삭제됩니다.</Content>
+                <BtnDiv>
+                  <Btn
+                    backgroundColor="#FFEEB1"
+                    onClick={() => {
+                      console.log(props);
+                      deleteButton(puppy.puppyInfo[props.props.puppyId].id);
+                    }}
+                  >
+                    예
+                  </Btn>
+                  <Btn backgroundColor="#EEEEEE">아니오</Btn>
+                </BtnDiv>
+              </DeleteDiv>
+            </StyledModal>
+          </div>
+        </ModalProvider>
+      </div>
+    );
+  }
 }
+
 const FadingBackground = styled(BaseModalBackground)`
   opacity: ${(props) => props.opacity};
   transition: all 0.3s ease-in-out;
 `;
 
-function YNModal() {
+function YNModal(props) {
   return (
-    <div className="NoticeModal">
+    <div className="YNModal">
       <ModalProvider backgroundComponent={FadingBackground}>
-        <FancyModalButton />
+        <FancyModalButton props={props} />
       </ModalProvider>
     </div>
   );
