@@ -7,6 +7,7 @@ import YellowPaw from 'assets/paw_yellow.png';
 import BluePaw from 'assets/paw_blue.png';
 import Search from 'assets/search.png';
 import DxModal from 'components/common/DxModal';
+import { NavLink } from 'react-router-dom';
 
 const StyledResult = styled.div`
   display: flex;
@@ -86,6 +87,12 @@ const StyledResult = styled.div`
   .r-text {
     word-break: keep-all;
   }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const BannerImage = styled.img`
@@ -94,6 +101,30 @@ const BannerImage = styled.img`
   filter: brightness(120%);
 `;
 
+const StyledLink = styled(NavLink)`
+  width: 330px;
+  height: 5vh;
+  text-decoration: none;
+  background-color: #ffeeb1;
+  border-radius: 8px;
+  // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #5c5c5c;
+  font-size: 18px;
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
+
+  .content {
+    font-size: 13pt;
+  }
+
+  #bold {
+    font-weight: bold;
+  }
+`;
 function SurveyResult() {
   const report = useSelector((state) => state.diagnosis.value);
 
@@ -188,6 +219,16 @@ function SurveyResult() {
             <span className="r-text">{recommend[num]}</span>
           </div>
         ))}
+      </div>
+
+      <div className="button">
+        <StyledLink to="/hospital">
+          <div className="content">
+            <span>가까운</span>
+            <span id="bold"> 동물병원</span>
+            <span> 찾기</span>
+          </div>
+        </StyledLink>
       </div>
     </StyledResult>
   );
