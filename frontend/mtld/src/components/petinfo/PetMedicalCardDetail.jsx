@@ -414,6 +414,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="예방접종일자"
                               value={dhpplValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const dhpplDate = date.toISOString().slice(0, 10);
@@ -465,6 +466,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="예방접종일자"
                               value={coronaValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const coronaDate = date.toISOString().slice(0, 10);
@@ -515,6 +517,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="예방접종일자"
                               value={kennelValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const kennelDate = date.toISOString().slice(0, 10);
@@ -565,6 +568,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="예방접종일자"
                               value={rabisValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const rabisDate = date.toISOString().slice(0, 10);
@@ -602,7 +606,7 @@ function PetMedicalCardDetail() {
                 </Box>
               </div>
             </div>
-            { medicineInfo && medicineInfo.length > 0 ? (
+            {medicineInfo && medicineInfo.length > 0 ? (
               <button className="saveButton" type="submit" onClick={editVaccine}>
                 알림 수정하기
               </button>
@@ -633,6 +637,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="복용일자"
                               value={dirofilariaValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const dirofilariaDate = date.toISOString().slice(0, 10);
@@ -687,6 +692,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="복용일자"
                               value={tickValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const tickDate = date.toISOString().slice(0, 10);
@@ -741,6 +747,7 @@ function PetMedicalCardDetail() {
                             <DatePicker
                               label="예방접종일자"
                               value={anthelminticValue}
+                              minDate={new Date()}
                               onChange={(newValue) => {
                                 const date = newValue.$d;
                                 const anthelminticDate = date.toISOString().slice(0, 10);
