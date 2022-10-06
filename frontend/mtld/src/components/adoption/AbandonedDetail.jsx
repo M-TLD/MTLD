@@ -90,13 +90,13 @@ function AbandonedDetail() {
 
   useEffect(() => {
     if (abandonedList.length > 0) {
-      console.log(abandonedList);
+      // console.log(abandonedList);
       const getIt = abandonedList.filter((abandoned) => abandoned.desertionNo === id);
       setPuppy(getIt[0]);
       setLoading(false);
     }
   }, [abandonedList]);
-  console.log('puppy', puppy);
+  // console.log('puppy', puppy);
 
   //  중성화 여부의 Y, N, U를 O, X, 알수없음으로 변경
   const [neutered, setNeutered] = useState();
