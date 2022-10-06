@@ -13,15 +13,12 @@ def disease_predict(request):
    if request.method=='POST':
       data=json.loads(request.body.decode('utf-8'))
       print(' '.join(data))
-      condition=' '.join(data) 
-      # condition="E058 E061 F006 F022"
+      condition=' '.join(data)
 
       df = pd.read_csv('disease_prediction/disease_data/disease.csv',engine='python', encoding='cp949')
 
-      condition_split=condition.split()
       current_condition=pd.DataFrame(data=[['9999', condition]], columns=['num','condition'])
       df=df.append(current_condition)
-      # df.set_index('num')
 
       df_condition=df['condition'].fillna('').values
       index=df['num']
@@ -31,12 +28,10 @@ def disease_predict(request):
       tf_idf_df=pd.DataFrame(tf_idf_model.transform(df_condition).toarray(), columns=word_list)
       cos_sim_df=pd.DataFrame(cosine_similarity(tf_idf_df,tf_idf_df),columns=index,index=index)
 
-      # word_df=tf_idf_df.max(axis=0)
-      # for c in condition_split:
-      #    word_df[c]=1
-      # word_df.sort_values().index[0:5]
-
       result=cos_sim_df.loc['9999']
+      weight_index=['112','5','1047','355','389','4','926','491','542']
+      for x in index:
+         result[x]=result[x]+0.1
       result['9999']=0
       result=result.sort_values(ascending=False)
       data=df.loc[result.index[0:3]-1][['disease_name','define','image_url']]
