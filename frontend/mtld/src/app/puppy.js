@@ -53,9 +53,7 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
 
 export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user/main').then((res) => {
-      console.log(res);
-    });
+    const res = await axiosInstance.get('/api/user/main').then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -159,7 +157,6 @@ export const puppySlice = createSlice({
     //  GET
     [fetchPuppyInfo.pending]: (state) => {
       state.loading = false;
-      // console.log(state.loading);
       // console.log('fetching pending');
     },
     [fetchPuppyInfo.fulfilled]: (state, action) => {
@@ -176,11 +173,9 @@ export const puppySlice = createSlice({
 
     [fetchPupInfo.pending]: (state) => {
       state.loading = false;
-      // console.log(state.loading);
       // console.log('fetching pending');
     },
     [fetchPupInfo.fulfilled]: (state, action) => {
-      // console.log(typeof state.puppyInfo); // object
       state.pupInfo = action.payload.data;
       state.loading = true;
       console.log('pup fetching fulfilled');

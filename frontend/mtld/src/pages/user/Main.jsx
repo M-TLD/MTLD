@@ -140,15 +140,12 @@ function Main() {
   const alarm = useSelector(alarmSelector);
   const dispatch = useDispatch();
 
-  const [vaccineAlarm, setVaccineAlarm] = useState({});
-  const [vaccineDday, setVaccineDday] = useState('');
-  const [vaccineName, setVaccineName] = useState('');
-  const [medicineDday, setMedicineDday] = useState('');
-  const [medicineName, setMedicineName] = useState('');
-  const [medicineAlarm, setMedicineAlarm] = useState('');
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFinished, setIsFinished] = useState(false);
+  const vaccineAlarm = [];
+  const [medicineAlarm, setMedicineAlarm] = useState([]);
+  const [vaccineDday, setVaccineDday] = useState([]);
+  const [vaccineName, setVaccineName] = useState([]);
+  const [medicineDday, setMedicineDday] = useState([]);
+  const [medicineName, setMedicineName] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPuppyInfo());
@@ -163,73 +160,75 @@ function Main() {
       }
     };
     triggerAlarm().then((res) => {
-      for (let i = 0; i < res[0].vaccinations.length; i += 1) {
-        const vaccineAlarmValue = res[0].vaccinations.slice();
-        const medicineAlarmValue = res[0].takingMedicines.slice();
-        const vaccineResult = vaccineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
-        const medicineResult = medicineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
-        setVaccineAlarm({ date: vaccineResult[0].expectDate, vaccineId: vaccineResult[0].vaccineId });
-        setMedicineAlarm({ date: medicineResult[0].expectDate, medicineId: medicineResult[0].medicineId });
+      let vaccResult = {};
+      let medResult = {};
+      console.log(res);
+      for (let i = 0; i < res.length; i += 1) {
+        // 강아지 마릿수
+        for (let j = 0; j < res[i].vaccinations.length; j += 1) {
+          const vaccineAlarmValue = res[i].vaccinations.slice();
+          const vaccineResult = vaccineAlarmValue.sort((a, b) => (a.expectDate < b.expectDate ? 1 : -1));
+          vaccResult = { date: vaccineResult[j].expectDate, vaccineId: vaccineResult[j].vaccineId };
+        }
+        console.log(vaccResult);
+        const dday = new Date(vaccResult.date);
+        const today = new Date(); // 오늘 날짜 객체 생성
+        const yy = today.getFullYear();
+        const mm = dday.getMonth();
+        const dd = dday.getDate();
+
+        const dDay = new Date(yy, mm, dd);
+        const diffDate = Math.ceil((dDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+        if (isNaN(diffDate)) {
+          console.log('is NaN');
+        } else {
+          setVaccineDday((oldArray) => [...oldArray, diffDate]);
+        }
+
+        if (vaccResult.vaccineId === 1) {
+          setVaccineName((oldArray) => [...oldArray, 'DHPPL']);
+        } else if (vaccResult.vaccineId === 2) {
+          setVaccineName((oldArray) => [...oldArray, '코로나']);
+        } else if (vaccResult.vaccineId === 3) {
+          setVaccineName((oldArray) => [...oldArray, '켄넬코프']);
+        } else if (vaccResult.vaccineId === 4) {
+          setVaccineName((oldArray) => [...oldArray, '광견병']);
+        }
+
+        for (let k = 0; k < res[i].takingMedicines.length; k += 1) {
+          const medicineAlarmValue = res[i].takingMedicines.slice();
+          const medicineResult = medicineAlarmValue.sort((a, b) => (a.expectDate < b.expectDate ? 1 : -1));
+          medResult = { date: medicineResult[k].expectDate, medicineId: medicineResult[k].medicineId };
+        }
+
+        const Dday = new Date(medResult.date);
+        const medtoday = new Date(); // 오늘 날짜 객체 생성
+        const medyy = medtoday.getFullYear();
+        const medmm = Dday.getMonth();
+        const meddd = Dday.getDate();
+
+        const medDday = new Date(medyy, medmm, meddd);
+        const medDiffDate = Math.ceil((medDday.getTime() - medtoday.getTime()) / (24 * 60 * 60 * 1000));
+
+        if (isNaN(medDiffDate)) {
+          console.log('is NaN');
+        } else {
+          setMedicineDday((oldArray) => [...oldArray, medDiffDate]);
+        }
+
+        if (medResult.medicineId === 1) {
+          setMedicineName((oldArray) => [...oldArray, '심장사상충약']);
+        } else if (medResult.medicineId === 2) {
+          setMedicineName((oldArray) => [...oldArray, '진드기']);
+        } else if (medResult.medicineId === 3) {
+          setMedicineName((oldArray) => [...oldArray, '구충제']);
+        }
       }
     });
   }, []);
 
-  useEffect(() => {
-    medDdayCounter();
-    medicineKind();
-    vaccDdayCounter();
-    vaccineKind();
-  }, [vaccineAlarm, medicineAlarm]);
-
-  const vaccDdayCounter = () => {
-    const dday = new Date(vaccineAlarm.date);
-    const today = new Date(); // 오늘 날짜 객체 생성
-    const yy = today.getFullYear();
-    const mm = dday.getMonth();
-    const dd = dday.getDate();
-
-    const dDay = new Date(yy, mm, dd);
-    const diffDate = Math.ceil((dDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
-
-    setVaccineDday(diffDate);
-  };
-
-  const medDdayCounter = () => {
-    const dday = new Date(vaccineAlarm.date);
-    const today = new Date(); // 오늘 날짜 객체 생성
-    const yy = today.getFullYear();
-    const mm = dday.getMonth();
-    const dd = dday.getDate();
-
-    const dDay = new Date(yy, mm, dd);
-    const diffDate = Math.ceil((dDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
-
-    setMedicineDday(diffDate);
-  };
-
-  const vaccineKind = () => {
-    if (vaccineAlarm.vaccineId === 1) {
-      setVaccineName('DHPPL');
-    } else if (vaccineAlarm.vaccineId === 2) {
-      setVaccineName('코로나');
-    } else if (vaccineAlarm.vaccineId === 3) {
-      setVaccineName('켄넬코프');
-    } else if (vaccineAlarm.vaccineId === 4) {
-      setVaccineName('광견병');
-    }
-  };
-
-  const medicineKind = () => {
-    if (medicineAlarm.medicineId === 1) {
-      setMedicineName('심장사상충약');
-    } else if (vaccineAlarm.vaccineId === 2) {
-      setMedicineName('진드기약');
-    } else if (vaccineAlarm.vaccineId === 3) {
-      setMedicineName('구충제');
-    }
-  };
-
-  if (!puppy.puppyInfo && isLoading) {
+  if (!puppy.puppyInfo) {
     return <Spinner />;
   }
 
@@ -277,12 +276,20 @@ function Main() {
               </Welcome>
               <StyledLink to={`/pet-medical-card/${pup.id}`}>
                 <Alarm>
-                  <span>
-                    {vaccineName} 접종까지 {vaccineDday}일 남았어요!
-                  </span>
-                  <span>
-                    {medicineName} {medicineDday}일까지 잊지 말아주세요!
-                  </span>
+                  {!vaccineName[i] || vaccineDday.length === 0 ? (
+                    <span style={{ color: '#81e3d7' }}>여기를 눌러서 접종정보를 입력해주개!</span>
+                  ) : (
+                    <span>
+                      {vaccineName[i]} 접종까지 {vaccineDday[i]}일 남았어요!
+                    </span>
+                  )}
+                  {!medicineName[i] || medicineDday.length === 0 ? (
+                    <span style={{ color: '#81e3d7' }}>222</span>
+                  ) : (
+                    <span>
+                      {medicineName[i]} {medicineDday[i]}일 안에 먹어야해!
+                    </span>
+                  )}
                 </Alarm>
               </StyledLink>
             </StyledSwiperSlide>
