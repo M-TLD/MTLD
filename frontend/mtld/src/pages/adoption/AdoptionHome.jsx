@@ -1285,7 +1285,7 @@ function AdoptionHome() {
         <span>을 기다리는 아이들</span>
       </div>
 
-      {loading || filtered.length === 0 ? (
+      {loading && filtered.length === 0 ? (
         <Spinner />
       ) : (
         <div className="contents">
