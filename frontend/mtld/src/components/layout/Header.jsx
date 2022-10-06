@@ -95,7 +95,7 @@ function Header() {
   }, []);
 
   if (locationNow.pathname === '/login') return null;
-  if (!user.loading) {
+  if (!user.loading || !puppy.loaindg) {
     return (
       <StyledHeader>
         <Accordion expanded={expand} sx={{ bgcolor: '#ffeeb1', zIndex: '100', width: '100vw', position: 'fixed' }}>
