@@ -101,6 +101,10 @@
 
 # 🐾 산출물
 
+- [파일트리](exec/%ED%8C%8C%EC%9D%BC%ED%8A%B8%EB%A6%AC.md)
+- [컨벤션](exec/Convention.md)
+- [포팅 매뉴얼](exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf)
+
 - [와이어프레임 & 스토리보드(figma)](https://www.figma.com/file/bB6OcIAQ0FvFCdPSFEOKWE/MTLD?node-id=55%3A1306)
 
 ![Untitled](MTLD%20README%2072983d50a7c14330b2e98049f3e1f558/Untitled.png)
@@ -113,10 +117,7 @@
 
 ![Untitled](MTLD%20README%2072983d50a7c14330b2e98049f3e1f558/Untitled%202.png)
 
-- 파일트리
-- [컨벤션](exec/Convention.md)
 - 발표 PPT
-- [포팅 매뉴얼](exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.pdf)
 
 # 🐾 협업툴
 
