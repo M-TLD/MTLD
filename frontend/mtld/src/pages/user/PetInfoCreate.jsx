@@ -900,6 +900,11 @@ function PetInfoCreate() {
     }
   };
 
+  function convertUTCDateToLocalDate(date) {
+    const newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+    return newDate;
+  }
+
   return (
     <Wrap>
       <Title>
@@ -989,7 +994,7 @@ function PetInfoCreate() {
           <DatePicker
             label="생년월일/입양일"
             inputFormat="YYYY/MM/DD"
-            value={dateValue}
+            value={convertUTCDateToLocalDate(dateValue)}
             onChange={handleChange}
             renderInput={({ inputRef, inputProps, InputProps }) => (
               <Box

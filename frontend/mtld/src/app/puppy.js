@@ -165,11 +165,11 @@ export const puppySlice = createSlice({
       state.loading = true;
       // console.log(action.payload.data[0]);
       // console.log('puppy info redux store:', state.puppyInfo);
-      // console.log('fetching fulfilled');
+      console.log('puppy fetching fulfilled');
     },
     [fetchPuppyInfo.rejected]: (state) => {
       state.loading = false;
-      console.log('fetching rejected');
+      console.log('puppy fetching rejected');
     },
 
     [fetchPupInfo.pending]: (state) => {
@@ -181,11 +181,11 @@ export const puppySlice = createSlice({
       // console.log(typeof state.puppyInfo); // object
       state.pupInfo = action.payload.data;
       state.loading = true;
-      // console.log('fetching fulfilled');
+      console.log('pup fetching fulfilled');
     },
     [fetchPupInfo.rejected]: (state) => {
       state.loading = false;
-      console.log('fetching rejected');
+      console.log('pup fetching rejected');
     },
 
     [fetchAlarmInfo.pending]: (state) => {
@@ -207,13 +207,13 @@ export const puppySlice = createSlice({
     [deletePuppyInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      // console.log('pending');
+      // console.log('delete pending');
     },
     [deletePuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
       const id = action.payload;
-      // console.log(id);
       state.puppyInfo = state.puppyInfo.filter((item) => item.id !== id);
+      console.log('delete fulfilled');
     },
     [deletePuppyInfo.rejected]: (state) => {
       state.loading = false;
