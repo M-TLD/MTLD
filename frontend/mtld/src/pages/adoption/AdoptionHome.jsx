@@ -1046,7 +1046,7 @@ function AdoptionHome() {
                 inputProps={{
                   ...params.inputProps,
                   style: {
-                    fontSize: '0.1rem',
+                    fontSize: 12,
                     paddingTop: 3,
                     paddingBottom: 3,
                   },
@@ -1083,7 +1083,7 @@ function AdoptionHome() {
                 label=""
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 12, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
@@ -1116,7 +1116,7 @@ function AdoptionHome() {
                 label=""
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 12, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
@@ -1168,7 +1168,7 @@ function AdoptionHome() {
                 }}
                 inputProps={{
                   ...params.inputProps,
-                  style: { fontSize: '0.1rem', paddingTop: 3, paddingBottom: 3 },
+                  style: { fontSize: 11, paddingTop: 3, paddingBottom: 3 },
                 }}
               />
             )}
