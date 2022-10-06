@@ -160,7 +160,12 @@ function SurveyResult() {
 
           <div className="engtitle">{r.disease_name.split('(')[1].slice(0, -1)}</div>
           <div className="modal">
-            <DxModal title={r.disease_name.split('(')[0]} engtitle={r.disease_name.split('(')[1].slice(0, -1)} content={r.define} />
+            <DxModal
+              title={r.disease_name.split('(')[0]}
+              engtitle={r.disease_name.split('(')[1].slice(0, -1)}
+              content={r.define}
+              imagelink={r.image_url}
+            />
           </div>
         </div>
       ))}
