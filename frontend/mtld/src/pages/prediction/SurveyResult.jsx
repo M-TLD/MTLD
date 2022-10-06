@@ -221,7 +221,6 @@ function SurveyResult() {
         ))}
       </div>
 
-
       <div className="button">
         <StyledLink to="/hospital">
           <div className="content">
@@ -231,7 +230,6 @@ function SurveyResult() {
           </div>
         </StyledLink>
       </div>
-      
     </StyledResult>
   );
 }
