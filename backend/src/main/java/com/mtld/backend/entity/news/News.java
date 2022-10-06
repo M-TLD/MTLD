@@ -23,7 +23,7 @@ public class News extends BaseEntity {
 
     private String link;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 50000)
     private String summary;
 
     private String writer;
@@ -34,7 +34,7 @@ public class News extends BaseEntity {
 
     private String media;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 50000)
     private String mainText;
 
     public News(String title, String link, String summary, String writer, String date, String image, String media, String mainText) {
