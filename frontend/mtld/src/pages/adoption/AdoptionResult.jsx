@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 
 function AdoptionResult() {
   const score = useSelector((state) => state.score.value);
-  console.log('total score:', score);
 
   if (score >= 80) {
     return <QualifiedTestResult />;

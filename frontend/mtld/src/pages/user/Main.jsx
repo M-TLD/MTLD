@@ -168,11 +168,10 @@ function Main() {
         const medicineAlarmValue = res[0].takingMedicines.slice();
         const vaccineResult = vaccineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
         const medicineResult = medicineAlarmValue.sort((a, b) => (a.expectDate > b.expectDate ? 1 : -1));
-        console.log(vaccineResult);
         setVaccineAlarm({ date: vaccineResult[0].expectDate, vaccineId: vaccineResult[0].vaccineId });
         setMedicineAlarm({ date: medicineResult[0].expectDate, medicineId: medicineResult[0].medicineId });
-    }
-});
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -183,7 +182,6 @@ function Main() {
   }, [vaccineAlarm, medicineAlarm]);
 
   const vaccDdayCounter = () => {
-    console.log('dday');
     const dday = new Date(vaccineAlarm.date);
     const today = new Date(); // 오늘 날짜 객체 생성
     const yy = today.getFullYear();
@@ -197,7 +195,6 @@ function Main() {
   };
 
   const medDdayCounter = () => {
-    console.log('dday');
     const dday = new Date(vaccineAlarm.date);
     const today = new Date(); // 오늘 날짜 객체 생성
     const yy = today.getFullYear();
@@ -280,8 +277,12 @@ function Main() {
               </Welcome>
               <StyledLink to={`/pet-medical-card/${pup.id}`}>
                 <Alarm>
-                  <span>{vaccineName} 접종까지 {vaccineDday}일 남았어요!</span>
-                  <span>{medicineName} {medicineDday}일까지 잊지 말아주세요!</span>
+                  <span>
+                    {vaccineName} 접종까지 {vaccineDday}일 남았어요!
+                  </span>
+                  <span>
+                    {medicineName} {medicineDday}일까지 잊지 말아주세요!
+                  </span>
                 </Alarm>
               </StyledLink>
             </StyledSwiperSlide>

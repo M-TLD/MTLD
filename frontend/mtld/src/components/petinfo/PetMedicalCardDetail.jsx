@@ -345,7 +345,7 @@ function PetMedicalCardDetail() {
     const loadData = async () => {
       const action = await dispatch(fetchVaccineInfo(params.petId));
       if (isFulfilled(action)) {
-        console.log(action.payload);
+        // console.log(action.payload);
         return action.payload.data;
       }
     };
@@ -366,7 +366,7 @@ function PetMedicalCardDetail() {
   }, []);
 
   useEffect(() => {
-    console.log(vaccineInfo);
+    // console.log(vaccineInfo);
     const loadData = async () => {
       const action = await dispatch(fetchMedicineInfo(params.petId));
       if (isFulfilled(action)) {

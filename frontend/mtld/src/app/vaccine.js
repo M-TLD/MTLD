@@ -29,10 +29,7 @@ export const registerVaccine = createAsyncThunk('vaccine/registerVaccine', async
 
 export const fetchVaccineInfo = createAsyncThunk('vaccine/fetchVaccineInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get(`/api/vaccine/${thunkAPI}`).then((res) => {
-      console.log('vaccine date', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get(`/api/vaccine/${thunkAPI}`).then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -62,10 +59,7 @@ export const editVaccineInfo = createAsyncThunk('vaccine/editVaccineInfo', async
 export const deleteVaccineInfo = createAsyncThunk('vaccine/deleteVaccineInfo', async (thunkAPI) => {
   const vaccineId = thunkAPI;
   try {
-    const res = await axiosInstance.delete(`/api/vaccine/${vaccineId}`).then((res) => {
-      console.log('deleted?', res);
-      return vaccineId;
-    });
+    const res = await axiosInstance.delete(`/api/vaccine/${vaccineId}`).then((res) => vaccineId);
     return vaccineId;
   } catch (err) {
     // console.log(err);
@@ -83,7 +77,7 @@ export const vaccineSlice = createSlice({
   extraReducers: {
     // POST
     [registerVaccine.pending]: (state) => {
-      console.log('register pending');
+      // console.log('register pending');
     },
     [registerVaccine.fulfilled]: (state, action) => {
       console.log('register fulfilled');
@@ -95,7 +89,7 @@ export const vaccineSlice = createSlice({
     // GET
     [fetchVaccineInfo.pending]: (state) => {
       state.loading = false;
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [fetchVaccineInfo.fulfilled]: (state, action) => {
       state.vaccineInfo = action.payload.data;
@@ -110,7 +104,7 @@ export const vaccineSlice = createSlice({
     // PATCH
     [editVaccineInfo.pending]: (state) => {
       state.loading = false;
-      console.log('edit pending');
+      // console.log('edit pending');
     },
     [editVaccineInfo.fulfilled]: (state, action) => {
       state.loading = true;
@@ -124,8 +118,7 @@ export const vaccineSlice = createSlice({
     // DELETE
     [deleteVaccineInfo.pending]: (state) => {
       state.loading = false;
-      // console.log(state.loading);
-      console.log('pending');
+      // console.log('pending');
     },
     [deleteVaccineInfo.fulfilled]: (state, action) => {
       state.loading = true;

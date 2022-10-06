@@ -92,16 +92,14 @@ function MyPage() {
       .get('api/user')
       .then((res) => {
         dispatch(login({ id: res.data.id, email: res.data.oauthId, name: res.data.name }));
-        console.log('user information:', res);
+        // console.log('user information:', res);
         setLoading(false);
       })
       .catch((err) => {
         console.log('login fail. go back to login page');
-        console.log(err);
         navigate('/login');
       });
     dispatch(fetchPuppyInfo());
-    console.log('hello');
   }, []);
 
   if (!puppy.puppyInfo || isLoading) {

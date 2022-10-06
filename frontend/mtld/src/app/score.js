@@ -10,7 +10,7 @@ export const scoreSlice = createSlice({
   reducers: {
     sumScore: (state) => {
       state.value += 10;
-      console.log('acc score: ', state.value);
+      // console.log('acc score: ', state.value);
     },
     resetScore: (state) => {
       state.value = 0;

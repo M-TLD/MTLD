@@ -9,7 +9,7 @@ const initialStateValue = {
 
 export const registerMedicine = createAsyncThunk('medicine/registerMedicine', async (thunkAPI) => {
   try {
-    console.log(thunkAPI);
+    // console.log(thunkAPI);
     const accessToken = window.localStorage.getItem('accessToken');
     const res = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
@@ -30,10 +30,7 @@ export const registerMedicine = createAsyncThunk('medicine/registerMedicine', as
 
 export const fetchMedicineInfo = createAsyncThunk('medicine/fetchMedicineInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get(`/api/medicine/${thunkAPI}`).then((res) => {
-      console.log('medicine date', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get(`/api/medicine/${thunkAPI}`).then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -43,7 +40,7 @@ export const fetchMedicineInfo = createAsyncThunk('medicine/fetchMedicineInfo', 
 export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', async (thunkAPI) => {
   try {
     const accessToken = window.localStorage.getItem('accessToken');
-    console.log(thunkAPI);
+    // console.log(thunkAPI);
     const res = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/api/medicine`,
       method: 'patch',
@@ -52,7 +49,7 @@ export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', as
       },
       data: thunkAPI,
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       console.log('successfully edited medicine');
       return res;
     });
@@ -65,10 +62,7 @@ export const editMedicineInfo = createAsyncThunk('medicine/editMedicineInfo', as
 export const deleteMedicineInfo = createAsyncThunk('medicine/deleteMedicineInfo', async (thunkAPI) => {
   const medicineId = thunkAPI;
   try {
-    const res = await axiosInstance.delete(`/api/medicine/${medicineId}`).then((res) => {
-      console.log('deleted?', res);
-      return medicineId;
-    });
+    const res = await axiosInstance.delete(`/api/medicine/${medicineId}`).then((res) => medicineId);
     return medicineId;
   } catch (err) {
     // console.log(err);
@@ -86,7 +80,7 @@ export const medicineSlice = createSlice({
   extraReducers: {
     // POST
     [registerMedicine.pending]: (state) => {
-      console.log('register pending');
+      // console.log('register pending');
     },
     [registerMedicine.fulfilled]: (state, action) => {
       console.log('register fulfilled');
@@ -98,7 +92,7 @@ export const medicineSlice = createSlice({
     //  GET
     [fetchMedicineInfo.pending]: (state) => {
       state.loading = false;
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [fetchMedicineInfo.fulfilled]: (state, action) => {
       state.medicineInfo = action.payload.data;
@@ -113,7 +107,7 @@ export const medicineSlice = createSlice({
     // PATCH
     [editMedicineInfo.pending]: (state) => {
       state.loading = false;
-      console.log('edit pending');
+      // console.log('edit pending');
     },
     [editMedicineInfo.fulfilled]: (state, action) => {
       state.loading = true;
@@ -128,7 +122,7 @@ export const medicineSlice = createSlice({
     [deleteMedicineInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      console.log('pending');
+      // console.log('pending');
     },
     [deleteMedicineInfo.fulfilled]: (state, action) => {
       state.loading = true;
