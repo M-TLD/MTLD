@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        System.out.println("여기여기@@@");
         // HttpBody 객체 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", GRANT_TYPE);
@@ -132,7 +131,6 @@ public class UserServiceImpl implements UserService {
                 String.class
         );
 
-        log.info("profileResponse.toString() ={}", accountInfoResponse.toString());
 
         // JSON Parsing (-> kakaoAccountDto)
         ObjectMapper objectMapper = new ObjectMapper();
@@ -160,7 +158,6 @@ public class UserServiceImpl implements UserService {
         // kakaoAccessToken 으로 회원정보 받아오기
         User user = getKakaoInfo(kakaoAccessToken);
 
-        log.info("user = {}", user);
         Optional<User> findByOauthId = userRepository.findByOauthId(user.getOauthId());
 
         User loginUser;
@@ -190,25 +187,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TokenDto reissue(ReissueDto reissueDto) {
-        log.info("Reissue 서비스 시작 ####### reissueDto = {}", reissueDto);
         if (!jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
-            log.info("refresh token 이 유효하지 않음");
             throw new BadRequestException("Refresh Token 이 유효하지 않습니다.");
         }
         Authentication authentication = jwtTokenProvider.getAuthentication(reissueDto.getAccessToken());
-        log.info("authentication = {}", authentication.toString());
-        log.info("authentication.name = {}", authentication.getName());
         String refreshToken = redisTemplate.opsForValue().get(authentication.getName());
-        log.info("reids에서 refreshToken가져오기");
-        log.info("refreshToken = {}", refreshToken);
         if (refreshToken == null || !refreshToken.equals(reissueDto.getRefreshToken())) {
-            log.info("토큰의 유저 정보가 일치하지 않음");
             throw new BadRequestException("토큰의 유저 정보가 일치하지 않습니다.");
         }
         User user = userRepository.findByOauthId(authentication.getName()).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        log.info("user = {}", user.getOauthId());
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(user.getOauthId(), user.getId());
-        log.info("tokenDto = {}", tokenDto);
         redisTemplate.opsForValue().set(
                 authentication.getName(),
                 tokenDto.getRefreshToken(),

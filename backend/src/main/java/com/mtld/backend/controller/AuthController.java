@@ -39,10 +39,7 @@ public class AuthController {
     public ResponseEntity<?> reissue(@RequestHeader(value = "Access-Token") String accessToken,
                                      @RequestHeader(value = "Refresh-Token") String refreshToken) {
 
-        log.info("accessToken = {}", accessToken);
-        log.info("refreshToken = {}", refreshToken);
         TokenDto reissue = userService.reissue(new ReissueDto(accessToken, refreshToken));
-        log.info("@@@@@@@@@@@@@@@@@@@리이슈 성공@@@@@@@@@@@@@@@@@@@@@@@@");
         return ResponseEntity.status(OK).body(reissue);
     }
 }
