@@ -29,8 +29,8 @@ def disease_predict(request):
       cos_sim_df=pd.DataFrame(cosine_similarity(tf_idf_df,tf_idf_df),columns=index,index=index)
 
       result=cos_sim_df.loc['9999']
-      weight_index=['112','5','1047','355','389','4','926','491','542']
-      for x in index:
+      weight_index=[112,5,1047,355,389,4,926,491,542]
+      for x in weight_index:
          result[x]=result[x]+0.1
       result['9999']=0
       result=result.sort_values(ascending=False)
