@@ -17,13 +17,14 @@ const QuizDiv = styled.div`
 const StartButton = styled.button`
   text-align: center;
   border: none;
-  font-weight: 800;
+  font-weight: 600;
   border-radius: 30px;
   width: 60vw;
   background: #ffdcdc;
   color: #fff;
   font-family: GmarketSansMedium;
-  box-shadow: 0px 3px 5px 0.1px #888888;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  margin-top: 10px;
 `;
 
 const AdoptionSurvey = () => {

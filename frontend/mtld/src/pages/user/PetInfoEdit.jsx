@@ -90,9 +90,13 @@ const RegisterButton = styled.button`
   height: 5vh;
   border: none;
   background-color: #ffeeb1;
-  box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  color: #5c5c5c;
+  font-size: 18px;
+  // box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
   border-radius: 10px;
+  margin-bottom: 20px;
 `;
 
 function PetInfoEdit() {
@@ -140,32 +144,26 @@ function PetInfoEdit() {
 
   const onBreedIdChange = (e) => {
     setBreedIdValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onDiseaseChange = (e) => {
     setDiseaseValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onGenderChange = (e) => {
     setGenderValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNameChange = (e) => {
     setNameValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNeuterChange = (e) => {
     setNeuterValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onWeightChange = (e) => {
     setWeightValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const handleChange = (newValue) => {
@@ -198,7 +196,6 @@ function PetInfoEdit() {
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(reader);
   };
 
   const editButton = async () => {
@@ -206,7 +203,6 @@ function PetInfoEdit() {
     action = await dispatch(editPuppyInfo([fileURLValue, parsedData]));
     if (isFulfilled(action)) {
       const dogId = action.payload.data;
-      console.log(action);
       navigate(`/pet-info-detail/${dogId}`);
     }
   };

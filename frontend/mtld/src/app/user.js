@@ -3,10 +3,7 @@ import axiosInstance from 'components/auth/axiosConfig';
 
 export const fetchUserInfo = createAsyncThunk('user/fetchUserInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user').then((res) => {
-      console.log('user info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get('/api/user').then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -16,7 +13,7 @@ export const fetchUserInfo = createAsyncThunk('user/fetchUserInfo', async (thunk
 export const logout = createAsyncThunk('user/logout', async (thunkAPI) => {
   try {
     const res = await axiosInstance.get('/login/oauth2/logout').then((res) => {
-      console.log('logout api:', res);
+      // console.log('logout api:', res);
       window.localStorage.removeItem('accessToken');
       window.localStorage.removeItem('refreshToken');
       window.localStorage.removeItem('accessTokenExp');
@@ -25,7 +22,7 @@ export const logout = createAsyncThunk('user/logout', async (thunkAPI) => {
     });
     return res;
   } catch (err) {
-    console.log('error');
+    // console.log('error');
     return thunkAPI.rejectWithValue(err);
   }
 });
@@ -53,7 +50,7 @@ export const userSlice = createSlice({
     [fetchUserInfo.pending]: (state) => {
       state.loading = false;
       // console.log(state.loading);
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [fetchUserInfo.fulfilled]: (state, action) => {
       state.userInfo = action.payload.data;
@@ -71,7 +68,7 @@ export const userSlice = createSlice({
     //  LOGOUT
     [logout.pending]: (state) => {
       state.loading = false;
-      console.log('fetching pending');
+      // console.log('fetching pending');
     },
     [logout.fulfilled]: (state, action) => {
       state.medicineInfo = action.payload.data;

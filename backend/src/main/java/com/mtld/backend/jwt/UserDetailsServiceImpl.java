@@ -25,7 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String oauthId) throws UsernameNotFoundException {
-        log.info("로그 UserDetailServiceImpl 시작");
 
         return userRepository.findByOauthId(oauthId)
                 .map(this::createUserDetails)

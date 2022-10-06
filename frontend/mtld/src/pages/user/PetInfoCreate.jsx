@@ -40,8 +40,9 @@ const RadioWrap = styled.div`
 const Title = styled.div`
   display: flex;
   color: #5c5c5c;
-
-  h1 {
+  font-size: 26px;
+  font-weight: 600;
+  p {
     margin-bottom: 5%;
   }
 `;
@@ -89,9 +90,13 @@ const RegisterButton = styled.button`
   height: 5vh;
   border: none;
   background-color: #ffeeb1;
-  box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  // box-shadow: 0px 2px 5px 0.1px #5c5c5c;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   font-family: GmarketSansMedium;
+  font-size: 18px;
+  color: #5c5c5c;
   border-radius: 10px;
+  margin-bottom: 20px;
 `;
 
 function PetInfoCreate() {
@@ -821,33 +826,27 @@ function PetInfoCreate() {
 
   const onBreedIdChange = (event, value) => {
     const breedValue = value.kindCd || undefined;
-    console.log(breedValue);
     setBreedIdValue(breedValue);
   };
 
   const onDiseaseChange = (e) => {
     setDiseaseValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onGenderChange = (e) => {
     setGenderValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNameChange = (e) => {
     setNameValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onNeuterChange = (e) => {
     setNeuterValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const onWeightChange = (e) => {
     setWeightValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const parsedData = {
@@ -866,7 +865,6 @@ function PetInfoCreate() {
     const parsedBirthDate = birthDate.toISOString().slice(0, 10);
     setBirthdateValue(parsedBirthDate);
   };
-  console.log(birthdateValue);
 
   const [Image, setImage] = useState(puppyface);
   const fileInput = useRef(null);
@@ -891,7 +889,6 @@ function PetInfoCreate() {
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-    console.log(reader);
   };
 
   const registerButton = async () => {
@@ -911,7 +908,7 @@ function PetInfoCreate() {
   return (
     <Wrap>
       <Title>
-        <h1>반려견 정보 등록</h1>
+        <p>반려견 정보 등록</p>
       </Title>
       <PetImage>
         <div className="buttonWrap">

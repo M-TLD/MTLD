@@ -6,6 +6,7 @@ const initialStateValue = {
   loading: false,
   puppyInfo: [],
   pupInfo: {},
+  alarmInfo: [],
 };
 export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (thunkAPI) => {
   const dogFormData = new FormData();
@@ -31,7 +32,6 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
       },
       data: dogFormData,
     }).then((res) => {
-      console.log('puppyId:', res.data);
       dogId = res.data;
       console.log('successfully registered puppy');
       return dogId;
@@ -44,10 +44,16 @@ export const registerPuppyInfo = createAsyncThunk('puppy/addPuppyInfo', async (t
 
 export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get('/api/user/dogs').then((res) => {
-      console.log('dog info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get('/api/user/dogs').then((res) => res);
+    return res;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const fetchAlarmInfo = createAsyncThunk('puppy/fetchAlarmInfo', async (thunkAPI) => {
+  try {
+    const res = await axiosInstance.get('/api/user/main').then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -56,10 +62,7 @@ export const fetchPuppyInfo = createAsyncThunk('puppy/fetchPuppyInfo', async (th
 
 export const fetchPupInfo = createAsyncThunk('puppy/fetchPupInfo', async (thunkAPI) => {
   try {
-    const res = await axiosInstance.get(`/api/dogs/${thunkAPI}`).then((res) => {
-      console.log('pup info:', res.data);
-      return res;
-    });
+    const res = await axiosInstance.get(`/api/dogs/${thunkAPI}`).then((res) => res);
     return res;
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -68,8 +71,7 @@ export const fetchPupInfo = createAsyncThunk('puppy/fetchPupInfo', async (thunkA
 
 export const deletePuppyInfo = createAsyncThunk('puppy/deletePuppyInfo', async (thunkAPI) => {
   const dogId = thunkAPI;
-  console.log(dogId);
-  console.log(initialStateValue);
+  // console.log(dogId);
   try {
     const res = await axiosInstance.delete(`/api/dogs/${dogId}`).then((res) => {
       console.log('deleted?', res);
@@ -95,7 +97,6 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
       }),
     );
   } else {
-    console.log('profile changed');
     dogFormData.append('image', thunkAPI[0]);
     dogFormData.append(
       'dog',
@@ -106,7 +107,7 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
   }
 
   for (const value of dogFormData.values()) {
-    console.log(value);
+    // console.log(value);
   }
 
   console.log(dogFormData.get('image'));
@@ -122,7 +123,7 @@ export const editPuppyInfo = createAsyncThunk('puppy/editPuppyInfo', async (thun
       },
       data: dogFormData,
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       console.log('successfully edited puppy');
       return res;
     });
@@ -146,7 +147,7 @@ export const puppySlice = createSlice({
     },
     [registerPuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action.payload); // dogId
+      // console.log(action.payload); // dogId
       console.log('register fulfilled');
     },
     [registerPuppyInfo.rejected]: (state) => {
@@ -187,6 +188,21 @@ export const puppySlice = createSlice({
       console.log('pup fetching rejected');
     },
 
+    [fetchAlarmInfo.pending]: (state) => {
+      state.loading = false;
+      // console.log('alarm pending');
+    },
+    [fetchAlarmInfo.fulfilled]: (state, action) => {
+      state.alarmInfo = action.payload.data;
+      // console.log(action.payload.data);
+      state.loading = true;
+      console.log('alarm fulfilled');
+    },
+    [fetchAlarmInfo.rejected]: (state) => {
+      state.loading = false;
+      console.log('alarm fetching rejected');
+    },
+
     // DELETE
     [deletePuppyInfo.pending]: (state) => {
       state.loading = false;
@@ -211,9 +227,7 @@ export const puppySlice = createSlice({
     },
     [editPuppyInfo.fulfilled]: (state, action) => {
       state.loading = true;
-      console.log(action);
-      console.log(action.payload);
-      console.log(action.payload); // dogId
+      // console.log(action.payload);
       console.log('edit fulfilled');
     },
     [editPuppyInfo.rejected]: (state) => {
@@ -225,4 +239,5 @@ export const puppySlice = createSlice({
 
 // export const {  } = puppySlice.actions;
 export const puppySelector = (state) => state.puppy;
+export const alarmSelector = (state) => state.puppy.alarmInfo;
 export default puppySlice.reducer;

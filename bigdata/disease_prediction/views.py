@@ -13,7 +13,8 @@ def disease_predict(request):
    if request.method=='POST':
       data=json.loads(request.body.decode('utf-8'))
       print(' '.join(data))
-      condition=' '.join(data)
+      condition=' '.join(data) 
+      # condition="E058 E061 F006 F022"
 
       df = pd.read_csv('disease_prediction/disease_data/disease.csv',engine='python', encoding='cp949')
 
@@ -38,7 +39,7 @@ def disease_predict(request):
       result=cos_sim_df.loc['9999']
       result['9999']=0
       result=result.sort_values(ascending=False)
-      data=df.loc[result.index[0:3]-1][['disease_name','define']]
+      data=df.loc[result.index[0:3]-1][['disease_name','define','image_url']]
       return HttpResponse(data.to_json(orient='records'))
 
    elif request.method=='GET':

@@ -30,7 +30,6 @@ function Kakao() {
   useEffect(() => {
     axios({ method: 'GET', url: `${process.env.REACT_APP_BASE_URL}/login/oauth2/kakao?code=${kakaoCode}` })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           dispatch(login({ email: res.data.oauthId, name: res.data.name }));
           window.localStorage.setItem('accessToken', res.data.tokenDto.accessToken);
@@ -44,7 +43,6 @@ function Kakao() {
         }
       })
       .catch((error) => {
-        console.log('error status code:', error.request.status);
         window.alert('로그인에 실패하였습니다. 로그인 화면으로 돌아갑니다.');
         navigate('/login');
       });

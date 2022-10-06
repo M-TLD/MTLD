@@ -33,10 +33,12 @@ const Wrap = styled.div`
     border-radius: 10px;
     border: none;
     background-color: #ffdcdc;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    // box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
     font-family: 'GmarketSansMedium';
     color: #5c5c5c;
     margin-top: 3vh;
+    font-size: 18px;
   }
 `;
 

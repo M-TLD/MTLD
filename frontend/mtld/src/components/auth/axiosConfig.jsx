@@ -48,7 +48,6 @@ axiosInstance.interceptors.request.use(
         },
       })
         .then((res) => {
-          console.log('successfully fetched data');
           window.localStorage.setItem('accessToken', res.data.accessToken);
           window.localStorage.setItem('accessTokenExp', res.data.tokenExpiresIn);
           window.localStorage.setItem('refreshToken', res.data.refreshToken);
@@ -59,13 +58,11 @@ axiosInstance.interceptors.request.use(
         })
         .catch((err) => {
           // 3. access token 발급이 거절된 경우(아마 refresh token도 만료되었을 경우)
-          console.log('authroization error status code:', err.request.status);
         });
       return config;
     }
   },
   (err) => {
-    console.log('authorization error:', err);
     Navigate('/login');
     return Promise.reject(err);
   },
