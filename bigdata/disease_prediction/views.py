@@ -11,10 +11,10 @@ from collections import OrderedDict
 @api_view(['GET','POST'])
 def disease_predict(request):
    if request.method=='POST':
-      # data=json.loads(request.body.decode('utf-8'))
-      # print(' '.join(data))
-      # condition=' '.join(data)
-      condition="E058 E061 F006 F022"
+      data=json.loads(request.body.decode('utf-8'))
+      print(' '.join(data))
+      condition=' '.join(data) 
+      # condition="E058 E061 F006 F022"
 
       df = pd.read_csv('disease_prediction/disease_data/disease.csv',engine='python', encoding='cp949')
 
