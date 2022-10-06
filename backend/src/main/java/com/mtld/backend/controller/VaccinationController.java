@@ -3,8 +3,10 @@ package com.mtld.backend.controller;
 import com.mtld.backend.dto.vaccine.VaccinationRequestDto;
 import com.mtld.backend.dto.vaccine.VaccinationResponseDto;
 import com.mtld.backend.dto.vaccine.VaccinationUpdateRequestDto;
+import com.mtld.backend.dto.vaccine.VaccineDto;
 import com.mtld.backend.service.user.UserService;
 import com.mtld.backend.service.vaccine.VaccinationService;
+import com.mtld.backend.service.vaccine.VaccineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/25
+ * updated by myeongseok on 2022/09/30
  */
 
 @RestController
@@ -28,6 +31,14 @@ public class VaccinationController {
 
     private final VaccinationService vaccinationService;
 
+    private final VaccineService vaccineService;
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllVaccine() {
+        List<VaccineDto> vaccineDtoList = vaccineService.getAllVaccine();
+        return ResponseEntity.status(HttpStatus.OK).body(vaccineDtoList);
+    }
+
     @GetMapping("/{dogId}")
     public ResponseEntity<?> findByDogID(@PathVariable("dogId") Long dogId) {
         log.info("getDogId = {}", dogId);
@@ -38,7 +49,7 @@ public class VaccinationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerTakingMed(@RequestBody @Valid VaccinationRequestDto vaccinationRequestDto) {
+    public ResponseEntity<?> registerVaccination(@RequestBody @Valid VaccinationRequestDto vaccinationRequestDto) {
         log.info("vaccinationRequestDto :{}", vaccinationRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.registerVaccination(userId, vaccinationRequestDto);
@@ -48,7 +59,7 @@ public class VaccinationController {
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateMedicine(@RequestBody @Valid VaccinationUpdateRequestDto vaccinationUpdateRequestDto) {
+    public ResponseEntity<?> updateVaccination(@RequestBody @Valid VaccinationUpdateRequestDto vaccinationUpdateRequestDto) {
         log.info("vaccinationUpdateRequestDto : {}", vaccinationUpdateRequestDto);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.updateVaccination(userId, vaccinationUpdateRequestDto);
@@ -56,8 +67,8 @@ public class VaccinationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{medicineId}")
-    public ResponseEntity<?> deleteMedicine(@PathVariable("vaccinationId") Long vaccinationId) {
+    @DeleteMapping("/{vaccinationId}")
+    public ResponseEntity<?> deleteVaccination(@PathVariable("vaccinationId") Long vaccinationId) {
         log.info("vaccinationId : {}", vaccinationId);
         Long userId = userService.getMyInfoSecret().getId();
         vaccinationService.deleteVaccination(userId, vaccinationId);

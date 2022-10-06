@@ -1,6 +1,6 @@
 package com.mtld.backend.jwt;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String oauthId) throws UsernameNotFoundException {
-        log.info("로그 UserDetailServiceImpl 시작");
 
         return userRepository.findByOauthId(oauthId)
                 .map(this::createUserDetails)

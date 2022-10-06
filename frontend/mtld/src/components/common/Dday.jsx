@@ -6,52 +6,52 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { useSelector } from 'react-redux';
+import { puppySelector } from 'app/puppy';
 
 const Wrap = styled.div`
-font-size: 90%;
-font-weight: 90;
+  font-size: 90%;
+  font-weight: 90;
 
-form {
-  display: none;
-}
+  form {
+    display: none;
+  }
 
-p {
-  color: #BFC3C7;
-}
+  p {
+    color: #bfc3c7;
+  }
 `;
 
 function Dday() {
-  const [dateInput, setDateInput] = useState(dayjs('2022-12-04T00:00:00'));
+  const puppy = useSelector(puppySelector);
+  const [dateInput, setDateInput] = useState(`${puppy.pupInfo.birthdate}T00:00:00`);
   const [dDayCounter, setDdayCounter] = useState(0);
 
   const handleChange = (newValue) => {
     setDateInput(newValue);
   };
 
-  useEffect(() => {
-    // 현재 시각까지 나오는거
-    const rawToday = new Date();
-    // 시각 떼버리는거
-    const today = rawToday.toDateString();
-    // 떼버린 시각 00:00:00 으로
-    const parsedToday = new Date(`${today} 00:00:00`);
-    console.log(rawToday);
-    console.log(today);
-    // 설정해준 target date
-    const dday = new Date(dateInput);
+  const dday = new Date(dateInput);
 
-    // 디데이 카운터
-    setDdayCounter(Math.ceil(((dday - parsedToday) / 86400000)));
+  useEffect(() => {
+    const today = new Date(); // 오늘 날짜 객체 생성
+    const yy = today.getFullYear();
+    const mm = dday.getMonth();
+    const dd = dday.getDate();
+
+    const birthDay = new Date(yy, mm, dd);
+    let diffDate = Math.ceil((birthDay.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
+
+    if (diffDate < 0) {
+      diffDate = 365 + diffDate;
+    }
+
+    setDdayCounter(diffDate);
   });
 
   return (
     <Wrap>
-      <p>
-        🥳
-        {dDayCounter}
-        {' '}
-        일 남았어요!
-      </p>
+      <p style={{ fontSize: '100%' }}>🥳 {dDayCounter} 일 남았어요!</p>
       <LocalizationProvider dateAdapter={AdapterDayjs} className="test">
         <DatePicker
           className="test"
@@ -68,7 +68,15 @@ function Dday() {
               noValidate
               autoComplete="off"
             >
-              <TextField ref={inputRef} {...inputProps} id="date" label="생년월일/입양일" variant="standard" InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }} InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }} />
+              <TextField
+                ref={inputRef}
+                {...inputProps}
+                id="date"
+                label="생년월일/입양일"
+                variant="standard"
+                InputProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+                InputLabelProps={{ style: { fontFamily: 'GmarketSansMedium' } }}
+              />
             </Box>
           )}
         />

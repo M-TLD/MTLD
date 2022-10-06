@@ -1,9 +1,12 @@
 package com.mtld.backend.controller;
 
+import com.mtld.backend.dto.medicine.MedicineDto;
 import com.mtld.backend.dto.medicine.TakingMedicineRequestDto;
 import com.mtld.backend.dto.medicine.TakingMedicineResponseDto;
 import com.mtld.backend.dto.medicine.TakingMedicineUpdateRequestDto;
+import com.mtld.backend.dto.vaccine.VaccineDto;
 import com.mtld.backend.service.dog.DogService;
+import com.mtld.backend.service.medicine.MedicineService;
 import com.mtld.backend.service.medicine.TakingMedicineService;
 import com.mtld.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/23
+ * updated by myeongseok on 2022/09/30
  */
 @RestController
 @Slf4j
@@ -27,6 +31,14 @@ public class TakingMedicineController {
     private final UserService userService;
 
     private final TakingMedicineService takingMedicineService;
+
+    private final MedicineService medicineService;
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllMedicine() {
+        List<MedicineDto> medicineDtoList = medicineService.getAllVaccine();
+        return ResponseEntity.status(HttpStatus.OK).body(medicineDtoList);
+    }
 
     @GetMapping("/{dogId}")
     public ResponseEntity<?> findByDogID(@PathVariable("dogId") Long dogId) {
@@ -57,7 +69,7 @@ public class TakingMedicineController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{medicineId}")
+    @DeleteMapping("/{takingMedicineId}")
     public ResponseEntity<?> deleteTakingMedicine(@PathVariable("takingMedicineId") Long takingMedicineId) {
         log.info("takingMedicineId : {}", takingMedicineId);
         Long userId = userService.getMyInfoSecret().getId();

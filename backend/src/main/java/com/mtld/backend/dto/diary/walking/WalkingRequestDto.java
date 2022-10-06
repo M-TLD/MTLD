@@ -1,6 +1,8 @@
 package com.mtld.backend.dto.diary.walking;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
@@ -13,8 +15,9 @@ import java.time.LocalDateTime;
  * updated by seongmin on 2022/09/13
  */
 
+@NoArgsConstructor
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class WalkingRequestDto {
 
     @NotBlank(message = "산책한 날짜는 필수 입력값입니다.")

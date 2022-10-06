@@ -3,9 +3,8 @@ package com.mtld.backend.service.vaccine;
 import com.mtld.backend.dto.vaccine.VaccinationRequestDto;
 import com.mtld.backend.dto.vaccine.VaccinationResponseDto;
 import com.mtld.backend.dto.vaccine.VaccinationUpdateRequestDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.dog.Dog;
-import com.mtld.backend.entity.medicine.TakingMedicine;
 import com.mtld.backend.entity.vaccine.Vaccination;
 import com.mtld.backend.entity.vaccine.Vaccine;
 import com.mtld.backend.exception.AuthException;
@@ -25,6 +24,7 @@ import java.util.List;
 
 /**
  * created by myeongseok on 2022/09/24
+ * updated by myeongseok on 2022/10/03
  */
 
 @Slf4j
@@ -73,6 +73,9 @@ public class VaccinationServiceImpl implements VaccinationService {
             throw new AuthException("권한이 없습니다.");
         }
         Vaccine vaccine = vaccineRepositpry.findById(vaccinationRequestDto.getVaccineId()).orElseThrow(() -> new BadRequestException("해당 약이 없습니다."));
+        if(vaccinationRepository.findByDogAndVaccine(dog,vaccine) != null){
+            throw new BadRequestException("이미 백신접종에 대한 정보가 저장이 되어 있습니다.");
+        }
         Vaccination vaccination = Vaccination.builder().vaccine(vaccine).dog(dog).expectDate(ConvertDate.stringToDate(vaccinationRequestDto.getExpectDate())).build();
 
         vaccinationRepository.save(vaccination);
@@ -88,8 +91,10 @@ public class VaccinationServiceImpl implements VaccinationService {
         if (!dog.getUser().equals(user)) {
             throw new AuthException("권한이 없습니다.");
         }
-
+        log.info("vaccinationUpdateRequestDto = {}", vaccinationUpdateRequestDto);
+        log.info("변경 전 vaccination.date = {}", vaccination.getExpectDate());
         vaccination.update(vaccinationUpdateRequestDto);
+        log.info("변경 후 vaccination.date = {}", vaccination.getExpectDate());
     }
 
     @Override

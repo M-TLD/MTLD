@@ -1,8 +1,10 @@
 package com.mtld.backend.dto.dog;
 
 import com.mtld.backend.entity.dog.Gender;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DogRequestDto {
     @NotBlank(message = "반려견 이름은 필수 입력값입니다.")
     private String name;
@@ -31,9 +35,7 @@ public class DogRequestDto {
 
     private String disease;
 
-    @NotNull(message = "품종은 필수 입력값입니다.")
-    private Long breedId;
-
-    private String fileURL;
+    @NotBlank(message = "품종은 필수 입력값입니다.")
+    private String code;
 
 }

@@ -5,9 +5,7 @@ import com.mtld.backend.dto.token.ReissueDto;
 import com.mtld.backend.dto.token.TokenDto;
 import com.mtld.backend.dto.user.LoginResponseDto;
 import com.mtld.backend.dto.user.UserInfoDto;
-import com.mtld.backend.entity.User;
-
-import static com.mtld.backend.exception.ExceptionMsg.USER_NOT_FOUND_MSG;
+import com.mtld.backend.entity.user.User;
 
 /**
  * created by seongmin on 2022/09/15
@@ -22,6 +20,8 @@ public interface UserService {
     User getKakaoInfo(String kakaoAccessToken);
 
     LoginResponseDto kakaoLogin(String kakaoAccessToken);
+
+    void logout(Long id);
 
     TokenDto reissue(ReissueDto reissueDto);
 

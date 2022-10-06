@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calender from 'react-calendar';
 import styled from 'styled-components';
-import WalkLogCreate from 'components/walklog/WalkLogCreate';
-import WalkLogResult from 'components/walklog/WalkLogResult';
+import axios from 'axios';
+import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { update } from 'app/date';
+
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded';
+import PetsIcon from '@mui/icons-material/Pets';
 
 const StyledCalender = styled.div`
   .div {
@@ -16,6 +21,7 @@ const StyledCalender = styled.div`
     // border-radius: 5px;
     font-family: GmarketSansMedium;
     line-height: 1.125em;
+    margin-top: 1vh;
     margin-bottom: 2vh;
     margin-right: 0;
   }
@@ -135,11 +141,57 @@ const StyledCalender = styled.div`
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
+
+  .diaryicon {
+    width: 15px;
+    margin-right: 0.2vh;
+    margin-left: 0.2vh;
+    color: #a0cd95;
+  }
+
+  .peticon {
+    width: 15px;
+    margin-right: 0.2vh;
+    margin-left: 0.2vh;
+    color: #5da2eb;
+  }
 `;
 
 function CalenderView() {
+  const date = useSelector((state) => state.date.value);
+  const dispatch = useDispatch();
+
   const [value, onChange] = useState(new Date());
-  // console.log(value);
+
+  const selectedYear = value.getFullYear();
+  const selectedMonth = String(value.getMonth() + 1).padStart(2, '0');
+  const selectedDate = String(value.getDate()).padStart(2, '0');
+
+  const dateValue = `${selectedYear}-${selectedMonth}-${selectedDate}`;
+
+  useEffect(() => {
+    dispatch(update(dateValue));
+  });
+
+  const [diaryData, setDiaryData] = useState(['1900-01-01']);
+  const [walkingData, setWalkingData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/api/diary`, {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('accessToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        if (data.recordDateList !== undefined) {
+          setDiaryData(data.recordDateList);
+        }
+        if (data.walkingDateList !== undefined) {
+          setWalkingData(data.walkingDateList);
+        }
+      });
+  }, [date]);
 
   return (
     <StyledCalender>
@@ -149,9 +201,17 @@ function CalenderView() {
           value={value}
           formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })} // 날짜에서 '일' 글자 제외
           locale="eng-US"
+          tileContent={({ date, view }) => {
+            const html = [];
+            if (diaryData.find((x, idx) => x === moment(date).format('YYYY-MM-DD'))) {
+              html.push(<EventNoteRoundedIcon className="diaryicon" />);
+            }
+            if (walkingData.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+              html.push(<PetsIcon className="peticon" />);
+            }
+            return <div className="flex justify-center items-center absoluteDiv">{html}</div>;
+          }}
         />
-        <WalkLogCreate value={value} />
-        <WalkLogResult value={value} />
       </div>
     </StyledCalender>
   );

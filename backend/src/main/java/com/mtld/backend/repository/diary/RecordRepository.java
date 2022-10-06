@@ -1,6 +1,6 @@
 package com.mtld.backend.repository.diary;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.diary.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 

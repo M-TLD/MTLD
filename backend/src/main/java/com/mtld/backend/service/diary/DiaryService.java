@@ -17,7 +17,7 @@ import java.util.List;
 public interface DiaryService {
 
     Long writeWalking(Long uid, WalkingRequestDto walkingDto);
-    WalkingDetailResponseDto getWalkingDetail(Long uid, WalkingDetailRequestDto dto);
+    WalkingDetailResponseDto getWalkingDetail(Long uid, Long dogId, String date);
     WalkingDetailResponseDto getWalkingDetailById(Long uid, Long id);
     void deleteWalking(Long uid, Long id);
     Long writeRecord(Long uid, RecordRequestDto recordDto, List<MultipartFile> images);

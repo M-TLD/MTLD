@@ -9,7 +9,7 @@ import com.mtld.backend.dto.token.ReissueDto;
 import com.mtld.backend.dto.token.TokenDto;
 import com.mtld.backend.dto.user.LoginResponseDto;
 import com.mtld.backend.dto.user.UserInfoDto;
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import com.mtld.backend.entity.auth.RoleType;
 import com.mtld.backend.exception.BadRequestException;
 import com.mtld.backend.repository.user.UserRepository;
@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -29,6 +30,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
         return UserInfoDto.of(user);
     }
 
+    @Override
     public KakaoTokenDto getKakaoAccessToken(String code) {
         log.info("getKakaoAccessToken = {}", code);
         RestTemplate rt = new RestTemplate();
@@ -76,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        System.out.println("여기여기@@@");
         // HttpBody 객체 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", GRANT_TYPE);
@@ -110,6 +112,7 @@ public class UserServiceImpl implements UserService {
         return kakaoTokenDto;
     }
 
+    @Override
     public User getKakaoInfo(String kakaoAccessToken) {
 
         RestTemplate rt = new RestTemplate();
@@ -128,7 +131,6 @@ public class UserServiceImpl implements UserService {
                 String.class
         );
 
-        log.info("profileResponse.toString() ={}", accountInfoResponse.toString());
 
         // JSON Parsing (-> kakaoAccountDto)
         ObjectMapper objectMapper = new ObjectMapper();
@@ -151,11 +153,11 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
     public LoginResponseDto kakaoLogin(String kakaoAccessToken) {
         // kakaoAccessToken 으로 회원정보 받아오기
         User user = getKakaoInfo(kakaoAccessToken);
 
-        log.info("user = {}", user);
         Optional<User> findByOauthId = userRepository.findByOauthId(user.getOauthId());
 
         User loginUser;
@@ -167,7 +169,6 @@ public class UserServiceImpl implements UserService {
 
 
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(loginUser.getOauthId(), loginUser.getId());
-
         redisTemplate.opsForValue().set(
                 loginUser.getOauthId(),
                 tokenDto.getRefreshToken(),
@@ -178,19 +179,24 @@ public class UserServiceImpl implements UserService {
         return LoginResponseDto.of(loginUser, tokenDto);
     }
 
+    @Override
+    public void logout(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        redisTemplate.delete(user.getOauthId());
+    }
+
+    @Override
     public TokenDto reissue(ReissueDto reissueDto) {
         if (!jwtTokenProvider.validateToken(reissueDto.getRefreshToken())) {
             throw new BadRequestException("Refresh Token 이 유효하지 않습니다.");
         }
         Authentication authentication = jwtTokenProvider.getAuthentication(reissueDto.getAccessToken());
         String refreshToken = redisTemplate.opsForValue().get(authentication.getName());
-
         if (refreshToken == null || !refreshToken.equals(reissueDto.getRefreshToken())) {
             throw new BadRequestException("토큰의 유저 정보가 일치하지 않습니다.");
         }
         User user = userRepository.findByOauthId(authentication.getName()).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(user.getOauthId(), user.getId());
-
         redisTemplate.opsForValue().set(
                 authentication.getName(),
                 tokenDto.getRefreshToken(),

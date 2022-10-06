@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import KakaoMap from 'components/common/KakaoMap';
+import HospitalMap from 'components/location/HospitalMap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import HospitalLogo from 'assets/hospital.png';
 
 const Container = styled.div`
-  margin: 30px;
+  margin: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,9 +17,13 @@ const TitleDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 24px;
+  font-size: 27px;
   color: #5C5C5C;
   line-height: 30px;
+`;
+
+const Title = styled.span`
+  margin-top: 5px;
 `;
 
 const Highlight = styled.span`
@@ -28,12 +32,11 @@ const Highlight = styled.span`
 `;
 
 const HospitalImg = styled.img`
-  height: 7vh;
+  height: 8vh;
 `;
 
 const SearchDiv = styled.div`
   margin: 15px 0 5px 0;   
-
 `;
 
 const SearchForm = styled.form`
@@ -76,8 +79,7 @@ const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
 
 const CurrentPositiondiv = styled.div`
   display: flex;
-  gap: 5px;
-  margin: 0 0 5px 180px;
+  margin: 0 0 5px 165px;
   &:hover {
     cursor: pointer;
   }
@@ -116,17 +118,17 @@ function Hospital() {
     <div>
       <Container>
         <TitleDiv>
-          <span>
+          <Title>
             현재 우리 아이
             <br />
             주변의
             <Highlight> 동물병원</Highlight>
-          </span>
+          </Title>
           <HospitalImg src={HospitalLogo} />
         </TitleDiv>
         <SearchDiv>
           <SearchForm onSubmit={handleSubmit}>
-            <SearchInput placeholder="검색어를 입력하세요" onChange={onChange} value={InputText} />
+            <SearchInput placeholder="지역명을 입력하세요 ex.역삼동" onChange={onChange} value={InputText} />
             <SearchBtn type="submit">
               <StyledSearchRoundedIcon fontSize="medium" />
             </SearchBtn>
@@ -136,7 +138,7 @@ function Hospital() {
           <StyledPlaceRoundedIcon fontSize="medium" />
           <CurrentPosition onClick={handleChange}>현재 위치 중심</CurrentPosition>
         </CurrentPositiondiv>
-        <KakaoMap searchPlace={Place} flag={flag} />
+        <HospitalMap searchPlace={Place} flag={flag} />
       </Container>
     </div>
   );

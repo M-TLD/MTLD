@@ -1,8 +1,7 @@
 package com.mtld.backend.entity.diary;
 
 import com.mtld.backend.entity.UploadFile;
-import com.mtld.backend.entity.User;
-import com.mtld.backend.entity.diary.Diary;
+import com.mtld.backend.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

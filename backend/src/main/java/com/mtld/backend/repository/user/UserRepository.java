@@ -1,10 +1,8 @@
 package com.mtld.backend.repository.user;
 
-import com.mtld.backend.entity.User;
+import com.mtld.backend.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 import java.util.Optional;
 

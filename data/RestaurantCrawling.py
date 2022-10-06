@@ -90,7 +90,7 @@ def getAddr():
 
 
 def getRestaurant(addr):
-    query = "반려견동반"
+    query = "반려견동반카페"
     encoded_addr = urllib.parse.quote(addr)
     encoded_query = urllib.parse.quote(query)
     url = "https://www.diningcode.com/list.dc?addr=" + \

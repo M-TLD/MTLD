@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.38.193.232:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://j7a106.p.ssafy.io:3306/mtld?serverTimezone=UTC&characterEncoding=UTF-8
     username: mtld
     password: mtld106@#
   mvc:
@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true;
@@ -34,7 +34,7 @@ spring:
             client-secret: evXGUWIVYQfidcszzUZOTiDovjQxGBeD
             client-authentication-method: POST
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:3000/login/oauth2/kakao
+            redirect-uri: https://j7a106.p.ssafy.io/login/oauth2/kakao
             scope:
               - profile_nickname
               - account_email
@@ -42,8 +42,12 @@ spring:
               - age_range
             client-name: Kakao
   redis:
-    host: localhost
+    host: j7a106.p.ssafy.io
     port: 6379
+
+  batch:
+    initialize-schema: always
+    job.enabled: false
 
 
 logging.level:

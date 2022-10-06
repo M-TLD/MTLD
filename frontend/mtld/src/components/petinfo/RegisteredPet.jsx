@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import bobi from 'assets/bobi.png';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePuppyInfo, fetchPuppyInfo, puppySelector } from 'app/puppy';
+import Spinner from 'components/common/Spinner';
+import YNModal from 'components/common/YNModal';
 
 const Wrap = styled.div`
   margin: 0;
@@ -23,6 +27,10 @@ const PuppyInfo = styled.div`
     padding-bottom: 2vh;
   }
 
+  .name-gender {
+    display: flex;
+  }
+
   p {
     color: #5c5c5c;
     text-align: left;
@@ -33,15 +41,19 @@ const PuppyInfo = styled.div`
     display: flex;
     width: 100%;
     margin-top: 1vh;
+    gap: 1vw;
   }
 
   button {
-    width: 100%;
     border-radius: 5px;
     height: 1.5rem;
-    margin-right: 1vw;
     border: none;
     background-color: #ffeeb1;
+    color: #5C5C5C;
+    &:hover,
+    &:active {
+      cursor: pointer;
+     }
   }
 `;
 
@@ -55,26 +67,180 @@ const PuppyImage = styled.img`
 `;
 
 function RegisteredPet() {
-  return (
-    <Wrap>
-      <PuppyInfo>
-        <div className="puppyImage">
-          <PuppyImage src={bobi} alt="" />
-        </div>
-        <div className="puppyInfo">
-          <h2>보비 ♀</h2>
-          <p>래브라도 리트리버</p>
-          <p>2020년 9월 25일 생</p>
-          <div className="buttonDiv">
-            <button type="button">세부정보</button>
-            <button type="button" style={{ color: '#F38181' }}>
-              삭제하기
-            </button>
+  const dispatch = useDispatch();
+  const puppy = useSelector(puppySelector);
+
+  useEffect(() => {
+    dispatch(fetchPuppyInfo());
+  }, []);
+
+  const deleteButton = async (puppyId) => {
+    const action = await dispatch(deletePuppyInfo(puppyId));
+  };
+
+  if (!puppy.loading) {
+    return <Spinner />;
+  }
+
+  if (puppy.puppyInfo.length === 1) {
+    return (
+      <Wrap>
+        <PuppyInfo>
+          <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+            <div className="puppyImage">
+              <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+            </div>
+          </Link>
+          <div className="puppyInfo">
+            <div className="name-gender">
+              <h2>{puppy.puppyInfo[0].name}</h2>
+              <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+            </div>
+            <p>{puppy.puppyInfo[0].breedName}</p>
+            <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+            <div className="buttonDiv">
+              <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+                <button type="button">세부정보</button>
+              </Link>
+              <YNModal puppyId="0" />
+            </div>
           </div>
-        </div>
-      </PuppyInfo>
-    </Wrap>
-  );
+        </PuppyInfo>
+      </Wrap>
+    );
+  }
+  if (puppy.puppyInfo.length === 2) {
+    return (
+      <div>
+        <Wrap>
+          <PuppyInfo>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+              </div>
+            </Link>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[0].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[0].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
+                <YNModal puppyId="0" />
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+              </div>
+            </Link>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[1].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[1].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[1].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
+                <YNModal puppyId="1" />
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+      </div>
+    );
+  }
+  if (puppy.puppyInfo.length === 3) {
+    return (
+      <div>
+        <Wrap>
+          <PuppyInfo>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[0].fileURL} alt="" />
+              </div>
+            </Link>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[0].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[0].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[0].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[0].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[0].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
+                <YNModal puppyId="0" />
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[1].fileURL} alt="" />
+              </div>
+            </Link>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[1].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[1].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[1].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[1].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[1].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
+                <YNModal puppyId="1" />
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+        <Wrap>
+          <PuppyInfo>
+            <Link to={`/pet-info-detail/${puppy.puppyInfo[2].id}`}>
+              <div className="puppyImage">
+                <PuppyImage src={puppy.puppyInfo[2].fileURL} alt="" />
+              </div>
+            </Link>
+            <div className="puppyInfo">
+              <div className="name-gender">
+                <h2>{puppy.puppyInfo[2].name}</h2>
+                <h2>&#40;{puppy.puppyInfo[2].gender === 'FEMALE' ? '♀' : '♂'}&#41;</h2>
+              </div>
+              <p>{puppy.puppyInfo[2].breedName}</p>
+              {/* 날짜 파싱은 나중에... ^^...  */}
+              <p>{puppy.puppyInfo[2].birthdate}일 생</p>
+              <div className="buttonDiv">
+                <Link to={`/pet-info-detail/${puppy.puppyInfo[2].id}`}>
+                  <button type="button">세부정보</button>
+                </Link>
+                <YNModal puppyId="2" />
+              </div>
+            </div>
+          </PuppyInfo>
+        </Wrap>
+      </div>
+    );
+  }
 }
 
 export default RegisteredPet;

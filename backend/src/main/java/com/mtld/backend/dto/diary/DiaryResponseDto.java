@@ -12,6 +12,7 @@ import java.util.List;
  * created by seongmin on 2022/09/21
  */
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class DiaryResponseDto {
