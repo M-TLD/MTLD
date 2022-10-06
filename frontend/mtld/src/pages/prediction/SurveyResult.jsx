@@ -87,6 +87,12 @@ const StyledResult = styled.div`
   .r-text {
     word-break: keep-all;
   }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const BannerImage = styled.img`
@@ -215,13 +221,17 @@ function SurveyResult() {
         ))}
       </div>
 
-      <StyledLink to="/hospital">
-        <div className="content">
-          <span>가까운</span>
-          <span id="bold"> 동물병원</span>
-          <span> 찾기</span>
-        </div>
-      </StyledLink>
+
+      <div className="button">
+        <StyledLink to="/hospital">
+          <div className="content">
+            <span>가까운</span>
+            <span id="bold"> 동물병원</span>
+            <span> 찾기</span>
+          </div>
+        </StyledLink>
+      </div>
+      
     </StyledResult>
   );
 }
