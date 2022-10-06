@@ -172,14 +172,12 @@ public class UserServiceImpl implements UserService {
 
 
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(loginUser.getOauthId(), loginUser.getId());
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(loginUser.getOauthId(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
-//        redisTemplate.opsForValue().set(
-//                loginUser.getOauthId(),
-//                tokenDto.getRefreshToken(),
-//                tokenDto.getRefreshTokenExpiresIn(),
-//                TimeUnit.MILLISECONDS
-//        );
+        redisTemplate.opsForValue().set(
+                loginUser.getOauthId(),
+                tokenDto.getRefreshToken(),
+                tokenDto.getRefreshTokenExpiresIn(),
+                TimeUnit.MILLISECONDS
+        );
 
         return LoginResponseDto.of(loginUser, tokenDto);
     }
@@ -211,14 +209,12 @@ public class UserServiceImpl implements UserService {
         log.info("user = {}", user.getOauthId());
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(user.getOauthId(), user.getId());
         log.info("tokenDto = {}", tokenDto);
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(authentication.getName(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
-//        redisTemplate.opsForValue().set(
-//                authentication.getName(),
-//                tokenDto.getRefreshToken(),
-//                tokenDto.getRefreshTokenExpiresIn(),
-//                TimeUnit.MILLISECONDS
-//        );
+        redisTemplate.opsForValue().set(
+                authentication.getName(),
+                tokenDto.getRefreshToken(),
+                tokenDto.getRefreshTokenExpiresIn(),
+                TimeUnit.MILLISECONDS
+        );
         return tokenDto;
     }
 
