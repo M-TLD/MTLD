@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -29,6 +30,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -170,13 +172,14 @@ public class UserServiceImpl implements UserService {
 
 
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(loginUser.getOauthId(), loginUser.getId());
-
-        redisTemplate.opsForValue().set(
-                loginUser.getOauthId(),
-                tokenDto.getRefreshToken(),
-                tokenDto.getRefreshTokenExpiresIn(),
-                TimeUnit.MILLISECONDS
-        );
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(loginUser.getOauthId(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue().set(
+//                loginUser.getOauthId(),
+//                tokenDto.getRefreshToken(),
+//                tokenDto.getRefreshTokenExpiresIn(),
+//                TimeUnit.MILLISECONDS
+//        );
 
         return LoginResponseDto.of(loginUser, tokenDto);
     }
@@ -208,12 +211,14 @@ public class UserServiceImpl implements UserService {
         log.info("user = {}", user.getOauthId());
         TokenDto tokenDto = jwtTokenProvider.generateJwtToken(user.getOauthId(), user.getId());
         log.info("tokenDto = {}", tokenDto);
-        redisTemplate.opsForValue().set(
-                authentication.getName(),
-                tokenDto.getRefreshToken(),
-                tokenDto.getRefreshTokenExpiresIn(),
-                TimeUnit.MILLISECONDS
-        );
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(authentication.getName(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue().set(
+//                authentication.getName(),
+//                tokenDto.getRefreshToken(),
+//                tokenDto.getRefreshTokenExpiresIn(),
+//                TimeUnit.MILLISECONDS
+//        );
         return tokenDto;
     }
 
